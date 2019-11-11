@@ -11,6 +11,10 @@ class UserRoles(models.Model):
 
 
 class User(AuthModels.User):
-    email = models.EmailField()
-    role = models.ForeignKey(UserRoles, on_delete=models.SET_NULL)
+    #email = models.EmailField()
+    role = models.ForeignKey(UserRoles, on_delete=models.SET_NULL, null=True)
 
+class NewsModel(models.Model):
+    author = models.ForeignKey(UserRoles, on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
