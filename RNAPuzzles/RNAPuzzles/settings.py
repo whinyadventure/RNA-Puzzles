@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'rnapuzzles',
     'martor',
-'crispy_forms'
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -73,7 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'RNAPuzzles.wsgi.application'
-
+AUTH_USER_MODEL = 'rnapuzzles.CustomUser'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
