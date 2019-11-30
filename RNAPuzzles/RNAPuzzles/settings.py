@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rnapuzzles',
     'martor',
-    'crispy_forms'
+    'crispy_forms',
     'guardian'
 
 ]
