@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rnapuzzles',
     'martor',
     'crispy_forms',
-    'guardian'
+    'guardian',
+    'publications'
 
 ]
 AUTHENTICATION_BACKENDS = (

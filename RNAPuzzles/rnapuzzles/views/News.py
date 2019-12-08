@@ -10,6 +10,15 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 from django.db.models import Q
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from publications.views import year as PublicationsYear
+def index(request):
+    return PublicationsYear(request)
+    #return HttpResponse(render(request, "publications/publications.html"))
+
+
 
 class List(ListView):
     model = NewsModel
@@ -25,13 +34,6 @@ class List(ListView):
             )
         except:
             pass
-       # Then use the query parameters and the queryset to
-        # instantiate a filterset and save it as an attribute
-        # on the view instance for later.
-        # queryset.filter(Q(
-        #
-        # ))
-        # Return the filtered queryset
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -44,10 +46,6 @@ class Detail(DetailView):
     model = NewsModel
     template_name = "detail.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
-        return context
 
 
 class From(forms.ModelForm):

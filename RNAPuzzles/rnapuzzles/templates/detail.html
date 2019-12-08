@@ -1,16 +1,5 @@
 {% extends 'base.html' %}
 {% load martortags %}
 {% block content %}
-<div class="card mb-4">
-    <div class="card-header">
-        {{ object.title }}
-    </div>
-    <div class="card-body">
-        {{ object.description|safe_markdown }}
-        <br>
-        {% if n.author %}}
-            Author: {{n.fistname}} {{n.secondname}}
-        {% endif %}
-    </div>
-</div>
+{% include 'signle.html' with object=object%}
 {% endblock %}
