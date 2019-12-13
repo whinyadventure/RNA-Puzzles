@@ -11,6 +11,9 @@
   {{ form| crispy }}
     <button type="submit" class="btn btn-primary">Sign in</button>
 </form>
+
+  {% load static %}
+<script src="{% static 'js/signupForm.js' %}"></script>
 {% endblock %}
 
 gcloud beta data proc clusters create project-1 --enable-component-gateway--bucket pbd-pr1  -region europe-west3 --subnet default --zone europe-west3-c --master-machine-type n1-standard-2 --master-boot-disk-size 50 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 1.3-deb9 --optional-components ANACONDA,JUPYTER,ZEPPELIN --project pbd-project-1 --max-age=2h

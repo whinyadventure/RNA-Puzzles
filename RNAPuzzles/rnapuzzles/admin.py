@@ -1,6 +1,3 @@
-from django.contrib import admin
-
-# Register your models here.
 from django.db import models as dbModels
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
@@ -9,6 +6,8 @@ from martor.widgets import AdminMartorWidget
 from .models import CustomUser, NewsModel
 
 from django.apps import apps
+from .models import CustomUser
+
 
 
 models = apps.get_models()
