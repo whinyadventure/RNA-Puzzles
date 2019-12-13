@@ -61,7 +61,7 @@
                 <a class="nav-link" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">News</a>
+                <a class="nav-link" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Open Puzzles</a>
@@ -88,10 +88,10 @@
             {% else %}
 
               <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">News</a>
+                <a class="nav-link" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Publications</a>

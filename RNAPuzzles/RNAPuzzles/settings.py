@@ -39,11 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rnapuzzles',
     'martor',
-    'crispy_forms'
+    'crispy_forms',
+    'guardian',
+    'publications'
 
 ]
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend', # default
+    'guardian.backends.ObjectPermissionBackend',
 )
 
 MIDDLEWARE = [

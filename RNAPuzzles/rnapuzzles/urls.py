@@ -1,9 +1,10 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import News, User
+from .views import News, User, SignupView, index
+import publications.views as plist
 
-news_patterns = [
+newspatterns = [
     path('', News.List.as_view(), name="news_list"),
     path('add', News.Create.as_view(), name="news_new"),
     re_path(r"update/(?P<pk>\d+)", News.Update.as_view(), name="news_update"),
@@ -18,6 +19,7 @@ accounts_pattern = [
 
 urlpatterns = [
  #   path('', views.index, name='index'),
-    path("news/", include(news_patterns)),
-    path("accounts/", include(accounts_pattern))
+    path("news/", include(newspatterns)),
+    path("accounts/", include(accounts_pattern)),
+    path("", index),
 ]
