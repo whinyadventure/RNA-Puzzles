@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'rnapuzzles',
     'martor',
     'crispy_forms',
-    'guardian',
     'publications'
 
 ]

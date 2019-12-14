@@ -1,7 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth import authenticate
 from ..models.user import CustomUser, Group
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
+from django.utils.text import capfirst
+from django.utils.translation import ugettext, ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
@@ -34,6 +37,7 @@ class CustomUserCreationForm(UserCreationForm):
                 last_name=self.cleaned_data['last_name'],
                 role = self.cleaned_data['role']
             )
+            user.set_password(self.cleaned_data['password1'])
             user.save()
             return user.id
         elif self.cleaned_data['role'] == 2:        #participant
@@ -46,6 +50,7 @@ class CustomUserCreationForm(UserCreationForm):
                 role=self.cleaned_data['role'],
                 institution = self.cleaned_data['institution']
             )
+            user.set_password(self.cleaned_data['password1'])
             user.save()
             return user.id
         elif self.cleaned_data['role'] == 3:        #leader
@@ -59,14 +64,54 @@ class CustomUserCreationForm(UserCreationForm):
                 role=self.cleaned_data['role'],
                 institution = self.cleaned_data['institution']
             )
+            user.set_password(self.cleaned_data['password1'])
             user.save()
             return user.id
         return -1
 
-#class CustomUserLoginForm(AuthenticationForm):
- #   username = None
-  #  email = forms.EmailField( widget = forms.TextInput(attrs = {'placeholder': 'Email'}))
 
+class CustomUserLoginForm(AuthenticationForm):
+    username = None
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        self.user_cache = None
+        super(AuthenticationForm, self).__init__(*args, **kwargs)
+
+        self.username_field = CustomUser._meta.get_field(CustomUser.EMAIL_FIELD)
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        if email and password:
+            print("if")
+            #self.user_cache = authenticate(username = None, password=password, email=email)
+            try:
+                user = CustomUser.objects.get(email=email)
+                print(user)
+                if user.check_password(password):
+                    return user
+            except CustomUser.DoesNotExist:
+                print("Baza nie istnieje")
+                return None
+
+            if self.user_cache is None:
+                print("error")
+                raise forms.ValidationError(
+                    self.error_messages['invalid_login'],
+                    code='invalid_login',
+                    params={'username': self.username_field.verbose_name},
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
+
+    def confirm_login_allowed(self, user):
+       pass
 
 class CustomUserChangeForm(UserChangeForm):
 
@@ -76,18 +121,16 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class SignupView(CreateView):
-    template_name = "form.html"
+    template_name = "registration/signup.html"
     success_url = ""
     form_class = CustomUserCreationForm
 
     def get_success_url(self):
         return ""
 
+class SigninView(FormView):
 
-class SigninView(CreateView):
-    template_name = "form.html"
-    success_url = ""
-    form_class = AuthenticationForm()
+    template_name = "registration/login.html"
+    success_url = "/"
+    form_class = CustomUserLoginForm
 
-    def get_success_url(self):
-        return ""

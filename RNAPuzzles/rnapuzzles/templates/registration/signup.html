@@ -9,6 +9,9 @@
 <form method="post">
    {% csrf_token %}
   {{ form| crispy }}
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-primary">Sign up</button>
 </form>
 
+{% load static %}
+<script src="{% static 'js/signupForm.js' %}"></script>
+{% endblock %}
