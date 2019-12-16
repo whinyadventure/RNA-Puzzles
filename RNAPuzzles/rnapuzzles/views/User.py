@@ -1,12 +1,15 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from ..models.user import CustomUser, Group
+from django.http import HttpResponse
 from django.views.generic.edit import CreateView, FormView
+from django.views.generic.detail import DetailView
 from django.utils.text import capfirst
 from django.utils.translation import ugettext, ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
+
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -76,7 +79,7 @@ class CustomUserLoginForm(AuthenticationForm):
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
 
     def __init__(self, request=None, *args, **kwargs):
-        self.request = request
+        self.request = kwargs['initial']['request']
         self.user_cache = None
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
@@ -85,18 +88,25 @@ class CustomUserLoginForm(AuthenticationForm):
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-
+        print(self.request.user)
         if email and password:
-            print("if")
-            #self.user_cache = authenticate(username = None, password=password, email=email)
+            self.user_cache = authenticate(self.request, email=email,
+                                           password=password)
+            if self.user_cache is not None:
+                login(self.request, self.user_cache)
+                
+            print("after auth:")
+            print(self.request.user)
+            '''
             try:
                 user = CustomUser.objects.get(email=email)
-                print(user)
                 if user.check_password(password):
+                    self.request.user = user
                     return user
             except CustomUser.DoesNotExist:
                 print("Baza nie istnieje")
                 return None
+            '''
 
             if self.user_cache is None:
                 print("error")
@@ -133,4 +143,17 @@ class SigninView(FormView):
     template_name = "registration/login.html"
     success_url = "/"
     form_class = CustomUserLoginForm
+
+    def get_initial(self):
+        self.initial.update({ 'request': self.request })
+        return self.initial
+
+class ProfileView(DetailView):
+
+    def get(self, request):
+        print(request.user)
+    model = CustomUser
+    template_name = "profile_detail.html"
+
+
 

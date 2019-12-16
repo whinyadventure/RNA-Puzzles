@@ -15,6 +15,7 @@ accounts_pattern = [
     path("", include("django.contrib.auth.urls")),
     re_path(r'^signup/$', User.SignupView.as_view(), name='signup'),
     re_path(r'^signin/$', User.SigninView.as_view(), name='signin'),
+    re_path(r'^profile/$', User.ProfileView.as_view(), name='profile')
 ]
 
 urlpatterns = [
