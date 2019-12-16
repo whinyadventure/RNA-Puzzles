@@ -94,7 +94,7 @@ class CustomUserLoginForm(AuthenticationForm):
                                            password=password)
             if self.user_cache is not None:
                 login(self.request, self.user_cache)
-                
+
             print("after auth:")
             print(self.request.user)
             '''
