@@ -1,14 +1,17 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from ..models.user import CustomUser, Group
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from django.utils.text import capfirst
 from django.utils.translation import ugettext, ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
+from braces.views import LoginRequiredMixin
+from django.shortcuts import redirect
 
 
 
@@ -88,36 +91,19 @@ class CustomUserLoginForm(AuthenticationForm):
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-        print(self.request.user)
+
         if email and password:
-            self.user_cache = authenticate(self.request, email=email,
-                                           password=password)
+            self.user_cache = authenticate(self.request, email=email, password=password)
             if self.user_cache is not None:
                 login(self.request, self.user_cache)
-
-            print("after auth:")
-            print(self.request.user)
-            '''
-            try:
-                user = CustomUser.objects.get(email=email)
-                if user.check_password(password):
-                    self.request.user = user
-                    return user
-            except CustomUser.DoesNotExist:
-                print("Baza nie istnieje")
-                return None
-            '''
-
-            if self.user_cache is None:
+                self.confirm_login_allowed(self.user_cache)
+            else:
                 print("error")
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
                     params={'username': self.username_field.verbose_name},
                 )
-            else:
-                self.confirm_login_allowed(self.user_cache)
-
         return self.cleaned_data
 
     def confirm_login_allowed(self, user):
@@ -148,12 +134,25 @@ class SigninView(FormView):
         self.initial.update({ 'request': self.request })
         return self.initial
 
-class ProfileView(DetailView):
+class ProfileView(LoginRequiredMixin, DetailView):
 
-    def get(self, request):
-        print(request.user)
     model = CustomUser
     template_name = "profile_detail.html"
 
+    def get_object(self, **kwargs):
+        return self.request.user
 
+class GroupsListView(ListView):
+
+    model = Group
+    template_name = "groups_list.html"
+
+
+
+    #def get_object(self, **kwargs):
+    #    return self.request.user.group_name
+
+
+def logOut(request):
+    logout(request)
 
