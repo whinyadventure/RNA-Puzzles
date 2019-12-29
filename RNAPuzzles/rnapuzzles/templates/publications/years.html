@@ -7,16 +7,10 @@
 {% endblock %}
 
 {% block content %}
-asdasdasd
-	<div class="special_links">
-		<a href="?plain">Plain text</a>,
-		<a href="?ris">RIS</a>,
-		<a href="?bibtex">BibTex</a>
-	</div>
+
 	{% for year, publications in years %}
-	<a href="{% url 'publications:year' year %}"><h1>{{ year }}</h1></a>
 		<hr/>
-		<div{% if not forloop.last %} style="margin-bottom: 30px;"{% endif %}>
+		<div {% if not forloop.last %} style="margin-bottom: 30px;"{% endif %}>
 		{% for publication in publications %}
 			<div{% if not forloop.last %} style="margin-bottom: 20px;"{% endif %}>
 				{% include "publications/publication.html" %}

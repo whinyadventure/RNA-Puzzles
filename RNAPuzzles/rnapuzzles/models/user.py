@@ -41,37 +41,41 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
+# TODO add to admin https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
+class CustomUser(AbstractUser):
+    username = None
+    email = models.EmailField(_('email address'), unique=True)
+    first_name = models.CharField(_('first name'), max_length=30, blank=False, null = True)
+    last_name = models.CharField(_('last name'), max_length=150, blank=False, null = True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+#admin.site.register(CustomUser, UserAdmin)
+
+
+
+
 class Role(models.Model):
     '''
     The Role entries are managed by the system,
     automatically created via a Django data migration.
     '''
     ORGANIZER = 1
-    PB = 2 # TODO what is full name of this?
+    PB = 2  # TODO what is full name of this?
     PARTICIPANT = 3
     ADMIN = 4
     OTHER = 5
 
     ROLE_CHOICES = (
-      (ORGANIZER, 'organizer'),
-      (PB, 'teacher'),
-      (PARTICIPANT, 'secretary'),
-      (ADMIN, 'admin'),
-      (OTHER, "other")
+        (ORGANIZER, 'organizer'),
+        (PB, 'teacher'),
+        (PARTICIPANT, 'secretary'),
+        (ADMIN, 'admin'),
+        (OTHER, "other")
     )
 
     id = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, primary_key=True)
-
-# TODO add to admin https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
-class CustomUser(AbstractUser):
-    username = None
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=False)
-    last_name = models.CharField(_('last name'), max_length=150, blank=False)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = UserManager()
-
 
 

@@ -1,0 +1,64 @@
+{% load martortags %}
+{% load staticfiles %}
+{% load guardian_tags %}
+{% get_obj_perms request.user for object as "n_perms" %}
+
+{% if collapse %}
+    <div class="card mb-4">
+        <div class="card-header" >
+
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse_{{iter}}" role="button" aria-expanded="false" aria-controls="collapse_{{iter}}">{{ object.title }} </a>
+
+        </div>
+
+        <div class="collapse" id="collapse_{{iter}}">
+            <div class="card-body markdown-body">
+                {{ object.description|safe_markdown }}
+            </div>
+             {% if "change_resourcesmodel" in n_perms %}
+                {% if next %}
+                    <a href="{% url 'resources_update' pk=object.pk %}?next={{ request.path }}" class="card-link">Change</a>
+                {% else %}
+                    <a href="{% url 'resources_update' pk=object.pk %}" class="card-link">Change</a>
+                {% endif %}
+
+            {% endif %}
+
+            {% if "delete_resourcesmodel" in n_perms %}
+                {% if next %}
+                    <a href="{% url 'resources_delete' pk=object.pk %}?next={{ request.path }}">Delete</a>
+                {% else %}
+                       <a href="{% url 'resources_delete' pk=object.pk %}">Delete</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+   <div class="card mb-4">
+        <div class="card-header" >
+            {{ object.title }}
+        </div>
+
+        <div>
+            <div class="card-body markdown-body">
+                {{ object.description|safe_markdown }}
+            </div>
+             {% if "change_resourcesmodel" in n_perms %}
+                {% if next %}
+                    <a href="{% url 'resources_update' pk=object.pk %}?next={{ request.path }}" class="card-link">Change</a>
+                {% else %}
+                    <a href="{% url 'resources_update' pk=object.pk %}" class="card-link">Change</a>
+                {% endif %}
+
+            {% endif %}
+
+            {% if "delete_resourcesmodel" in n_perms %}
+                {% if next %}
+                    <a href="{% url 'resources_delete' pk=object.pk %}?next={{ request.path }}">Delete</a>
+                {% else %}
+                       <a href="{% url 'resources_delete' pk=object.pk %}">Delete</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

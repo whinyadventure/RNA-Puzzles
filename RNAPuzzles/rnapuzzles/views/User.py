@@ -1,10 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.shortcuts import render
+
 from ..models.user import CustomUser
 from django.views.generic.edit import CreateView
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
-
 
 class CustomUserCreationForm(UserCreationForm):
     username = None
@@ -32,7 +33,7 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ('email',)
 
 class SignupView(CreateView):
-    template_name = "form.html"
+    template_name = "newsmodel_form.html"
     success_url = ""
     form_class = CustomUserCreationForm
 

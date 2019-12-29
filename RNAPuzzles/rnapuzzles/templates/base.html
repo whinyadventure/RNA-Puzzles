@@ -54,7 +54,7 @@
         <div class="navbar-collapse collapse" id="links">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.is_authenticated %}
+            {% if user.pk != 1 %}
 
               <li class="nav-item active">
                 <a class="nav-link" href="#">Home</a>
@@ -75,13 +75,13 @@
                 <a class="nav-link" href="#">Resources</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Publications</a>
+                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">FAQ</a>
+                <a class="nav-link" href="{% url 'faq_list' %}">FAQ</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
               </li>
 
             {% else %}
@@ -93,10 +93,10 @@
                 <a class="nav-link" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Publications</a>
+                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
               </li>
 
             {% endif %}
@@ -107,7 +107,7 @@
         <div class="navbar-collapse collapse text-right" id="account">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.is_authenticated %}
+            {% if user.pk != 1 %}
 
               <li class="nav-item dropdown d-none d-xl-block">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
@@ -148,9 +148,17 @@
     </nav>
   </header>
 
+  {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+  {% endfor %}
+
   <!-- Page Content -->
   <div class="container">
-
     {% block content %}
 
     {% endblock %}
@@ -173,7 +181,6 @@
 
   <!-- Custom scripts for all pages-->
   <script src=" {% static 'js/rnapuzzles.custom.js' %}"></script>
-
 </body>
 
 </html>
