@@ -1,0 +1,15 @@
+{% extends  'base.html' %}
+
+{% block content %}
+<h1>{{object.first_name}} {{object.last_name}}</h1>
+<div id="id_email">Email address: {{object.email}}</div>
+<div id="id_role">Role: {{object.get_role_display}}</div>
+<div id="id_institution">Institution: {{object.institution}}</div>
+<div id="id_group_name">Group name: {{object.group}}</div>
+<div id="id_description">Description: {{object.user_description}}</div>
+
+
+{% load static %}
+<script src="{% static 'js/profileDetail.js' %}"></script>
+{% endblock %}
+

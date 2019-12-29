@@ -1,8 +1,9 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import news, SignupView, faq, resources
+from .views import News, SignupView, index
 import publications.views as plist
+
 newspatterns = [
     path('', news.List.as_view(), name="news_list"),
     path('add', news.Create.as_view(), name="news_new"),
@@ -27,17 +28,20 @@ resourcespattern = [
     re_path(r"(?P<pk>\d+)/delete/$", resources.Delete.as_view(), name="faq_delete")
 ]
 
-accountspattern = [
+accounts_pattern = [
     path("", include("django.contrib.auth.urls")),
-    re_path(r'^signup/$', SignupView.as_view(), name='signup'),
+    re_path(r'^signup/$', User.SignupView.as_view(), name='signup'),
+    re_path(r'^signin/$', User.SigninView.as_view(), name='signin'),
+    re_path(r'^profile/$', User.ProfileView.as_view(), name='profile'),
+    re_path(r'^groups/$', User.GroupsListView.as_view(), name='groups'),
+    re_path(r'^logout/$', User.logOut, name='logout')
 ]
 
 urlpatterns = [
  #   path('', views.index, name='index'),
     path("news/", include(newspatterns)),
-    path("accounts/", include(accountspattern)),
+    path("accounts/", include(accounts_pattern)),
     path("faq/", include(faqpattern)),
     path("contact/", views.contactView, name="contact"),
     path("resources/", include(resourcespattern))
-
 ]

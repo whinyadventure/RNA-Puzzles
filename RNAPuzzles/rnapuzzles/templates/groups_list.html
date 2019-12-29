@@ -1,0 +1,10 @@
+{% extends  'base.html' %}
+
+{% block content %}
+<h1>Research Groups</h1>
+{% for group in object_list %}
+    <div>{{ group.group_name }}</div>
+{% empty %}
+    <li>No group yet.</li>
+{% endfor %}
+{% endblock %}

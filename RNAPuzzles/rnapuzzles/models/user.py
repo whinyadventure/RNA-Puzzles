@@ -1,7 +1,4 @@
-
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
+import uuid
 
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
@@ -41,41 +38,39 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+class Group(models.Model):
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    group_name = models.CharField(_('group name'), primary_key=True, unique = True, max_length = 30, blank = False)
+    group_description = models.TextField(blank=True)
+    #TODO leader ???
 
-# TODO add to admin https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
+    def __str__(self):
+        return self.group_name
+
 class CustomUser(AbstractUser):
-    username = None
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=False, null = True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=False, null = True)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = UserManager()
-#admin.site.register(CustomUser, UserAdmin)
-
-
-
-
-class Role(models.Model):
-    '''
-    The Role entries are managed by the system,
-    automatically created via a Django data migration.
-    '''
-    ORGANIZER = 1
-    PB = 2  # TODO what is full name of this?
-    PARTICIPANT = 3
-    ADMIN = 4
-    OTHER = 5
 
     ROLE_CHOICES = (
-        (ORGANIZER, 'organizer'),
-        (PB, 'teacher'),
-        (PARTICIPANT, 'secretary'),
-        (ADMIN, 'admin'),
-        (OTHER, "other")
+      (1, 'organizer'),
+      (2, 'participant'),
+      (3, 'group leader')
     )
 
-    id = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, primary_key=True)
+    username = None
+    email = models.EmailField(_('email address'), unique = True)
+    first_name = models.CharField(_('first name'), max_length = 30, blank = False)
+    last_name = models.CharField(_('last name'), max_length = 30, blank = False)
+    institution = models.CharField(_('institution'), max_length = 150, blank = True)
+    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank = False)
+    group_name = models.ForeignKey(Group, on_delete = models.CASCADE, blank=True, null=True)    #TODO "on_delete"???
+    user_description = models.TextField(_('user description'), blank = True)
+    id_active = False
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = [first_name, last_name, role, group_name]
+
+    objects = UserManager()
+
+
+
 
 
