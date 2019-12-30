@@ -1,14 +1,31 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import News, User, index
+from .views import News, SignupView, index
 import publications.views as plist
 
 newspatterns = [
-    path('', News.List.as_view(), name="news_list"),
-    path('add', News.Create.as_view(), name="news_new"),
-    re_path(r"update/(?P<pk>\d+)", News.Update.as_view(), name="news_update"),
-    re_path(r"(?P<pk>\d+)", News.Detail.as_view(), name="details")
+    path('', news.List.as_view(), name="news_list"),
+    path('add', news.Create.as_view(), name="news_new"),
+    re_path(r"(?P<pk>\d+)/update/$", news.Update.as_view(), name="news_update"),
+    re_path(r"(?P<pk>\d+)/$", news.Detail.as_view(), name="news_details"),
+    re_path(r"(?P<pk>\d+)/delete/$", news.Delete.as_view(), name="news_delete")
+]
+
+faqpattern = [
+    path('', faq.List.as_view(), name="faq_list"),
+    path('add', faq.Create.as_view(), name="faq_new"),
+    re_path(r"(?P<pk>\d+)/update/$", faq.Update.as_view(), name="faq_update"),
+    re_path(r"(?P<pk>\d+)/$", faq.Detail.as_view(), name="faq_details"),
+    re_path(r"(?P<pk>\d+)/delete/$", faq.Delete.as_view(), name="faq_delete")
+]
+
+resourcespattern = [
+    path('', resources.List.as_view(), name="faq_list"),
+    path('add', resources.Create.as_view(), name="faq_new"),
+    re_path(r"(?P<pk>\d+)/update/$", resources.Update.as_view(), name="faq_update"),
+    re_path(r"(?P<pk>\d+)/$", resources.Detail.as_view(), name="faq_details"),
+    re_path(r"(?P<pk>\d+)/delete/$", resources.Delete.as_view(), name="faq_delete")
 ]
 
 accounts_pattern = [
@@ -25,5 +42,7 @@ urlpatterns = [
  #   path('', views.index, name='index'),
     path("news/", include(newspatterns)),
     path("accounts/", include(accounts_pattern)),
-    path("", index),
+    path("faq/", include(faqpattern)),
+    path("contact/", views.contactView, name="contact"),
+    path("resources/", include(resourcespattern))
 ]

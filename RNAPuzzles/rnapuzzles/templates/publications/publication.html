@@ -1,5 +1,5 @@
 {% load publication_extras %}
-aaa
+
 {% if publication.authors_escaped|length > 8 %}
 	{% for author, author_escaped in publication.authors_escaped|slice:":8" %}
 	<a href="{% url 'publications:author' author_escaped %}" class="author">{{ author }}</a>,

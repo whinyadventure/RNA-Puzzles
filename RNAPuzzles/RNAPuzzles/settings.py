@@ -42,13 +42,17 @@ INSTALLED_APPS = [
     'rnapuzzles',
     'martor',
     'crispy_forms',
-    'publications'
+    'guardian',
+    'publications',
+    'captcha'
 
 ]
 AUTHENTICATION_BACKENDS = (
+
     'django.contrib.auth.backends.ModelBackend', # default
     'guardian.backends.ObjectPermissionBackend',
-)
+    )
+ANONYMOUS_USER_NAME = "AnonymousUser@foo.foo"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,10 +62,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'rnapuzzles.middleware.request.GuardianAuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'RNAPuzzles.urls'
 
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,6 +90,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'RNAPuzzles.wsgi.application'
 AUTH_USER_MODEL = 'rnapuzzles.CustomUser'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -143,8 +163,7 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-print(os.listdir(BASE_DIR))
-print("-------------")
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "rnapuzzles/static"),
 )
@@ -200,3 +219,6 @@ MARTOR_SEARCH_USERS_URL = '/martor/search-user/' # default
 # MARTOR_MARKDOWN_BASE_EMOJI_URL = 'https://www.webfx.com/tools/emoji-cheat-sheet/graphics/emojis/'     # from webfx
 MARTOR_MARKDOWN_BASE_EMOJI_URL = 'https://github.githubassets.com/images/icons/emoji/'                  # default from github
 MARTOR_MARKDOWN_BASE_MENTION_URL = 'https://python.web.id/author/'
+
+
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
