@@ -134,6 +134,7 @@ class SigninView(FormView):
         self.initial.update({ 'request': self.request })
         return self.initial
 
+
 class ProfileView(LoginRequiredMixin, DetailView):
 
     model = CustomUser
@@ -142,17 +143,20 @@ class ProfileView(LoginRequiredMixin, DetailView):
     def get_object(self, **kwargs):
         return self.request.user
 
+
+class GroupView(DetailView):
+    
+    model = Group
+    template_name = "group_detail.html"
+    pk_url_kwarg = "pk"
+
+
 class GroupsListView(ListView):
 
     model = Group
     template_name = "groups_list.html"
 
 
-
-    #def get_object(self, **kwargs):
-    #    return self.request.user.group_name
-
-
-def logOut(request):
+def log_out(request):
     logout(request)
 

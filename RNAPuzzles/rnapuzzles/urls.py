@@ -17,7 +17,8 @@ accounts_pattern = [
     re_path(r'^signin/$', User.SigninView.as_view(), name='signin'),
     re_path(r'^profile/$', User.ProfileView.as_view(), name='profile'),
     re_path(r'^groups/$', User.GroupsListView.as_view(), name='groups'),
-    re_path(r'^logout/$', User.logOut, name='logout')
+    re_path(r"groups/(?P<pk>\w+)", User.GroupView.as_view(), name='group_details'),
+    re_path(r'^logout/$', User.log_out, name='logout')
 ]
 
 urlpatterns = [

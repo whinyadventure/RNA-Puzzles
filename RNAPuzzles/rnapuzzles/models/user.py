@@ -50,9 +50,9 @@ class Group(models.Model):
 class CustomUser(AbstractUser):
 
     ROLE_CHOICES = (
-      (1, 'organizer'),
-      (2, 'participant'),
-      (3, 'group leader')
+      (1, 'Organizer'),
+      (2, 'Participant'),
+      (3, 'Group Leader')
     )
 
     username = None
@@ -63,7 +63,7 @@ class CustomUser(AbstractUser):
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank = False)
     group_name = models.ForeignKey(Group, on_delete = models.CASCADE, blank=True, null=True)    #TODO "on_delete"???
     user_description = models.TextField(_('user description'), blank = True)
-    id_active = False
+    active = False
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [first_name, last_name, role, group_name]

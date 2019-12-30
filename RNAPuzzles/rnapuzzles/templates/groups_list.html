@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Research Groups</h1>
 {% for group in object_list %}
-    <div>{{ group.group_name }}</div>
+    <a href="{{group.group_name}}">{{ group.group_name }}</a>
 {% empty %}
     <li>No group yet.</li>
 {% endfor %}
