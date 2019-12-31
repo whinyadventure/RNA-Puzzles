@@ -14,7 +14,7 @@ class List(PermissionListMixin, ListView):
 
     def get_queryset(self, **kwargs):
         anno = get_anonymous_user()
-        print(self.request.user)
+        print(self.request.user.pk)
         print(self.request.user.has_perm("rnapuzzles.add_newsmodel"))
         print(anno)
         print(anno.has_perm("rnapuzzles.add_newsmodel"))

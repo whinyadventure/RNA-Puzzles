@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGOUT_REDIRECT_URL = '/'
-
+DOMAIN_URL = "127.0.0.1"
 
 # Application definition
 

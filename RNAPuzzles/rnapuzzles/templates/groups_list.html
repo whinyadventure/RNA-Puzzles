@@ -2,9 +2,33 @@
 
 {% block content %}
 <h1>Research Groups</h1>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Leader</th>
+      <th scope="col">Contact</th>
+        <th scope="col">Number of members</th>
+    </tr>
+  </thead>
+
 {% for group in object_list %}
-    <div>{{ group.group_name }}</div>
+  <tbody>
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{group.group_name}}</td>
+      <td>{{group.leader}}</td>
+      <td>{{group.contact}}</td>
+      <td>{{group.count}}</td>
+
+    </tr>
+
+  </tbody>
+
 {% empty %}
     <li>No group yet.</li>
 {% endfor %}
+    </table>
+
 {% endblock %}
