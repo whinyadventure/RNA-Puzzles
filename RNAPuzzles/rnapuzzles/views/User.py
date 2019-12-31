@@ -145,7 +145,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 
 class GroupView(DetailView):
-    
+
     model = Group
     template_name = "group_detail.html"
     pk_url_kwarg = "pk"
