@@ -38,39 +38,52 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
 class Group(models.Model):
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    group_name = models.CharField(_('group name'), primary_key=True, unique = True, max_length = 30, blank = False)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    group_name = models.CharField(_('group name'), primary_key=True, unique=True, max_length=30, blank=False)
     group_description = models.TextField(blank=True)
-    #TODO leader ???
+    leader = models.ForeignKey("rnapuzzles.CustomUser", on_delete=models.CASCADE, null=True, default=None)
+    contact = models.EmailField(blank=True)
+
+
+    class Meta:
+        permissions = (
+            ("see_email", "Permission for seeing group contact email"),
+        )
+
 
     def __str__(self):
         return self.group_name
 
-class CustomUser(AbstractUser):
 
+class CustomUser(AbstractUser):
     ROLE_CHOICES = (
-      (1, 'Organizer'),
-      (2, 'Participant'),
-      (3, 'Group Leader')
+        (1, 'organizer'),
+        (2, 'participant'),
+        (3, 'group leader')
     )
 
+
     username = None
-    email = models.EmailField(_('email address'), unique = True)
-    first_name = models.CharField(_('first name'), max_length = 30, blank = False)
-    last_name = models.CharField(_('last name'), max_length = 30, blank = False)
-    institution = models.CharField(_('institution'), max_length = 150, blank = True)
-    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank = False)
-    group_name = models.ForeignKey(Group, on_delete = models.CASCADE, blank=True, null=True)    #TODO "on_delete"???
-    user_description = models.TextField(_('user description'), blank = True)
-    active = False
+    email = models.EmailField(_('email address'), unique=True)
+    first_name = models.CharField(_('first name'), max_length=30, blank=False)
+    last_name = models.CharField(_('last name'), max_length=30, blank=False)
+    institution = models.CharField(_('institution'), max_length=150, blank=True)
+    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=False, default=0)
+    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)  # TODO "on_delete"???
+    user_description = models.TextField(_('user description'), blank=True)
+    member_authorized = models.BooleanField(default=False, blank=False)
+    id_active = False
+
+    email_confirmed = models.BooleanField(default=False, blank=False)
+    is_authorised = models.BooleanField(default=False, blank=False)
+    is_disabled = models.BooleanField(default=False, blank=False) # This can force is_active=False
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [first_name, last_name, role, group_name]
+    REQUIRED_FIELDS = []
 
     objects = UserManager()
 
-
-
-
-
+    def __str__(self):
+        return self.first_name + " " + self.last_name
