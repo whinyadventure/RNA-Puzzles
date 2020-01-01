@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'martor',
     'crispy_forms',
     'guardian',
-    'publications'
-    #'captcha'
+    'publications',
+    'captcha'
 
 ]
 AUTHENTICATION_BACKENDS = (

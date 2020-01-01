@@ -1,7 +1,7 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import User, news, faq
+from .views import User, news, faq, resources
 import publications.views as plist
 
 newspatterns = [
