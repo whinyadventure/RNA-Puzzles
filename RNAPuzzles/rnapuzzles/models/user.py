@@ -74,7 +74,6 @@ class CustomUser(AbstractUser):
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)  # TODO "on_delete"???
     user_description = models.TextField(_('user description'), blank=True)
     member_authorized = models.BooleanField(default=False, blank=False)
-    id_active = False
 
     email_confirmed = models.BooleanField(default=False, blank=False)
     is_authorised = models.BooleanField(default=False, blank=False)
