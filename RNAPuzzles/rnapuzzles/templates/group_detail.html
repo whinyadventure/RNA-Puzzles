@@ -2,8 +2,18 @@
 
 {% block content %}
 <h1>{{object.group_name}}</h1>
-<div id="id_email">Opis: {{object.group_description}}</div>
+<div>Leader:   {{object.leader}}</div>
+<div>Other Members:</div>
+<ul>
+{% for member in object.members %}
+    <li>{{member}}</li>
+{% endfor %}</ul>
+<div id="id_description">Description: {{object.group_description}}</div>
 
-
+<script>
+    if(document.getElementById("id_description").innerHTML == "Description: "){
+        (document.getElementById("id_description")).style.display = "none";
+    }
+</script>
 {% endblock %}
 
