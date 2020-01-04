@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import EmailMessage
+from guardian.shortcuts import assign_perm
 
 from ...models.user import CustomUser, Group
 from RNAPuzzles import settings
@@ -53,6 +54,10 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
                 institution=self.cleaned_data['institution']
             )
 
+            assign_perm("edit_group_description", user, group)
+            user.save()
+            group.save()
+
         elif self.cleaned_data['role'] == 3:  # leader
             print("lider")
             group = Group(group_name=self.cleaned_data['new_group_name'])
@@ -66,6 +71,10 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
             )
             group.leader = user
             group.contact = user.email
+
+            assign_perm("edit_group_name", user, group)
+            assign_perm("edit_group_description", user, group)
+            user.save()
             group.save()
 
         if self.cleaned_data["role"] in [1, 2, 3]:

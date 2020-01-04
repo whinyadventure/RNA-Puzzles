@@ -40,8 +40,8 @@ class UserManager(BaseUserManager):
 
 
 class Group(models.Model):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    group_name = models.CharField(_('group name'), primary_key=True, unique=True, max_length=30, blank=False)
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    group_name = models.CharField(_('group name'), unique=True, max_length=30, blank=False)
     group_description = models.TextField(blank=True)
     leader = models.ForeignKey("rnapuzzles.CustomUser", on_delete=models.CASCADE, null=True, default=None)
     contact = models.EmailField(blank=True)
@@ -50,20 +50,21 @@ class Group(models.Model):
     class Meta:
         permissions = (
             ("see_email", "Permission for seeing group contact email"),
+            ("edit_group_name", "Permission for changing group name"),
+            ("edit_group_description", "Permission for changing group description")
         )
-
 
     def __str__(self):
         return self.group_name
 
 
 class CustomUser(AbstractUser):
+
     ROLE_CHOICES = (
         (1, 'organizer'),
         (2, 'participant'),
         (3, 'group leader')
     )
-
 
     username = None
     email = models.EmailField(_('email address'), unique=True)

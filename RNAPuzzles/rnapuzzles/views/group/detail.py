@@ -21,5 +21,4 @@ class Detail(DetailView):
     def get_context_data(self, **kwargs):
         data = super(Detail, self).get_context_data(**kwargs)
         setattr(data["object"], "members", list(Detail.get_members(data["object"])))
-
         return data

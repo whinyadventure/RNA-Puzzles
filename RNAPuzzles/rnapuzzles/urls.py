@@ -29,8 +29,8 @@ resources_pattern = [
 ]
 groups_pattern = [
     re_path(r'^$', group.List.as_view(), name='groups_list'),
-    re_path(r'(?P<pk>\w+)', group.Detail.as_view(), name='group_detail')
-
+    re_path(r'(?P<pk>\d+)/update/$', group.Update.as_view(), name='group_update'),
+    re_path(r'(?P<pk>\d+)/$', group.Detail.as_view(), name='group_detail')
 ]
 
 accounts_pattern = [
