@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <h1 class="mt-4">Create challenge</h1>
+            <hr class="mt-1 mb-3">
+
+            <div class="custom-radio-group">
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-new"
+                           onchange="document.location.href='{% url 'create-new' %}'" {% if new %} checked{% endif %}>
+                    <label class="custom-control-label" for="radio-new">new challenge</label>
+                </div>
+
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-next"
+                           onchange="document.location.href='{% url 'create-next' %}'" {% if not new %} checked{% endif %}>
+                    <label class="custom-control-label" for="radio-next">next round of existing challenge</label>
+                </div>
+            </div>
+
+            <h3 class="mt-4">Fill the form</h3>
+            {% block form_type %}
+                {% load crispy_forms_tags %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ info_form|crispy }}
+                    {{ challenge_form|crispy }}
+
+                   <h3 class="mt-4">Suplementary files</h3>
+                    <hr class="mt-1 mb-3">
+                    <div id="file-form-wrapper">
+                        {{ files_form.management_form }}
+                        <div class="file-form-container">
+                            {% for form in files_form.forms %}
+                                {{ form|crispy }}
+                            {% endfor %}
+                            <button type="button" class="btn btn-success add-file-form">+ add file</button>
+                            <hr class="my-4">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mb-3 float-right">Save</button>
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+
+    {% load static %}
+    <script src="{% static 'js/puzzles/createForm.js' %}"></script>
+{% endblock %}

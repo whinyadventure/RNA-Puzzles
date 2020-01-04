@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from publications.views import year as PublicationsYear
+
 def index(request):
     return PublicationsYear(request)
     #return HttpResponse(render(request, "publications/publications.html"))
@@ -45,7 +46,6 @@ class List(ListView):
 class Detail(DetailView):
     model = NewsModel
     template_name = "detail.html"
-
 
 
 class From(forms.ModelForm):

@@ -1,0 +1,38 @@
+{% extends 'puzzles/new_challenge.html' %}
+
+{% block form_type %}
+    {% load crispy_forms_tags %}
+    <form method="post">
+        {% csrf_token %}
+        {{ select_form|crispy }}
+        <input type="submit" name="choose_base" class="btn btn-primary mb-3" value="Choose"/>
+    </form>
+
+    {% for challenge, files in data %}
+        {% if challenge.round == 1 %}
+            {% include 'puzzles/puzzle_information.html' with challenge=challenge files=files %}
+        {% else %}
+            {% include 'puzzles/puzzle_information.html' with puzzle=None challenge=challenge files=files %}
+        {% endif %}
+    {% endfor %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ challenge_form|crispy }}
+
+        <h3 class="mt-4">Suplementary files</h3>
+        <hr class="mt-1 mb-3">
+        <div class="file-form-wrapper">
+            {{ files_form.management_form }}
+            <div class="file-form-container">
+                {% for form in files_form.forms %}
+                    {{ form|crispy }}
+                {% endfor %}
+                <button type="button" class="btn btn-success add-file-form">+ add file</button>
+                <hr class="my-4">
+            </div>
+        </div>
+
+        <input type="submit" name="submit_form" class="btn btn-primary mb-3 float-right" value="Save"/>
+    </form>
+{% endblock %}

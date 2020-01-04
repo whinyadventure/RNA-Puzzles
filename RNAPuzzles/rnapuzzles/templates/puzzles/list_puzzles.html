@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <h1 class="mt-4">{{ list_name }}</h1>
+            <hr class="mt-1 mb-3">
+
+            {% for puzzle_info, challenge, files in data %}
+                    {% include 'puzzles/puzzle_information.html' with puzzle=puzzle_info challenge=challenge files=files %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+{% endblock %}
