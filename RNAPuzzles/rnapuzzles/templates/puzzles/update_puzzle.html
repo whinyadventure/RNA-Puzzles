@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'form_errors.html' with form=challenge_form %}
+    {% include 'form_errors.html' with form=files_form %}
+    {% include 'form_errors.html' with form=info_form %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <h3 class="mt-4">Fill the form</h3>
+            {% block form_type %}
+                {% load crispy_forms_tags %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ info_form|crispy }}
+                    {{ challenge_form|crispy }}
+
+                   <h3 class="mt-4">Suplementary files</h3>
+                    <hr class="mt-1 mb-3">
+                    <div id="file-form-wrapper">
+                        {{ files_form.management_form }}
+                        <div class="file-form-container">
+                            {% for form in files_form.forms %}
+                                {{ form|crispy }}
+                            {% endfor %}
+                            <button type="button" class="btn btn-success add-file-form">+ add file</button>
+                            <hr class="my-4">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mb-3 float-right">Save</button>
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+
+    {% load static %}
+    <script src="{% static 'js/puzzles/createForm.js' %}"></script>
+{% endblock %}

@@ -22,6 +22,9 @@ puzzles_pattern = [
     re_path('results', Puzzles.completed_puzzles, name='completed-puzzles'),
     re_path('create-new', Puzzles.create_new, name='create-new'),
     re_path('create-next', Puzzles.create_next, name='create-next'),
+    re_path(r"challenge/update/(?P<pk>\d+)", Puzzles.update_challenge, name="challenge-update"),
+    re_path(r"puzzle/update/(?P<pk>\d+)", Puzzles.update_puzzle, name="puzzle-update"),
+
 ]
 
 urlpatterns = [

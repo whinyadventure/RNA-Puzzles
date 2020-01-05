@@ -65,7 +65,7 @@
                  aria-labelledby="accordion-files-heading-{{ challenge.id }}">
               <div class="card-body">
                   {% for single in files%}
-                    <p>{{ single.file.name }}</p>
+                    <a href="{{single.file.url}}" download>{{ single.file.name }}</a>
                   {% endfor %}
               </div>
             </div>
