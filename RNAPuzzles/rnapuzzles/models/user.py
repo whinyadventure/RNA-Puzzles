@@ -73,7 +73,6 @@ class CustomUser(AbstractUser):
     institution = models.CharField(_('institution'), max_length=150, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=False, default=0)
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)  # TODO "on_delete"???
-    user_description = models.TextField(_('user description'), blank=True)
     member_authorized = models.BooleanField(default=False, blank=False)
 
     email_confirmed = models.BooleanField(default=False, blank=False)
