@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
 {% load martortags %}
+{% load staticfiles %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/card_collapse.css' %}">
+  {% include "rnapuzzles/markdown_head.html" %}
+{% endblock %}
 {% block content %}
 <form class="form-inline md-form form-sm mt-0" method="get">
-
   <i class="fas fa-search" aria-hidden="true"></i>
-  <input class="form-control form-control-sm ml-3 w-75" name="q" type="text" placeholder="Search"
-    aria-label="Search">
+  {% if request.GET.q %}
+    <input class="form-control form-control-sm ml-3 w-75" name="q" type="text" placeholder="Search"
+      aria-label="Search" value="{{request.GET.q}}">
+  {% else %}
+    <input class="form-control form-control-sm ml-3 w-75" name="q" type="text" placeholder="Search"
+      aria-label="Search">
+  {% endif %}
 </form>
+
+<br>
 {% for n in object_list %}
-    {% include 'signle.html' with object=n link=True %}
+    {% include 'rnapuzzles/faqmodel_single.html' with object=n iter=forloop.counter0 collapse=True%}
 {% endfor %}
 
 {% if is_paginated %}
@@ -34,5 +45,6 @@
     {% endif %}
   </ul>
 </div>
+
 {% endif %}
 {% endblock %}

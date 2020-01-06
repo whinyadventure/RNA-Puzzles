@@ -55,7 +55,7 @@
         <div class="navbar-collapse collapse" id="links">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if not user.is_authenticated %}
+            {% if user.pk != 1 %}
 
               <li class="nav-item active">
                 <a class="nav-link" href="#">Home</a>
@@ -70,19 +70,19 @@
                 <a class="nav-link" href="{% url 'completed-puzzles' %}">Results</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Groups</a>
+                <a class="nav-link" href="{% url 'groups_list' %}">Groups</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Resources</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Publications</a>
+                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">FAQ</a>
+                <a class="nav-link" href="{% url 'faq_list' %}">FAQ</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
               </li>
 
             {% else %}
@@ -94,10 +94,10 @@
                 <a class="nav-link" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Publications</a>
+                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
               </li>
 
             {% endif %}
@@ -108,38 +108,38 @@
         <div class="navbar-collapse collapse text-right" id="account">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.is_authenticated %}
+            {% if user.pk != 1 %}
 
               <li class="nav-item dropdown d-none d-xl-block">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
                 <div class="dropdown-menu">
-                  <h6 class="dropdown-header"> {{ user.username }} </h6>
+                  <h6 class="dropdown-header"> {{ user }} </h6>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">View group profile</a>
-                  <a class="dropdown-item" href="#">Account settings</a>
+                  <a class="dropdown-item" href="{% url 'user_update' %}">Account settings</a>
                   <a class="dropdown-item" href="#">History of challenges</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                 </div>
               </li>
 
               <li class="nav-item d-xl-none">
-                <h6 class="header"> {{ user.username }} </h6>
+                <h6 class="header"> {{ user }} </h6>
                 <div class="dropdown-divider"></div>
                 <a class="nav-link" href="#">View group profile</a>
                 <a class="nav-link" href="#">Account settings</a>
                 <a class="nav-link" href="#">History of challenges</a>
                 <div class="dropdown-divider"></div>
-                <a class="nav-link" href="#">Log out</a>
+                <a class="nav-link" href="{% url 'logout' %}">Log out</a>
               </li>
 
             {% else %}
 
               <li class="nav-item">
-                <a class="nav-link" href="#">Login</a>
+                <a class="nav-link" href="{% url 'signin' %}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Register</a>
+                <a class="nav-link" href="{% url 'signup' %}">Register</a>
               </li>
 
             {% endif %}
@@ -148,6 +148,15 @@
       </div>
     </nav>
   </header>
+
+  {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+  {% endfor %}
 
   <!-- Page Content -->
   <div class="container">

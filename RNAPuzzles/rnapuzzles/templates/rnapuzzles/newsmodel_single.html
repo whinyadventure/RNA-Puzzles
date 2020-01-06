@@ -1,0 +1,58 @@
+{% load martortags %}
+{% load guardian_tags %}
+{% load staticfiles %}
+
+{% block content %}
+{% load guardian_tags %}
+{% get_obj_perms request.user for object as "n_perms" %}
+
+<div class="card mb-4">
+    <div class="card-header">
+
+        {% if "change_newsmodel" in n_perms %}
+            <b>
+            {% if object.public %}
+                [Public]
+            {% else %}
+                [Hidden]
+            {% endif %}
+            </b>
+        {% endif %}
+
+        {% if link %}
+            <a href="{{n.id}}">{{ object.title }} </a>
+        {% else %}
+            {{ object.title }}
+        {% endif %}
+        <div class="float-right">{{ object.publish_at }}</div><br>
+
+    </div>
+    {{ object.creation_date }}
+    <div class="card-body markdown-body ">
+        {{ object.description|safe_markdown }}
+        <br>
+
+        {% if object.author %}
+            Author: {{object.first_name}} {{object.last_name}}
+        {% endif %}
+        </br>
+
+        {% if "change_newsmodel" in n_perms %}
+            {% if next %}
+                <a href="{% url 'news_update' pk=object.pk %}?next={{ request.path }}" class="card-link">Change</a>
+            {% else %}
+                <a href="{% url 'news_update' pk=object.pk %}" class="card-link">Change</a>
+            {% endif %}
+
+        {% endif %}
+
+        {% if "change_newsmodel" in n_perms %}
+            {% if next %}
+                <a href="{% url 'news_delete' pk=object.pk %}?next={{ request.path }}">Delete</a>
+            {% else %}
+                   <a href="{% url 'news_delete' pk=object.pk %}">Delete</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

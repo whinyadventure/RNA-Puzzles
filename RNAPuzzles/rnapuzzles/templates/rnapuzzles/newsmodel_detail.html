@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load martortags %}
+{% load staticfiles %}
+{% block head %}
+  {% include "rnapuzzles/markdown_head.html" %}
+{% endblock %}
+{% block content %}
+{% include 'rnapuzzles/newsmodel_single.html' with object=object%}
+
+{% endblock %}
