@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="h2 mt-4">
+                My Puzzles
+                <img class="arrow" src="{% static 'img/arrow.svg' %}">
+                {{ puzzle_id }}
+                <img class="arrow" src="{% static 'img/arrow.svg' %}">
+                Edit
+            </div>
+            <hr class="mt-1 mb-3">
+
+            <!-- TODO: finish editing form -->
+            {% block edit_type %}
+                <!-- TODO: fix Errors displayed twice -->
+                {% include 'form_errors.html' with form=info_form %}
+                {% include 'form_errors.html' with form=challenge_form %}
+                {% include 'form_errors.html' with form=files_form %}
+                {% load crispy_forms_tags %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ info_form|crispy }}
+                    {{ challenge_form|crispy }}
+
+                   <h3 class="mt-4">Suplementary files</h3>
+                    <hr class="mt-1 mb-3">
+                    {{ files_form.management_form }}
+                    <div id="file-form-wrapper">
+                        {% for form in files_form.forms %}
+                        <div class="file-form-container">
+                            {{ form|crispy }}
+                            <button type="button" class="btn btn-success add-file-form"><i class="fa fa-plus"></i> Add file</button>
+                            <hr class="my-4">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary mb-3 float-right">Save</button>
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

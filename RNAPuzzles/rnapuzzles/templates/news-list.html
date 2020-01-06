@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load martortags %}
+{% block content %}
+<form class="form-inline md-form form-sm mt-0" method="get">
+
+  <i class="fas fa-search" aria-hidden="true"></i>
+  <input class="form-control form-control-sm ml-3 w-75" name="q" type="text" placeholder="Search"
+    aria-label="Search">
+</form>
+{% for n in object_list %}
+    {% include 'signle.html' with object=n link=True %}
+{% endfor %}
+
+{% if is_paginated %}
+{% load replace_get %}
+<div class="paging_simple_numbers">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="paginate_button page-item previous"><a class="page-link" href="{% param_replace page=page_obj.previous_page_number %}">Previous</a></li>
+    {% else %}
+      <li class="paginate_button page-item previous disabled"><a class="page-link href=#">Previous</a></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="paginate_button page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+      {% else %}
+        <li class="paginate_button page-item"><a class="page-link" href="{% param_replace page=i %}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a class="page-link" href="{% param_replace page=page_obj.next_page_number %}">Next</a></li>
+    {% else %}
+      <li class="disabled"><a class="page-link">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+{% endblock %}

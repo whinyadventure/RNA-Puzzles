@@ -55,19 +55,19 @@
         <div class="navbar-collapse collapse" id="links">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.is_authenticated %}
+            {% if not user.is_authenticated %}
 
               <li class="nav-item active">
                 <a class="nav-link" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">News</a>
+                <a class="nav-link" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Open Puzzles</a>
+                <a class="nav-link" href="{% url 'open-puzzles' %}">Open Puzzles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Results</a>
+                <a class="nav-link" href="{% url 'completed-puzzles' %}">Results</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Groups</a>
@@ -88,10 +88,10 @@
             {% else %}
 
               <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">News</a>
+                <a class="nav-link" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Publications</a>

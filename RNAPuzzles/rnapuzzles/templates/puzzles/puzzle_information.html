@@ -1,0 +1,128 @@
+<div id="main-card" class="card mt-4 mb-4">
+    <div class="card-header">
+        <div class="d-flex">
+            <div class="flex-column mr-auto">
+                <div class="h3 align-self-center">
+                  Puzzle {{ challenge.puzzle_info_id }}{% if challenge.round != 1 %}-{{ challenge.round}}{% endif %}
+                </div>
+                <div class="d-flex">
+                    {% if challenge.current_status != 4 %}
+                        <div class="mr-3">
+                            <a href="{% url 'puzzle-edit' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
+                        </div>
+                    {% endif %}
+                    <div class="justify-content-center align-self-center mr-auto">
+                        {% if challenge.round != 1%}
+                            <a href="{% url 'challenge-delete' pk=challenge.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
+                        {% else %}
+                            <a href="{% url 'puzzle-info-delete' pk=puzzle.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="justify-content-center align-self-center">
+              {{ challenge.created_at }}
+            </div>
+        </div>
+    </div>
+    {% if puzzle.img %}
+        <img class="mx-auto d-block card-img-top img-fluid col-md-8 col-lg-6"
+             src="{{ puzzle.img }}">
+    {% endif %}
+
+    <div class="card-body">
+        {% if puzzle %}
+            <label for="description" class="card-title font-weight-bold">{{ puzzle.description_label }}</label>
+            <p id="description" class="card-text">{{ puzzle.description }}</p>
+            <label class="card-title font-weight-bold">{{ puzzle.sequence_label }}</label>
+            <p class="card-text">{{ puzzle.sequence }}</p>
+        {% endif %}
+        {% if puzzle.publish_date %}
+            <label for="publish-date" class="card-title font-weight-bold">{{ puzzle.publish_date_label }}</label>
+            <p id="publish-date" class="card-text">{{ puzzle.publish_date }}</p>
+        {% endif %}
+        {% if puzzle.reference %}
+            <label for="reference" class="card-title font-weight-bold">{{ puzzle.reference_label }}</label>
+            <p id="reference" class="card-text">{{ puzzle.reference }}</p>
+        {% endif %}
+        {% if puzzle.reference_url %}
+            <label for="reference-url" class="card-title font-weight-bold">{{ puzzle.reference_url_label }}</label>
+            <p id="reference-url" class="card-text">{{ puzzle.reference_url }}</p>
+        {% endif %}
+        {% if puzzle.pdb_id and puzzle_pdb_url %}
+            <label for="pdb-url" class="card-title font-weight-bold">{{ puzzle.pdb_id_label }}</label>
+            <a id="pdb-url" href="{{ puzzle.pdb_url }}" class="stretched-link">{{ puzzle.pdb_id }}</a>
+        {% endif %}
+        {% if puzzle.pdb_file %}
+            <label for="pdb-file" class="card-title font-weight-bold">{{ puzzle.pdb_file_label }}</label>
+            <p id="pdb-file" class="card-text">{{ puzzle.pdb_file }}</p>
+        {% endif %}
+
+        <label for="start-date" class="card-title font-weight-bold">{{ challenge.start_date_label }}</label>
+        <p id="start-date" class="card-text">{{ challenge.start_date }}</p>
+        <label for="end-date" class="card-title font-weight-bold">{{ challenge.end_date_label }}</label>
+        <p id="end-date" class="card-text">{{ challenge.end_date }}</p>
+    </div>
+
+    {% if files %}
+        <div class="accordion md-accordion" id="accordion-files-{{ challenge.id }}" role="tablist"
+             aria-multiselectable="true">
+          <div class="card border-0">
+            <div class="card-header" role="tab" id="accordion-files-heading-{{ challenge.id }}">
+              <a class="collapsed" data-toggle="collapse" href="#collapse-files-{{ challenge.id }}"
+                 aria-expanded="false" aria-controls="collapse-files-{{ challenge.id }}"
+                 onclick="$('#collapsed-icon-files-{{ challenge.id }}').toggleClass('fa-rotate-180')">
+                <h5 class="mb-0">
+                  Suplementary files <i id="collapsed-icon-files-{{ challenge.id }}" class="fa fa-angle-down"></i>
+                </h5>
+              </a>
+            </div>
+            <div id="collapse-files-{{ challenge.id }}" class="collapse" role="tabpanel"
+                 aria-labelledby="accordion-files-heading-{{ challenge.id }}">
+              <div class="card-body">
+                  {% for single in files%}
+                    <div class="single-file-info mb-3">
+                        <div class="p">{{ single.note }}</div>
+                        <a href="{% url 'download-file' pk=single.pk %}">{{ single.file.name }}</a>
+                    </div>
+                  {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+
+    {% if challenge.current_status == 1 %}
+        <div class="accordion md-accordion" id="accordion-faq-{{ challenge.id }}" role="tablist"
+             aria-multiselectable="true">
+          <div class="card border-0">
+            <div class="card-header" role="tab" id="accordion-faq-heading-{{ challenge.id }}">
+              <a class="collapsed" data-toggle="collapse" href="#collapse-faq-{{ challenge.id }}"
+                 aria-expanded="false" aria-controls="collapse-faq-{{ challenge.id }}"
+                 onclick="$('#collapsed-icon-faq-{{ challenge.id }}').toggleClass('fa-rotate-180')">
+                <h5 class="mb-0">
+                  Ask a question <i id="collapsed-icon-faq-{{ challenge.id }}" class="fa fa-angle-down"></i>
+                </h5>
+              </a>
+            </div>
+            <div id="collapse-faq-{{ challenge.id }}" class="collapse" role="tabpanel"
+                 aria-labelledby="accordion-faq-heading-{{ challenge.id }}">
+              <div class="card-body">
+
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+
+
+    <div id="model-submit-row" class="d-flex justify-content-end mt-3 mb-5 mr-5">
+        {% if challenge.current_status == 1 %}
+            <button type="button" class="btn btn-primary">Submit model</button>
+        {% endif %}
+    </div>
+
+</div>
+
+
+
