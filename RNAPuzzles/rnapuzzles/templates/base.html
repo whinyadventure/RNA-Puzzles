@@ -108,7 +108,7 @@
         <div class="navbar-collapse collapse text-right" id="account">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if not user.is_authenticated %}
+            {% if user.is_authenticated %}
 
               <li class="nav-item dropdown d-none d-xl-block">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
@@ -176,4 +176,5 @@
   <script src=" {% static 'js/rnapuzzles.custom.js' %}"></script>
 
 </body>
+
 </html>
