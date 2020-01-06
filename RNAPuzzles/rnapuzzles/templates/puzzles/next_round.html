@@ -1,0 +1,40 @@
+{% extends 'puzzles/new_challenge.html' %}
+
+{% block form_type %}
+    {% load crispy_forms_tags %}
+    {% include 'form_errors.html' with form=challenge_form %}
+    {% include 'form_errors.html' with form=files_form %}
+    <form method="post">
+        {% csrf_token %}
+        {{ select_form|crispy }}
+        <input type="submit" name="choose_base" class="btn btn-primary mb-3" value="Choose"/>
+    </form>
+
+    {% for challenge, files in data %}
+        {% if challenge.round == 1 %}
+            {% include 'puzzles/puzzle_information.html' with challenge=challenge files=files %}
+        {% else %}
+            {% include 'puzzles/puzzle_information.html' with puzzle=None challenge=challenge files=files %}
+        {% endif %}
+    {% endfor %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ challenge_form|crispy }}
+
+       <h3 class="mt-4">Suplementary files</h3>
+        <hr class="mt-1 mb-3">
+        {{ files_form.management_form }}
+        <div id="file-form-wrapper">
+            {% for form in files_form.forms %}
+            <div class="file-form-container">
+                {{ form|crispy }}
+                <button type="button" class="btn btn-success add-file-form"><i class="fa fa-plus"></i> Add file</button>
+                <hr class="my-4">
+            </div>
+            {% endfor %}
+        </div>
+
+        <input type="submit" name="submit_form" class="btn btn-primary mb-3 float-right" value="Save"/>
+    </form>
+{% endblock %}

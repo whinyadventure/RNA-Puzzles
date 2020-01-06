@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <h2 class="mt-4">Create challenge</h2>
+            <hr class="mt-1 mb-3">
+
+            <div class="custom-radio-group">
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-new"
+                           onchange="document.location.href='{% url 'create-new' %}'" {% if new %} checked{% endif %}>
+                    <label class="custom-control-label" for="radio-new">new challenge</label>
+                </div>
+
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-next"
+                           onchange="document.location.href='{% url 'create-next' %}'" {% if not new %} checked{% endif %}>
+                    <label class="custom-control-label" for="radio-next">next round of existing challenge</label>
+                </div>
+            </div>
+
+            <h3 class="mt-4">Fill the form</h3>
+            {% block form_type %}
+                <!-- TODO: fix Errors displayed twice -->
+                {% include 'form_errors.html' with form=info_form %}
+                {% include 'form_errors.html' with form=challenge_form %}
+                {% include 'form_errors.html' with form=files_form %}
+                {% load crispy_forms_tags %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ info_form|crispy }}
+                    {{ challenge_form|crispy }}
+
+                   <h3 class="mt-4">Suplementary files</h3>
+                    <hr class="mt-1 mb-3">
+                    {{ files_form.management_form }}
+                    <div id="file-form-wrapper">
+                        {% for form in files_form.forms %}
+                        <div class="file-form-container">
+                            {{ form|crispy }}
+                            <button type="button" class="btn btn-success add-file-form"><i class="fa fa-plus"></i> Add file</button>
+                            <hr class="my-4">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mb-3 float-right">Save</button>
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+
+    {% load static %}
+    <script src="{% static 'js/puzzles/createForm.js' %}"></script>
+{% endblock %}

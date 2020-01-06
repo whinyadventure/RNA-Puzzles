@@ -1,3 +1,21 @@
 #logo {
      height: 35px;
 }
+
+.arrow {
+     height: 25px;
+}
+
+.card-header {
+    padding: 1.5rem 2rem;
+}
+
+.card-body {
+    padding: 1.5rem 2rem;
+}
+
+.accordion .card-header {
+    border-bottom: none;
+}
+
+
