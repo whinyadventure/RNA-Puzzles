@@ -2,6 +2,8 @@
 
 {% block form_type %}
     {% load crispy_forms_tags %}
+    {% include 'form_errors.html' with form=challenge_form %}
+    {% include 'form_errors.html' with form=files_form %}
     <form method="post">
         {% csrf_token %}
         {{ select_form|crispy }}
@@ -20,17 +22,17 @@
         {% csrf_token %}
         {{ challenge_form|crispy }}
 
-        <h3 class="mt-4">Suplementary files</h3>
+       <h3 class="mt-4">Suplementary files</h3>
         <hr class="mt-1 mb-3">
-        <div class="file-form-wrapper">
-            {{ files_form.management_form }}
+        {{ files_form.management_form }}
+        <div id="file-form-wrapper">
+            {% for form in files_form.forms %}
             <div class="file-form-container">
-                {% for form in files_form.forms %}
-                    {{ form|crispy }}
-                {% endfor %}
-                <button type="button" class="btn btn-success add-file-form">+ add file</button>
+                {{ form|crispy }}
+                <button type="button" class="btn btn-success add-file-form"><i class="fa fa-plus"></i> Add file</button>
                 <hr class="my-4">
             </div>
+            {% endfor %}
         </div>
 
         <input type="submit" name="submit_form" class="btn btn-primary mb-3 float-right" value="Save"/>

@@ -1,8 +1,24 @@
 <div id="main-card" class="card mt-4 mb-4">
     <div class="card-header">
-        <div class="d-flex h-100 justify-content-between">
-            <div class="h3 justify-content-center align-self-center">
-              Puzzle {{ challenge.puzzle_info_id }}{% if challenge.round != 1 %}-{{ challenge.round}}{% endif %}
+        <div class="d-flex">
+            <div class="flex-column mr-auto">
+                <div class="h3 align-self-center">
+                  Puzzle {{ challenge.puzzle_info_id }}{% if challenge.round != 1 %}-{{ challenge.round}}{% endif %}
+                </div>
+                <div class="d-flex">
+                    {% if challenge.current_status != 4 %}
+                        <div class="mr-3">
+                            <a href="{% url 'puzzle-edit' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
+                        </div>
+                    {% endif %}
+                    <div class="justify-content-center align-self-center mr-auto">
+                        {% if challenge.round != 1%}
+                            <a href="{% url 'challenge-delete' pk=challenge.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
+                        {% else %}
+                            <a href="{% url 'puzzle-info-delete' pk=puzzle.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             <div class="justify-content-center align-self-center">
               {{ challenge.created_at }}
@@ -65,7 +81,10 @@
                  aria-labelledby="accordion-files-heading-{{ challenge.id }}">
               <div class="card-body">
                   {% for single in files%}
-                    <p>{{ single.file.name }}</p>
+                    <div class="single-file-info mb-3">
+                        <div class="p">{{ single.note }}</div>
+                        <a href="{% url 'download-file' pk=single.pk %}">{{ single.file.name }}</a>
+                    </div>
                   {% endfor %}
               </div>
             </div>

@@ -1,12 +1,14 @@
 # rnapuzzles/views/Puzzles.py
+
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.generic import DeleteView
 
 from ..forms.puzzles_forms import *
 
+
 # TODO: add user object manipulation permissions
-
-
 def create_new(request):
     template_name = 'puzzles/new_challenge.html'
 
@@ -87,9 +89,6 @@ def create_next(request):
 
                 # TODO: redirect to user's puzzles
                 return redirect(reverse('open-puzzles'))
-            else:
-                print('nynyny blad')
-                # TODO: clean method in form for conditionally required field with raise error
 
     context = {'new': False, 'puzzle': puzzle, 'data': data,
                'select_form': select_form, 'challenge_form': challenge_form, 'files_form': files_form}
@@ -111,7 +110,7 @@ def get_data(field, value):
     return data
 
 
-def open_puzzles(request):
+def list_open(request):
     template_name = 'puzzles/list_puzzles.html'
     name = 'Open puzzles'
     context = {'list_name': name, 'data': get_data('current_status', 1)}
@@ -119,7 +118,7 @@ def open_puzzles(request):
     return render(request, template_name, context)
 
 
-def completed_puzzles(request):
+def list_completed(request):
     template_name = 'puzzles/list_puzzles.html'
     name = 'Results'
     context = {'list_name': name, 'data': get_data('current_status', 4)}
@@ -128,12 +127,80 @@ def completed_puzzles(request):
 
 
 # TODO: add to user menu 'My puzzles' option
-def organizer_puzzles(request):
+def list_organizer(request):
     template_name = 'puzzles/list_puzzles.html'
     name = 'My puzzles'
-    context = { 'list_name': name, 'data': get_data('author', request.user)}
+    context = {'list_name': name, 'data': get_data('author', request.user)}
 
     return render(request, template_name, context)
+
+
+def file_download(request, pk):
+    challenge_file = ChallengeFile.objects.get(pk=pk)
+    file_content = open(challenge_file.file.path, 'rb')
+    response = HttpResponse(file_content, content_type='application/zip')
+    response['Content-Disposition'] = "attachment; filename=%s" % challenge_file.file.name
+
+    return response
+
+
+def edit(request, pk):
+    template_name = 'puzzles/puzzle_edit.html'
+
+    challenge_input = Challenge.objects.get(pk=pk)
+    puzzle_input = PuzzleInfo.objects.get(pk=challenge_input.puzzle_info.pk)
+    files_input = challenge_input.challengefile_set.all()
+
+    puzzle_info_form = PuzzleInfoForm(request.POST or None, instance=puzzle_input)
+    challenge_form = ChallengeForm(request.POST or None, instance=challenge_input)
+
+    if puzzle_info_form.is_valid() and challenge_form.is_valid():
+        return redirect(reverse('open-puzzles'))
+
+    puzzle_display_id = 'Puzzle ' + str(puzzle_input.id)
+    context = {'puzzle_display_id': puzzle_display_id, 'info_form': puzzle_info_form, 'challenge_form': challenge_form}
+
+    return render(request, template_name, context)
+
+
+class PuzzleInfoDelete(DeleteView):
+    template_name = 'puzzles/puzzle_delete.html'
+    model = PuzzleInfo
+    success_message = "Puzzle was deleted"
+
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(PuzzleInfoDelete, self).post(request, *args, **kwargs)
+
+    def puzzle_id(self):
+        return self.kwargs['pk']
+
+    # TODO: redirect to user's puzzles
+    def get_success_url(self):
+        return reverse('open-puzzles')
+
+
+class ChallengeDelete(DeleteView):
+    template_name = 'puzzles/puzzle_delete.html'
+    model = Challenge
+    success_message = "Puzzle was deleted"
+
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(ChallengeDelete, self).post(request, *args, **kwargs)
+
+    def puzzle_id(self):
+        challenge = Challenge.objects.get(pk=self.kwargs['pk'])
+        puzzle_id = str(challenge.puzzle_info_id) + '-' + str(challenge.round)
+        return puzzle_id
+
+    # TODO: redirect to user's puzzles
+    def get_success_url(self):
+        return reverse('open-puzzles')
 
 
 

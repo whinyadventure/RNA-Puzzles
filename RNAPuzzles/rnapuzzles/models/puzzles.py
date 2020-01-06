@@ -1,19 +1,22 @@
 # rnapuzzles/models/puzzles.py
+
+from django.core.files.base import ContentFile
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
+from django.conf import settings
 
+import os
+import io
 from .user import CustomUser
 import datetime
+import zipfile
 from six import text_type
 
 
-def puzzle_dir_path(instance, filename):
-    # file uploaded to MEDIA_ROOT/<puzzle_input.id>/<filename>
-    return '{0}/puzzle_input/{1}'.format(instance.id, filename)
-
-# pdb_file/img saved only through update, otherwise folder 'None' created
-
-
+# TODO: test extention validators, move validation to forms
 class PuzzleInfo(models.Model):
     description = models.CharField(verbose_name="Description", max_length=250, help_text='Maximum 250 characters.')
     sequence = models.TextField(verbose_name="RNA sequence (5' to 3')")
@@ -23,10 +26,10 @@ class PuzzleInfo(models.Model):
     pdb_id = models.CharField(verbose_name="PDB ID", max_length=4,
                               help_text='Maximum 4 characters (by PDB ID convention).', blank=True)
     pdb_url = models.URLField(verbose_name="PDB URL", blank=True)
-    pdb_file = models.FileField(verbose_name="Target 3D structure file", upload_to=puzzle_dir_path,
-                                help_text='Allowed types: .pdb, .cif', blank=True)
-    img = models.ImageField(verbose_name="Target 3D structure graphic representation", upload_to=puzzle_dir_path,
-                            help_text='Allowed file types: .jpg, .png', blank=True)
+    pdb_file = models.FileField(verbose_name="Target 3D structure file", help_text='Allowed types: .pdb, .cif',
+                                validators=[FileExtensionValidator(allowed_extensions=['pdb', 'cif'])], blank=True)
+    img = models.ImageField(verbose_name="Target 3D structure graphic representation", help_text='Allowed file types: .jpg, .png',
+                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])], blank=True)
 
     class Meta:
         verbose_name = 'Puzzle Information'
@@ -131,16 +134,6 @@ class Challenge(models.Model):
     def __str__(self):
         return 'puzzle_info: %s challenge.id: %s' % (self.puzzle_info_id, str(self.id))
 
-    def clean(self):
-        if self.pk is None:
-            if self.start_date < datetime.date.today():
-                raise ValidationError('The opening date cannot be in the past.')
-        else:
-            if self.start_date < self.created_at:
-                raise ValidationError('The opening date cannot be earlier than creation date.')
-        if self.end_date <= self.start_date:
-            raise ValidationError('The closing date cannot be earlier or same as the opening date.')
-
     def save(self, *args, **kwargs):
         if self.pk is None:
             # initialize current_status
@@ -149,21 +142,47 @@ class Challenge(models.Model):
             else:
                 self.current_status = 0
 
-        self.full_clean()
         super(Challenge, self).save(*args, **kwargs)
-
-
-def puzzle_challenge_dir_path(instance, filename):
-    # file uploaded to MEDIA_ROOT/<puzzle_input.id>/<challenge.round/<filename>
-    return '{0}/{1}/{2}'.format(instance.challenge.puzzle_info_id, instance.challenge.round, filename)
 
 
 class ChallengeFile(models.Model):
 
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, editable=False)
-    note = models.CharField(max_length=50, help_text='Information about file content. Maximum 50 characters.',
-                            blank=True)
-    file = models.FileField(upload_to=puzzle_challenge_dir_path, blank=True)
+    note = models.CharField(max_length=50, help_text='Information about file content. Maximum 50 characters.', blank=True)
+    file = models.FileField(blank=True)
 
     def __str__(self):
         return 'challenge: %s file.id: %s' % (self.challenge_id, str(self.id))
+
+
+@receiver(post_save, sender=ChallengeFile)
+def post_save_compression(sender, instance, *args, **kwargs):
+
+    challenge_id = str(instance.challenge.pk)
+    file_id = str(instance.pk)
+
+    zip_filename = 'challenge_{0}_file_{1}.zip'.format(challenge_id, file_id)
+    zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
+
+    if instance.file.path != zip_path:
+        file = instance.file
+        filename = file.name
+
+        with file.open('rb') as f:
+            file_content = f.read()
+
+        in_memory_zip = io.BytesIO()
+
+        with zipfile.ZipFile(in_memory_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
+            zf.writestr(filename, file_content)
+
+        zip_file_content = ContentFile(in_memory_zip.getvalue())
+
+        file.save(zip_filename, zip_file_content, save=True)
+
+        file.storage.delete(filename)
+
+
+@receiver(post_delete, sender=ChallengeFile)
+def post_delete_file(sender, instance, *args, **kwargs):
+    instance.file.delete(save=False)

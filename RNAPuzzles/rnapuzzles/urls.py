@@ -18,10 +18,16 @@ accounts_pattern = [
 ]
 
 puzzles_pattern = [
-    path('', Puzzles.open_puzzles, name='open-puzzles'),
-    re_path('results', Puzzles.completed_puzzles, name='completed-puzzles'),
-    re_path('create-new', Puzzles.create_new, name='create-new'),
-    re_path('create-next', Puzzles.create_next, name='create-next'),
+    path('', Puzzles.list_open, name='open-puzzles'),
+    path('results', Puzzles.list_completed, name='completed-puzzles'),
+    path('my-puzzles', Puzzles.list_organizer, name='organizer-puzzles'),
+    path('create-new', Puzzles.create_new, name='create-new'),
+    path('create-next', Puzzles.create_next, name='create-next'),
+    re_path(r"(?P<pk>\d+)/download/$", Puzzles.file_download, name='download-file'),
+    re_path(r"(?P<pk>\d+)/edit/$", Puzzles.edit, name='puzzle-edit'),
+    re_path(r"(?P<pk>\d+)/delete-puzzle/$", Puzzles.PuzzleInfoDelete.as_view(), name='puzzle-info-delete'),
+    re_path(r"(?P<pk>\d+)/delete-round/$", Puzzles.ChallengeDelete.as_view(), name='challenge-delete'),
+
 ]
 
 urlpatterns = [
