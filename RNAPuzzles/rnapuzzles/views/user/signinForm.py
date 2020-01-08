@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 from ...models.user import CustomUser
 
@@ -11,6 +11,10 @@ class SiginForm(AuthenticationForm):
     username = None
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ["email", "password"]
 
     def __init__(self, request=None, *args, **kwargs):
 

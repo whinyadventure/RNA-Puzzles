@@ -1,0 +1,51 @@
+{% extends  'base.html' %}
+
+{% block content %}
+<h1>RNA-Puzzles</h1>
+is a collective experiment for blind RNA structure prediction.
+
+<div id="main-card" class="card mt-4 mb-4">
+    <div class="card-header">
+        <div class="h3 align-self-center">
+            Aims of the project
+        </div>
+    </div>
+    <div class="card-body">
+        <ul>
+            <li>To determine the capabilities and limitations of current methods of 3D RNA structure prediction based on sequence;</li>
+            <li>To find whether and how progress has been made, as well as what has yet to be done to achieve better solutions</li>
+            <li>To identify whether there are specific bottlenecks that hold back the field;</li>
+            <li>To promote the available methods and guide potential users in the choice of suitable tools for real-world problems;</li>
+            <li>To encourage the RNA structure prediction community in their efforts to improve the current tools and to make automated prediction tools available.</li>
+            <li>To explore the underlying mechanism of ligand-RNA binding and the conformational changes in riboswitches.</li>
+        </ul>
+    </div>
+    <div class="card-header">
+        <div class="h3 align-self-center">
+            Basic Rules
+        </div>
+    </div>
+    <div class="card-body">
+        <ul>
+            <li>Confidential agreement: "I will use the provided sequence data for prediction purposes only. I will not distribute the sequences in any form outside my working group."</li>
+            <li>It is strongly recommanded that all the predictions formatted in standard PDB format. So that all the modellers could have a fair comparison without considering the file format and prediction region. We provide a python script here for generating standard PDB format files, only the coordinates need to be replaced by the predictors.</li>
+            <li>RNA chains should be named in alphabetical order. e.g. A for the first chain, B for the second chain.</li>
+            <li>Up to FIVE prediction models could be predicted as the final results of one problem for each group. It is also recommended to submit ten models.</li>
+            <li>Please put all prediction models together in one PDB file as NMR format (Separate models by lines: "MODEL n" and "ENDMDL").</li>
+            <li>For submission, please either use our online submission system or send us an email.</li>
+        </ul>
+    </div>
+    <div class="card-header">
+        <div class="h3 align-self-center">
+            Call for participants
+        </div>
+    </div>
+    <div class="card-body">
+        <ul>
+            <li>We hope more crystallgraphers could help us in providing more crystal, cryo-EM or NMR structures. Any kind of RNA related structure information is encouraged. Anyone who may have a RNA structure please contact us.</li>
+            <li>We encourage more predictors who are interested in RNA structure prediction to take part in this compitition to push forward the field. Anyone who is interested please send us an email.</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
