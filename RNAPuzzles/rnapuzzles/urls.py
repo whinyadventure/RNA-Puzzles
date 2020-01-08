@@ -59,7 +59,7 @@ puzzles_pattern = [
 ]
 
 urlpatterns = [
- #   path('', views.index, name='index'),
+    path('', views.home, name='home'),
     path("news/", include(news_patterns)),
     path("accounts/", include(accounts_pattern)),
     path("puzzles/", include(puzzles_pattern)),

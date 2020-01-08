@@ -12,6 +12,10 @@ class SiginForm(AuthenticationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
 
+    class Meta:
+        model = CustomUser
+        fields = ["email", "password"]
+
     def __init__(self, request=None, *args, **kwargs):
 
         self.request = kwargs['initial']['request']
