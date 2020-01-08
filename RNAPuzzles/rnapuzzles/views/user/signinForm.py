@@ -17,26 +17,23 @@ class SiginForm(AuthenticationForm):
         fields = ["email", "password"]
 
     def __init__(self, request=None, *args, **kwargs):
-
         self.request = kwargs['initial']['request']
         self.user_cache = None
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         self.username_field = CustomUser._meta.get_field(CustomUser.EMAIL_FIELD)
 
     def clean(self):
-
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
 
         if email and password:
-
             self.user_cache = authenticate(self.request, email=email, password=password)
+
             if self.user_cache is not None:
                 login(self.request, self.user_cache)
                 self.confirm_login_allowed(self.user_cache)
 
             else:
-
                 print("error")
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],

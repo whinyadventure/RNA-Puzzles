@@ -1,11 +1,11 @@
-{% extends  'base.html' %}
+{% extends 'base.html' %}
+
 {% block head %}
-  {{ form.media }}
+    {{ form.media }}
 {% endblock %}
 
-
 {% block content %}
-  {% load crispy_forms_tags %}
-   {% csrf_token %}
-  {% crispy form %}
+    {% load crispy_forms_tags %}
+    {% csrf_token %}
+    {% crispy form %}
 {% endblock %}

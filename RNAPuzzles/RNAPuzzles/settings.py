@@ -44,14 +44,17 @@ INSTALLED_APPS = [
     'guardian',
     'publications',
     'captcha',
-	'rnapuzzles',
-
+    'rnapuzzles',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 AUTHENTICATION_BACKENDS = (
 
     'django.contrib.auth.backends.ModelBackend', # default
     'guardian.backends.ObjectPermissionBackend',
-    )
+)
+
 ANONYMOUS_USER_NAME = "AnonymousUser@foo.foo"
 
 MIDDLEWARE = [
@@ -71,6 +74,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -166,11 +170,9 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "rnapuzzles/static"),
 )
-
 
 # Global martor settings
 # Input: string boolean, `true/false`
@@ -187,7 +189,7 @@ MARTOR_ENABLE_LABEL = False
 
 # Imgur API Keys
 MARTOR_IMGUR_CLIENT_ID = 'your-client-id'
-MARTOR_IMGUR_API_KEY   = 'your-api-key'
+MARTOR_IMGUR_API_KEY = 'your-api-key'
 
 # Safe Mode
 MARTOR_MARKDOWN_SAFE_MODE = True # default
@@ -222,6 +224,5 @@ MARTOR_SEARCH_USERS_URL = '/martor/search-user/' # default
 # MARTOR_MARKDOWN_BASE_EMOJI_URL = 'https://www.webfx.com/tools/emoji-cheat-sheet/graphics/emojis/'     # from webfx
 MARTOR_MARKDOWN_BASE_EMOJI_URL = 'https://github.githubassets.com/images/icons/emoji/'                  # default from github
 MARTOR_MARKDOWN_BASE_MENTION_URL = 'https://python.web.id/author/'
-
 
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']

@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row justify-content-center">
-        <div class="col-md-9">
-            <h2 class="mt-4">{{ list_name }}</h2>
-            <hr class="mt-1 mb-3">
-
-            {% for puzzle_info, challenge, files in data %}
-                    {% include 'puzzles/puzzle_information.html' with puzzle=puzzle_info challenge=challenge files=files %}
-            {% endfor %}
-
+    <div class="d-flex">
+        <div class="h2 justify-content-center align-self-center mr-auto">
+            {{ list_name }}
         </div>
+        {% if list_name == 'My puzzles' %}
+            <div class="justify-content-center align-self-center">
+                <a href="{% url 'create-new' %}" title="Create new"><i class="far fa-file"></i> Create new</a>
+            </div>
+        {% endif %}
     </div>
 
+    <hr class="mt-1 mb-3">
+
+    {% for puzzle_info, challenge, files in data %}
+        {% include 'puzzles/puzzle_information.html' with list_name=list_name puzzle=puzzle_info challenge=challenge files=files %}
+    {% endfor %}
 {% endblock %}

@@ -5,20 +5,28 @@
                 <div class="h3 align-self-center">
                   Puzzle {{ challenge.puzzle_info_id }}{% if challenge.round != 1 %}-{{ challenge.round}}{% endif %}
                 </div>
-                <div class="d-flex">
-                    {% if challenge.current_status != 4 %}
-                        <div class="mr-3">
-                            <a href="{% url 'puzzle-edit' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
+                {% if list_name == 'My puzzles' %}
+                    <div class="d-flex">
+                        {% if challenge.current_status != 4 %}
+                            <div class="mr-3">
+                                {% if challenge.round != 1 %}
+                                    <a href="{% url 'update-challenge' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
+                                {% else %}
+                                    <a href="{% url 'update-puzzle-info' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {% if challenge.current_status == 0 %}
+                        <div class="justify-content-center align-self-center mr-auto">
+                            {% if challenge.round != 1 %}
+                                <a href="{% url 'challenge-delete' pk=challenge.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
+                            {% else %}
+                                <a href="{% url 'puzzle-info-delete' pk=puzzle.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
+                            {% endif %}
                         </div>
-                    {% endif %}
-                    <div class="justify-content-center align-self-center mr-auto">
-                        {% if challenge.round != 1%}
-                            <a href="{% url 'challenge-delete' pk=challenge.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
-                        {% else %}
-                            <a href="{% url 'puzzle-info-delete' pk=puzzle.pk %}" title="Delete puzzle"><i class="far fa-trash-alt"></i> Delete</a>
                         {% endif %}
                     </div>
-                </div>
+                {% endif %}
             </div>
             <div class="justify-content-center align-self-center">
               {{ challenge.created_at }}
@@ -108,7 +116,8 @@
             <div id="collapse-faq-{{ challenge.id }}" class="collapse" role="tabpanel"
                  aria-labelledby="accordion-faq-heading-{{ challenge.id }}">
               <div class="card-body">
-
+                {% load crispy_forms_tags %}
+                {% csrf_token %}
               </div>
             </div>
           </div>
