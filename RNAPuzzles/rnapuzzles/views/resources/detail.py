@@ -7,6 +7,7 @@ from rnapuzzles.models import NewsModel, ResourcesModel
 
 
 class Detail(PermissionRequiredMixin, DetailView):
+
     permission_required = "view_resourcesmodel"
     model = ResourcesModel
 
@@ -17,7 +18,9 @@ class Detail(PermissionRequiredMixin, DetailView):
         except Http404:
             # redirect here
             return HttpResponseRedirect(reverse("resources_list"))
+
         context = self.get_context_data(object=self.object)
+
         return self.render_to_response(context)
 
 

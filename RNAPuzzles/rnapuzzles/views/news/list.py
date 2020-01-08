@@ -19,22 +19,23 @@ class List(PermissionListMixin, ListView):
         print(anno)
         print(anno.has_perm("rnapuzzles.add_newsmodel"))
         queryset = super().get_queryset()
+
         try:
             q = self.request.GET["q"]
-            queryset = queryset.filter(
-                Q(title__contains=q) | Q(description__contains=q)
-            )
+            queryset = queryset\
+                .filter(Q(title__contains=q) | Q(description__contains=q))
+
         except:
             pass
+
         if not self.request.user.is_staff:
+
             if self.request.user.is_authenticated:
-                queryset = queryset.filter(
-                    Q(author=self.request.user) | Q(public=True)
-                )
+                queryset = queryset\
+                    .filter(Q(author=self.request.user) | Q(public=True))
             else:
-                queryset = queryset.filter(
-                    Q(public=True)
-                )
+                queryset = queryset\
+                    .filter(Q(public=True))
 
         return queryset
 

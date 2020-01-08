@@ -5,6 +5,7 @@ from ...models.user import Group, CustomUser
 
 
 class Detail(DetailView):
+
     model = Group
     template_name = "group_detail.html"
     pk_url_kwarg = "pk"
@@ -17,8 +18,8 @@ class Detail(DetailView):
     def get_members(group):
         return CustomUser.objects.filter( ~Q(role = 3), group_name = group)
 
-
     def get_context_data(self, **kwargs):
         data = super(Detail, self).get_context_data(**kwargs)
         setattr(data["object"], "members", list(Detail.get_members(data["object"])))
+
         return data

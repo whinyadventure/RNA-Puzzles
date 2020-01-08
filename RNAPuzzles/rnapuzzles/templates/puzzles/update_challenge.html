@@ -1,17 +1,13 @@
-{% extends 'puzzles/new_challenge.html' %}
+{% extends 'puzzles/update_puzzle.html' %}
+{% load static %}
 
-{% block form_type %}
+{% block edit_type %}
     {% include 'form_errors.html' with form=challenge_form %}
     {% include 'form_errors.html' with form=files_form %}
 
     {% load crispy_forms_tags %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ select_form|crispy }}
-
-        <input type="submit" name="choose_base" class="btn btn-primary mb-3" value="Choose"/>
-    </form>
+    <h3>Previous rounds <i class="fa fa-angle-down"></i></h3>
 
     {% for challenge, files in data %}
         {% if challenge.round == 1 %}
@@ -21,16 +17,37 @@
         {% endif %}
     {% endfor %}
 
+    <h3>Edit form <i class="fa fa-angle-down"></i></h3>
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ challenge_form|crispy }}
 
         <h3 class="mt-4">Suplementary files</h3>
-        <hr class="mt-1 mb-3">
+        <hr class="mt-1 mb-4">
+
+        <div class="h4 mb-3 ml-3">
+            <img class="arrow" src="{% static 'img/arrow.svg' %}">
+            Current files
+        </div>
+
+        {{current_files_form.management_form }}
+
+        <div id="current_file-form-wrapper" class="ml-auto col-11 ">
+            {% for form in current_files_form.forms %}
+                {{ form|crispy }}
+                <hr class="my-4">
+            {% endfor %}
+        </div>
+
+        <div class="h4 mb-3 ml-3">
+            <img class="arrow" src="{% static 'img/arrow.svg' %}">
+            Add new files
+        </div>
 
         {{ files_form.management_form }}
 
-        <div id="file-form-wrapper">
+        <div id="file-form-wrapper" class="ml-auto col-11 ">
             {% for form in files_form.forms %}
                 <div class="file-form-container">
                     {{ form|crispy }}

@@ -8,6 +8,7 @@ from rnapuzzles.views.news.form import Form
 
 
 class Update(PermissionRequiredMixin, SuccessMessageMixin,  UpdateView):
+
     permission_required = "rnapuzzles.change_newsmodel"
     model = NewsModel
     success_url = ""
@@ -16,7 +17,9 @@ class Update(PermissionRequiredMixin, SuccessMessageMixin,  UpdateView):
 
     def get_success_url(self):
         url = self.request.POST.get('next', self.success_url)
-        if (url == ""):
+
+        if url == "":
             url = reverse("news_list")
+
         return url
 
