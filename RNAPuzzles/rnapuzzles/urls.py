@@ -39,6 +39,7 @@ accounts_pattern = [
     re_path(r'^signin/$', user.Signin.as_view(), name='signin'),
     re_path(r'^profile/$', user.Detail.as_view(), name='user_detail'),
     re_path(r'^profile/update$', user.Update.as_view(), name='user_update'),
+    re_path(r'^profile/update/password$', user.PasswordUpdate.as_view(), name='user_password_update'),
     re_path(r'^emailSend/$', user.Signup.email_send, name='email_send'),
     re_path(r'^active/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', user.Signup.activate, name="activate"),
     path("groups/", include(groups_pattern)),
