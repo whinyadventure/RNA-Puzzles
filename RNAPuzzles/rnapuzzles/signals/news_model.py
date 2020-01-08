@@ -6,9 +6,11 @@ from ..models import NewsModel
 from guardian.shortcuts import assign_perm
 from django.contrib.auth.models import Group
 
+
 @receiver(post_save, sender=NewsModel)
 def assign_news_perm(sender, instance: NewsModel, **kwargs):
-    if(kwargs.get("created", False)):
+
+    if kwargs.get("created", False):
         assign_perm("rnapuzzles.change_newsmodel", instance.author, instance)
         assign_perm("rnapuzzles.delete_newsmodel", instance.author, instance)
         object = Group.objects.get(name="Defaults")
@@ -17,5 +19,6 @@ def assign_news_perm(sender, instance: NewsModel, **kwargs):
 
 @receiver(pre_save, sender=NewsModel)
 def assign_publish_perm(sender, instance: NewsModel, **kwargs):
+
     if instance.publish_at is None and instance.public:
-       instance.publish_at = timezone.now()
+        instance.publish_at = timezone.now()

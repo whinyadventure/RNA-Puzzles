@@ -8,6 +8,7 @@ from rnapuzzles.views.news.form import Form
 
 
 class Create(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+
     permission_required = "rnapuzzles.add_newsmodel"
     success_url = ""
     model = NewsModel
@@ -16,6 +17,7 @@ class Create(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+
         return super().form_valid(form)
 
     def get_success_url(self):

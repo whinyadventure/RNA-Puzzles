@@ -2,20 +2,194 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7b0c889-f90d-4d31-84b4-19430c1f3780" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/user_password_update.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/passwordForm.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/passwordUpdate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/puzzles.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_challenge.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_puzzle.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/create.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/delete_challenge.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/delete_puzzle_info.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/form_challenge.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/form_puzzle_info.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/form_select_base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/formset_challenge_file.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/update.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/user_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/user_update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/RNAPuzzles/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/RNAPuzzles/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/RNAPuzzles/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/RNAPuzzles/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/forms/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/forms/puzzles_forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/faq.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/faq.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/news.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/news.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/puzzles.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/puzzles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/resources.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/resources.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/news_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/news_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/css/card_collapse.css" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/css/card_collapse.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/createForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/createForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/signupForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/signupForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/form_errors.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/form_errors.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/list_puzzles.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/list_puzzles.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/new_challenge.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/new_challenge.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/next_round.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/next_round.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_delete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_edit.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_information.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_information.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/contact_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/contact_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/Puzzles.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/create.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/delete.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/delete.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/detail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/list.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/update.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/update.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/detail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/list.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/update.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/group/update.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/create.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/delete.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/delete.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/detail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/list.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/update.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/news/update.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/create.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/delete.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/delete.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/detail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/list.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/update.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/update.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/detail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signin.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signinForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signinForm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/updateForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/updateForm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signup.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signupForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signupForm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/update.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/update.py" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_puzzle.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="25" column="31" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/list.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/form.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/contact_form.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" selection-start-line="7" selection-end-line="9" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/update.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1290">
+              <caret line="86" column="47" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/view.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#54#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_information.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="119" column="32" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/list.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_challenge.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="15" column="73" selection-start-line="15" selection-start-column="73" selection-end-line="15" selection-end-column="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/list_puzzles.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -28,16 +202,198 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>dir_path</find>
+      <find>new</find>
+      <find>puzzle</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1W4ql9VMQiHklSYdOvInQg5aaX7" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
-    <option name="showLibraryContents" value="true" />
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/detail.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/form.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/list.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/update.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/detail.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signin.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signinForm.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signup.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/user/signupForm.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/select_form.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/challenge_file_formset.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/puzzle_info_form.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/challenge_form.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/faq.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/news.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/resources.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/user.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/models/puzzles.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/__init__.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/news_model.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/puzzles.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/signals/user.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/css/card_collapse.css" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/signupForm.js" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/login.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/contact_form.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/signup.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/form_errors.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/__init__.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/__init__.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_delete.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_edit.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/create.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/delete_challenge.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/delete_puzzle_info.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/urls.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/list_puzzles.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/dynamicFileForm.js" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/updateForm.js" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/createForm.js" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/formset_challenge_file.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/base.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/new_challenge.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_puzzle.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_challenge.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/next_round.html" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/update.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/view.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/form.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/list.py" />
+        <option value="$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_information.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="457" />
+    <option name="y" value="189" />
+    <option name="width" value="960" />
+    <option name="height" value="1040" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="puzzles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="puzzles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="registration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="contact" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="faq" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="puzzles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RNA-Puzzles" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RNA-Puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="RNAPuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="rnapuzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="puzzles" type="462c0819:PsiDirectoryNode" />
+              <item name="forms" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -83,26 +439,377 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add home view" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add home view" />
+  <component name="ToolWindowManager">
+    <frame x="-3" y="-1" width="1926" height="1044" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1569247" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.219935" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32827735" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16903633" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.219935" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32827735" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
-  <component name="WindowStateProjectService">
-    <state x="323" y="27" width="777" height="741" key="CommitChangelistDialog2" timestamp="1578477176384">
-      <screen x="67" y="27" width="1299" height="741" />
-    </state>
-    <state x="323" y="27" width="777" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1578477176384" />
-    <state x="205" y="31" key="SettingsEditor" timestamp="1578474985311">
-      <screen x="67" y="27" width="1299" height="741" />
-    </state>
-    <state x="205" y="31" key="SettingsEditor/67.27.1299.741@67.27.1299.741" timestamp="1578474985311" />
-    <state x="311" y="132" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1578477196958">
-      <screen x="67" y="27" width="1299" height="741" />
-    </state>
-    <state x="311" y="132" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1299.741@67.27.1299.741" timestamp="1578477196958" />
-    <state x="362" y="189" width="699" height="415" key="git4idea.merge.GitPullDialog" timestamp="1578477185342">
-      <screen x="67" y="27" width="1299" height="741" />
-    </state>
-    <state x="362" y="189" width="699" height="415" key="git4idea.merge.GitPullDialog/67.27.1299.741@67.27.1299.741" timestamp="1578477185342" />
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/css/markdown.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-720" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/css/rnapuzzles.custom.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/rnapuzzles.custom.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/signupForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/registration/signup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/email_acc_active_email.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/email_confirmed.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/email_invalid.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/email_send.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/faqmodel_confirm_delete.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/form_errors.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/group_detail.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/groups_list.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templatetags/replace_get.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/Puzzles.py" />
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/resources/create.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/manage.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="17" lean-forward="true" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_delete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/delete_challenge.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/delete_puzzle_info.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/updateForm.js" />
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/dynamicFileForm.js" />
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2430">
+          <caret line="162" selection-start-line="162" selection-end-line="162" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/create.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="53" column="63" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/static/js/puzzles/createForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/new_challenge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/next_round.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="74" selection-start-line="19" selection-start-column="74" selection-end-line="19" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="52" column="52" selection-start-line="52" selection-start-column="52" selection-end-line="52" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/RNAPuzzles/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2610" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/form_puzzle_info.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/form_select_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/form_challenge.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="22" selection-start-line="22" selection-end-line="22" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/forms/formset_challenge_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="12" lean-forward="true" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/rnapuzzles/contact_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="9" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/contact/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/list_puzzles.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_challenge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="15" column="73" selection-start-line="15" selection-start-column="73" selection-end-line="15" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/update_puzzle.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="25" column="31" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/faq/list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/update.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1290">
+          <caret line="86" column="47" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/views/puzzles/list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNAPuzzles/rnapuzzles/templates/puzzles/puzzle_information.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="119" column="32" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>

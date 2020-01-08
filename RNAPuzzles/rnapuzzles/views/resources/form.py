@@ -7,6 +7,7 @@ from rnapuzzles.models import ResourcesModel
 
 
 class Form(forms.ModelForm):
+
     success_url = ""
 
     title = forms.CharField()

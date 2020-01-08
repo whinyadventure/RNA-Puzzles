@@ -67,13 +67,13 @@
                 <a class="nav-link" href="{% url 'open-puzzles' %}">Open Puzzles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'completed-puzzles' %}">Results</a>
+                <a class="nav-link" href="{% url 'completed-puzzles' %}">Completed Puzzles</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'groups_list' %}">Groups</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Resources</a>
+                <a class="nav-link" href="{% url 'resources_list' %}">Resources</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
@@ -117,7 +117,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">View group profile</a>
                   <a class="dropdown-item" href="{% url 'user_update' %}">Account settings</a>
-                  <a class="dropdown-item" href="#">History of challenges</a>
+                  <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                 </div>
@@ -128,7 +128,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="nav-link" href="#">View group profile</a>
                 <a class="nav-link" href="#">Account settings</a>
-                <a class="nav-link" href="#">History of challenges</a>
+                <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
                 <div class="dropdown-divider"></div>
                 <a class="nav-link" href="{% url 'logout' %}">Log out</a>
               </li>
@@ -160,11 +160,14 @@
 
   <!-- Page Content -->
   <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-9 my-5">
 
     {% block content %}
 
     {% endblock %}
-
+      </div>
+    </div>
   </div>
 
   <!-- Footer -->
