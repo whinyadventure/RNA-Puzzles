@@ -8,7 +8,6 @@ from rnapuzzles.views.faq.form import Form
 
 
 class Create(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
-
     permission_required = "rnapuzzles.add_faqmodel"
     success_url = ""
     model = FaqModel

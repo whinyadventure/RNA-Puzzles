@@ -7,8 +7,8 @@ from rnapuzzles.models import NewsModel, ResourcesModel
 
 
 class Detail(PermissionRequiredMixin, DetailView):
-
-    permission_required = "view_resourcesmodel"
+    accept_global_perms = True
+    permission_required = "rnapuzzles.view_resourcesmodel"
     model = ResourcesModel
 
     def get(self, request, *args, **kwargs):

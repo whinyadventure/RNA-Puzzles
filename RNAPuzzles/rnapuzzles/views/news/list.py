@@ -7,19 +7,12 @@ from rnapuzzles.models import NewsModel
 
 
 class List(PermissionListMixin, ListView):
-
     permission_required = "rnapuzzles.view_newsmodel"
     model = NewsModel
     paginate_by = 5
 
     def get_queryset(self, **kwargs):
-        anno = get_anonymous_user()
-        print(self.request.user.pk)
-        print(self.request.user.has_perm("rnapuzzles.add_newsmodel"))
-        print(anno)
-        print(anno.has_perm("rnapuzzles.add_newsmodel"))
         queryset = super().get_queryset()
-
         try:
             q = self.request.GET["q"]
             queryset = queryset\

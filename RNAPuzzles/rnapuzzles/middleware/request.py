@@ -10,7 +10,8 @@ class GuardianAuthenticationMiddleware:
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         if request.user.is_anonymous:
-            request.user = get_anonymous_user()
+            pass
+            #request.user = get_anonymous_user()
 
         response = self.get_response(request)
 

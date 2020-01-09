@@ -55,7 +55,7 @@
         <div class="navbar-collapse collapse" id="links">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.pk != 1 %}
+            {% if user.is_authorised %}
 
               <li class="nav-item active">
                 <a class="nav-link" href="#">Home</a>
@@ -108,7 +108,7 @@
         <div class="navbar-collapse collapse text-right" id="account">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.pk != 1 %}
+            {% if user.is_authorised  %}
 
               <li class="nav-item dropdown d-none d-xl-block">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>

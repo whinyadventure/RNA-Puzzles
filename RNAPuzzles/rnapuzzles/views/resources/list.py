@@ -10,7 +10,7 @@ class List(PermissionListMixin, ListView):
     permission_required = "rnapuzzles.view_resourcesmodel"
     model = ResourcesModel
     paginate_by = 10
-
+    ordering = ["title"]
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
 
