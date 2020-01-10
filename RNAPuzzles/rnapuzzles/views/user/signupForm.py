@@ -2,10 +2,12 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
 from guardian.shortcuts import assign_perm
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 
 from ...models.user import CustomUser, Group
 from RNAPuzzles import settings
@@ -25,6 +27,7 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
         strip=False,
         widget=forms.PasswordInput,
         help_text="")
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
     class Meta:
         model = CustomUser

@@ -9,12 +9,13 @@ from ...models.user import CustomUser
 class SiginForm(AuthenticationForm):
 
     username = None
+    password = None
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
 
     class Meta:
         model = CustomUser
-        fields = ["email", "password"]
+        fields = ["email"]
 
     def __init__(self, request=None, *args, **kwargs):
 
@@ -26,7 +27,7 @@ class SiginForm(AuthenticationForm):
     def clean(self):
 
         email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data.get('password1')
 
         if email and password:
 

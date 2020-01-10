@@ -1,5 +1,10 @@
 {% extends  'base.html' %}
 {% load guardian_tags %}
+{% load martortags %}
+
+{% block head %}
+  {% include "rnapuzzles/markdown_head.html" %}
+{% endblock %}
 
 {% block content %}
 {% get_obj_perms request.user for group as "group_perms" %}
@@ -11,7 +16,8 @@
 {% for member in object.members %}
     <li>{{member}}</li>
 {% endfor %}</ul>
-<div id="id_description">Description: {{object.group_description}}</div>
+
+<div class="card-body markdown-body " >{{ object.group_description|safe_markdown }}</div>
 
 {% if "edit_group_description" in group_perms %}
     <a class="navbar-toggler" href="{{object.id}}/update">Edit</a>

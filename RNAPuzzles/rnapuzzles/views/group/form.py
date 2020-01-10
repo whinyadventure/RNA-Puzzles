@@ -1,9 +1,14 @@
 from django import forms
+from martor.fields import MartorFormField
+from django.utils.translation import ugettext_lazy as _
+
 
 from ...models import Group, CustomUser
 
 
 class Form(forms.ModelForm):
+
+    group_description = MartorFormField()
 
     def __init__(self, *args, **kwargs):
         super(Form, self).__init__(*args, **kwargs)
@@ -15,4 +20,4 @@ class Form(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ["group_name", "group_description"]
+        fields = ["group_name", "contact", "group_description"]
