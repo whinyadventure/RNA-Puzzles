@@ -15,9 +15,9 @@
 
     {% for challenge, files in data %}
         {% if challenge.round == 1 %}
-            {% include 'puzzles/puzzle_information.html' %}
+            {% include 'puzzles/puzzle_info.html' %}
         {% else %}
-            {% include 'puzzles/puzzle_information.html' with puzzle=None %}
+            {% include 'puzzles/puzzle_info.html' with puzzle=None %}
         {% endif %}
     {% endfor %}
 

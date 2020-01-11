@@ -1,4 +1,3 @@
-
 // initial values
 $('input[type="file"]').each(function() {
   var filename = $(this).val().split('\\').pop();
@@ -10,7 +9,6 @@ $('input[type="file"]').each(function() {
     $(this).next('label').text('Choose file');
   }
 })
-
 
 var forms = $('.file-form-container');
 

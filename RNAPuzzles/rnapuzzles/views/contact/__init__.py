@@ -1,1 +1,2 @@
-from .view import contactView
+from .view import *
+from .form import *

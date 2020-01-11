@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'guardian',
     'publications',
     'captcha',
+    'tempus_dominus',
     'rnapuzzles',
 ]
 
@@ -149,9 +150,15 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
+
+DATETIME_FORMAT = 'd M Y, H:i '
+DATETIME_INPUT_FORMATS = '%d-%m-%Y %H:%M'
+
+TEMPUS_DOMINUS_LOCALIZE = True
+TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
 
 # Static files (CSS, JavaScript, Images)
