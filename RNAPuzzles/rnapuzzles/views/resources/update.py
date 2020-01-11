@@ -7,7 +7,8 @@ from rnapuzzles.models import NewsModel, ResourcesModel
 from rnapuzzles.views.news.form import Form
 
 
-class Update(PermissionRequiredMixin, SuccessMessageMixin,  UpdateView):
+class Update(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    accept_global_perms = True
     permission_required = "rnapuzzles.change_resourcesmodel"
     model = ResourcesModel
     success_url = ""
@@ -16,7 +17,8 @@ class Update(PermissionRequiredMixin, SuccessMessageMixin,  UpdateView):
 
     def get_success_url(self):
         url = self.request.POST.get('next', self.success_url)
-        if (url == ""):
-            url = reverse("resources_list")
-        return url
 
+        if url == "":
+            url = reverse("resources_list")
+
+        return url

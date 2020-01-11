@@ -17,11 +17,14 @@ class Update(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_initial(self):
         self.initial.update({'request': self.request})
+
         return self.initial
 
     def get_success_url(self):
         url = self.request.POST.get('next', self.success_url)
-        if (url == ""):
+
+        if url == "":
             url = reverse("groups_list")
+
         return url
 

@@ -14,6 +14,5 @@ class Create(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = Form
     success_message = "FAQ was created successfully."
 
-
     def get_success_url(self):
         return reverse('faq_details', args=(self.object.pk,))

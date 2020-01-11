@@ -1,7 +1,7 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import news, faq, resources, group, user, Puzzles
+from .views import news, faq, resources, group, user, puzzles
 import publications.views as plist
 
 news_patterns = [
@@ -20,12 +20,13 @@ faq_pattern = [
     re_path(r"(?P<pk>\d+)/delete/$", faq.Delete.as_view(), name="faq_delete")
 ]
 
+
 resources_pattern = [
-    path('', resources.List.as_view(), name="faq_list"),
-    path('add', resources.Create.as_view(), name="faq_new"),
-    re_path(r"(?P<pk>\d+)/update/$", resources.Update.as_view(), name="faq_update"),
-    re_path(r"(?P<pk>\d+)/$", resources.Detail.as_view(), name="faq_details"),
-    re_path(r"(?P<pk>\d+)/delete/$", resources.Delete.as_view(), name="faq_delete")
+    path('', resources.List.as_view(), name="resources_list"),
+    path('add', resources.Create.as_view(), name="resources_new"),
+    re_path(r"(?P<pk>\d+)/update/$", resources.Update.as_view(), name="resources_update"),
+    re_path(r"(?P<pk>\d+)/$", resources.Detail.as_view(), name="resources_details"),
+    re_path(r"(?P<pk>\d+)/delete/$", resources.Delete.as_view(), name="resources_delete")
 ]
 groups_pattern = [
     re_path(r'^$', group.List.as_view(), name='groups_list'),
@@ -46,17 +47,21 @@ accounts_pattern = [
     re_path(r'^logout/$', user.Signin.logout, name='logout')
 ]
 
-puzzles_pattern = [
-    path('', Puzzles.list_open, name='open-puzzles'),
-    path('results', Puzzles.list_completed, name='completed-puzzles'),
-    path('my-puzzles', Puzzles.list_organizer, name='organizer-puzzles'),
-    path('create-new', Puzzles.create_new, name='create-new'),
-    path('create-next', Puzzles.create_next, name='create-next'),
-    re_path(r"(?P<pk>\d+)/download/$", Puzzles.file_download, name='download-file'),
-    re_path(r"(?P<pk>\d+)/edit/$", Puzzles.edit, name='puzzle-edit'),
-    re_path(r"(?P<pk>\d+)/delete-puzzle/$", Puzzles.PuzzleInfoDelete.as_view(), name='puzzle-info-delete'),
-    re_path(r"(?P<pk>\d+)/delete-round/$", Puzzles.ChallengeDelete.as_view(), name='challenge-delete'),
+organizer_puzzles_pattern = [
+    path('', puzzles.list_organizer, name='organizer-puzzles'),
+    path('create-new', puzzles.create_new, name='create-new'),
+    path('create-next', puzzles.create_next, name='create-next'),
+    re_path(r"(?P<pk>\d+)/update-puzzle/$", puzzles.update_puzzle_info, name='update-puzzle-info'),
+    re_path(r"(?P<pk>\d+)/update-round/$", puzzles.update_challenge, name='update-challenge'),
+    re_path(r"(?P<pk>\d+)/delete-puzzle/$", puzzles.PuzzleInfoDelete.as_view(), name='puzzle-info-delete'),
+    re_path(r"(?P<pk>\d+)/delete-round/$", puzzles.ChallengeDelete.as_view(), name='challenge-delete'),
+]
 
+puzzles_pattern = [
+    path('', puzzles.list_open, name='open-puzzles'),
+    path('completed-puzzles', puzzles.list_completed, name='completed-puzzles'),
+    path('my-puzzles/', include(organizer_puzzles_pattern)),
+    re_path(r"(?P<pk>\d+)/download/$", puzzles.file_download, name='download-file'),
 ]
 
 urlpatterns = [

@@ -15,6 +15,7 @@ class Form(forms.ModelForm):
         self.request = kwargs['initial']['request']
         user = CustomUser.objects.get(id=self.request.user.id)
         group = Group.objects.get(group_name=kwargs['instance'])
+
         if not user.has_perm("edit_group_name", group):
             self.fields["group_name"].widget = forms.HiddenInput()
 

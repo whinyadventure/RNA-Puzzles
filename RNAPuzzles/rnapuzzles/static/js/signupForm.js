@@ -28,9 +28,9 @@ document.getElementById("id_role").onchange =  function(){
     }
 };
 
-        (document.getElementById("id_institution")).setAttribute('type', 'hidden');
-        (document.getElementById("div_id_institution")).style.display = "none";
-        (document.getElementById("id_group_name")).setAttribute('type', 'hidden');
-        (document.getElementById("div_id_group_name")).style.display = "none";
-        (document.getElementById("id_new_group_name")).setAttribute('type', 'hidden');
-        (document.getElementById("div_id_new_group_name")).style.display = "none";
+(document.getElementById("id_institution")).setAttribute('type', 'hidden');
+(document.getElementById("div_id_institution")).style.display = "none";
+(document.getElementById("id_group_name")).setAttribute('type', 'hidden');
+(document.getElementById("div_id_group_name")).style.display = "none";
+(document.getElementById("id_new_group_name")).setAttribute('type', 'hidden');
+(document.getElementById("div_id_new_group_name")).style.display = "none";

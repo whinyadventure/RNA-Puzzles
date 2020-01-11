@@ -44,6 +44,7 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
                 last_name=self.cleaned_data['last_name'],
                 role=self.cleaned_data['role']
             )
+
             user.set_password(self.cleaned_data['password1'])
 
         elif self.cleaned_data['role'] == 2:  # participant
@@ -72,6 +73,7 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
                 role=self.cleaned_data['role'],
                 institution=self.cleaned_data['institution']
             )
+
             group.leader = user
             group.contact = user.email
 
@@ -92,12 +94,15 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
+
             to_email = self.cleaned_data.get('email')
             email = EmailMessage(
                 mail_subject, message, to=[to_email]
             )
+
             email.send()
             print(email)
+
             return user.id
 
         return -1
