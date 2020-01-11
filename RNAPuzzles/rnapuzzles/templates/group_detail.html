@@ -19,13 +19,9 @@
 
 <div class="card-body markdown-body " >{{ object.group_description|safe_markdown }}</div>
 
-{% if "edit_group_description" in group_perms %}
+{% if "change_group" in group_perms %}
     <a class="navbar-toggler" href="{{object.id}}/update">Edit</a>
 {% endif %}
-<script>
-    if(document.getElementById("id_description").innerHTML == "Description: "){
-        (document.getElementById("id_description")).style.display = "none";
-    }
-</script>
+
 {% endblock %}
 

@@ -49,9 +49,10 @@ class Group(models.Model):
 
     class Meta:
         permissions = [
+            #("change_group", "Can change the description of the Group"),
             ("name_group", "Can change the name of the Group"),
-            ("contact_group", "Can change the contact of the Group"),
-            ("description_group", "Can change the contact of the Group"),
+            #("contact_group", "Can change the contact of the Group"),
+            #("description_group", "Can change the contact of the Group"),
             ("accept_group", "Can accept user for specific group")
 
         ]

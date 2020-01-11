@@ -16,8 +16,9 @@ class Form(forms.ModelForm):
         user = CustomUser.objects.get(id=self.request.user.id)
         group = Group.objects.get(group_name=kwargs['instance'])
 
-        if not user.has_perm("edit_group_name", group):
+        if not user.has_perm("name_group", group):
             self.fields["group_name"].widget = forms.HiddenInput()
+            self.fields["contact"].widget = forms.HiddenInput()
 
     class Meta:
         model = Group
