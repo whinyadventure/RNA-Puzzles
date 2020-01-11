@@ -2,6 +2,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import UpdateView
 from guardian.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.shortcuts import render
+
 
 from .passwordForm import PasswordForm
 from ...models import CustomUser

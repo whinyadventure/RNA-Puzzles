@@ -6,7 +6,14 @@ from django.utils.translation import ugettext_lazy as _
 from ...models.user import CustomUser
 
 
-class SiginForm(AuthenticationForm):
+class SigninForm(AuthenticationForm):
+
+    error_messages = {
+        'user_unconfirmed': _("Confirm email before sign in."),
+        'user_inactive': _("Your account is not accepted by member."),
+        'invalid_login': _("Please enter a correct %(username)s and password. "
+                           "Note that both fields may be case-sensitive."),
+    }
 
     username = None
     password = None
