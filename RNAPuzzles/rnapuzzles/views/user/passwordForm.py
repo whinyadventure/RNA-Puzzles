@@ -1,5 +1,4 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
