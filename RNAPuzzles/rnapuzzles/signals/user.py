@@ -33,7 +33,7 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
             #assign_perm("rnapuzzles.change_group_name", instance, instance.group_name)
             assign_perm("rnapuzzles.name_group", instance, instance.group_name)
             #assign_perm("rnapuzzles.contact_group", instance, instance.group_name)
-            assign_perm("rnapuzzles.accept_group", instance, instance.group_name)
+            #assign_perm("rnapuzzles.accept_group", instance, instance.group_name)
 
     if(instance.role in [2,3]):
             object, created = Group.objects.get_or_create(name="Participant")

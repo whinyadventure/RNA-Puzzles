@@ -8,6 +8,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Role</th>
+            <th scope="col">Group</th>
             <th scope="col">Institution</th>
             <th scope="col">Confirm</th>
             <th scope="col">Reject</th>
@@ -20,7 +21,12 @@
         <tr>
             <th scope="row">{{forloop.counter|add:"-1"}}</th>
             <td>{{user.first_name}} {{user.last_name}}</td>
-            <td>{{user..get_role_display}}</td>
+            <td>{{user.get_role_display}}</td>
+            {% if user.group_name != None %}
+                <td>{{user.group_name}}</td>
+            {% else %}
+                <td></td>
+            {% endif %}
             <td>{{user.institution}}</td>
             <td><a href="{{user.pk}}/user_confirmed">Confirm</a></td>
             <td><a href="{{user.pk}}/user_rejected">Reject</a></td>
