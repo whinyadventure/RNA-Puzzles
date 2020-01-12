@@ -226,3 +226,16 @@ MARTOR_MARKDOWN_BASE_EMOJI_URL = 'https://github.githubassets.com/images/icons/e
 MARTOR_MARKDOWN_BASE_MENTION_URL = 'https://python.web.id/author/'
 
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+
+# RabbitMq
+CELERY_BROKER_URL = 'amqp://user:password@{host}:{port}'.format(
+    host=os.getenv('RABBITMQ_HOST', 'localhost'),
+    port=os.getenv('RABBITMQ_PORT', '5672')
+)
+
+
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

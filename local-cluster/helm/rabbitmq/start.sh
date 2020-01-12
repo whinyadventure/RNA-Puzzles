@@ -7,4 +7,4 @@ kubectl create namespace rabbitmq
 kubectl create -f $DIR/role.yaml
 kubectl create -f $DIR/binding.yaml
 
-helm install stable/rabbitmq-ha --namespace rabbitmq --tiller-namespace tiller-helm --set replicaCount=1
+helm install stable/rabbitmq-ha --namespace rabbitmq --tiller-namespace tiller-helm --set replicaCount=1,rabbitmqPassword=password,rabbitmqUsername=user 
