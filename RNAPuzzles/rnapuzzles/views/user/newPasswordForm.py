@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+
 
 from ...models import CustomUser
 from ...tokens import password_reset_token
@@ -30,7 +32,7 @@ class NewPasswordForm(SuccessMessageMixin, forms.ModelForm):
         except:
             self.user = None
 
-        if not(self.user is not None and password_reset_token.check_token(self.user, self.token)):
+        if not(self.user is not None and default_token_generator.check_token(self.user, self.token)):
             return HttpResponseRedirect("/")
 
     def clean_new_password2(self):
@@ -47,7 +49,7 @@ class NewPasswordForm(SuccessMessageMixin, forms.ModelForm):
     def save(self, commit=True):
         self.user.set_password(self.cleaned_data['new_password1'])
         if commit:
-            self.request.user.save()
+            self.user.save()
         return self.request.user
 
     class Meta:

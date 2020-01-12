@@ -16,14 +16,16 @@ class NewPassword(SuccessMessageMixin, UpdateView):
     template_name = "rnapuzzles/user_password_update.html"
     model = CustomUser
     success_url = ""
-    success_message = "Successfully updated. You can login with Your new password."
+    success_message = "Your password has been set. You may log in now."
     form_class = NewPasswordForm
 
+    def get_object(self, queryset=None):
+        return None
+
     def get_initial(self):
-        print("sialalala")
         self.initial.update({'request': self.request})
-        self.initial.update({'uid': self.uidb64})
-        self.initial.update({'token': self.token})
+        self.initial.update({'uid': self.kwargs['uidb64']})
+        self.initial.update({'token': self.kwargs['token']})
         return self.initial
 
     def get_success_url(self):

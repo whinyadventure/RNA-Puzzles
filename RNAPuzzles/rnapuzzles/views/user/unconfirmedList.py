@@ -11,7 +11,6 @@ class UnconfirmedList(ListView):
     #permission_required = "rnapuzzles.accept_group"
     model = CustomUser
     template_name = "rnapuzzles/user_unconfirmed_list.html"
-    print("sialalal")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         data = super(UnconfirmedList, self).get_context_data(object_list=object_list, **kwargs)

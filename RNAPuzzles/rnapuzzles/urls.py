@@ -46,7 +46,7 @@ accounts_pattern = [
     re_path(r'^unconfirmed/(?P<pk>\d+)/user_rejected/$', user.UnconfirmedList.user_reject, name='user_rejected'),
     re_path(r'^reset$', user.PasswordReset.as_view(), name='user_password_reset'),
     re_path(r'^send-reset/$', user.ResetForm.reset, name='send_reset'),
-    re_path(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', user.NewPassword.as_view(), name='new_password'),
+    re_path(r'^new_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', user.NewPassword.as_view(), name='user_new_password'),
     re_path(r'^emailSend/$', user.Signup.email_send, name='email_send'),
     re_path(r'^active/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', user.Signup.activate, name="activate"),
     path("groups/", include(groups_pattern)),
