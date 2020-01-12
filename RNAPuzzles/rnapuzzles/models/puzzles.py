@@ -22,8 +22,8 @@ class PuzzleInfo(models.Model):
     pdb_url = models.URLField(verbose_name="PDB URL", blank=True)
     pdb_file = models.FileField(verbose_name="Target 3D structure file", blank=True)
     img = models.ImageField(verbose_name="Target 3D structure graphic representation",
-                            upload_to=puzzle_info_img_filename,
-                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])], blank=True)
+                            upload_to=puzzle_info_img_filename, blank=True,
+                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])])
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
 
     def is_fully_filled(self):
@@ -110,7 +110,7 @@ class Challenge(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(verbose_name='Opening date')
     end_date = models.DateTimeField(verbose_name='Closing date')
-    current_status = models.IntegerField(choices=STATUS_TYPE)
+    current_status = models.IntegerField(choices=STATUS_TYPE, editable=False)
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
     puzzle_info = models.ForeignKey(PuzzleInfo, on_delete=models.CASCADE, blank=True, null=True)
 

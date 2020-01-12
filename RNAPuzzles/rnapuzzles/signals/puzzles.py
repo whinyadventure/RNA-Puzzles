@@ -64,16 +64,6 @@ def puzzle_info_post_delete(sender, instance, *args, **kwargs):
     instance.pdb_file.delete(save=False)
 
 
-@receiver(post_save, sender=Challenge)
-def challenge_post_save(sender, instance, *args, **kwargs):
-
-    if instance.current_status == 3:
-        puzzle = instance.puzzle_info
-
-        if puzzle.is_fully_filled:
-            instance.current_status = 4
-
-
 @receiver(post_save, sender=ChallengeFile)
 def challenge_file_post_save(sender, instance, *args, **kwargs):
 
