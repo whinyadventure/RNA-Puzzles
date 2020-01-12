@@ -1,0 +1,35 @@
+{% extends  'base.html' %}
+
+{% block content %}
+<h1>Research Groups</h1>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Role</th>
+            <th scope="col">Institution</th>
+            <th scope="col">Confirm</th>
+            <th scope="col">Reject</th>
+        </tr>
+    </thead>
+
+    {% for user in object_list %}
+    {% if user.pk != 1%}
+    <tbody>
+        <tr>
+            <th scope="row">{{forloop.counter|add:"-1"}}</th>
+            <td>{{user.first_name}} {{user.last_name}}</td>
+            <td>{{user..get_role_display}}</td>
+            <td>{{user.institution}}</td>
+            <td><a href="{{user.pk}}/user_confirmed">Confirm</a></td>
+            <td><a href="{{user.pk}}/user_rejected">Reject</a></td>
+        </tr>
+    </tbody>
+    {% endif %}
+    {% empty %}
+    No user to confirm.
+    {% endfor %}
+</table>
+
+{% endblock %}
