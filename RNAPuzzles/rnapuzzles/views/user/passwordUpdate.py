@@ -27,3 +27,4 @@ class PasswordUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         if (url == ""):
             url = reverse("home")
         return url
+
