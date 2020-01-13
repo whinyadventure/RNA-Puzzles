@@ -12,7 +12,6 @@ class Detail(PermissionRequiredMixin, DetailView):
     model = ResourcesModel
 
     def get(self, request, *args, **kwargs):
-        print(request)
         try:
             self.object = self.get_object()
         except Http404:

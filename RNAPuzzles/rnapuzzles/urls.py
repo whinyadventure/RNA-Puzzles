@@ -1,7 +1,7 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import news, faq, resources, group, user, puzzles
+from .views import news, faq, resources, group, user, puzzles, submission, score_challenge
 import publications.views as plist
 
 news_patterns = [
@@ -64,6 +64,18 @@ puzzles_pattern = [
     re_path(r"(?P<pk>\d+)/download/$", puzzles.file_download, name='download-file'),
 ]
 
+submission_pattern = [
+    re_path(r"create/$", submission.Create.as_view(), name="submission_new"),
+    re_path(r"create/(?P<pk>\d+)/$", submission.Create.as_view(), name="submission_new"),
+    re_path(r"list/$", submission.List.as_view(), name="submission_user_list"),
+    re_path(r"content/(?P<pk>\d+)/$", submission.Content.as_view(), name="submission_content"),
+
+]
+
+scores_pattern = [
+    re_path(r"challenge/(?P<pk>\d+)/$", score_challenge.Challenge.as_view(), name="challenge_score"),
+
+]
 urlpatterns = [
     path('', views.home, name='home'),
     path("news/", include(news_patterns)),
@@ -71,5 +83,7 @@ urlpatterns = [
     path("puzzles/", include(puzzles_pattern)),
     path("faq/", include(faq_pattern)),
     path("contact/", views.contactView, name="contact"),
-    path("resources/", include(resources_pattern))
+    path("resources/", include(resources_pattern)),
+    path("submission/", include(submission_pattern)),
+    path("scores/", include(scores_pattern))
 ]

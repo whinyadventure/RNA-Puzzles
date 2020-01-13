@@ -55,7 +55,11 @@
         <div class="navbar-collapse collapse" id="links">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.is_authenticated %}
+<<<<<<< HEAD
+            {% if user.pk != 1 %}
+=======
+            {% if not user.is_authenticated %}
+>>>>>>> origin/master
 
               <li class="nav-item active">
                 <a class="nav-link" href="#">Home</a>
@@ -67,13 +71,13 @@
                 <a class="nav-link" href="{% url 'open-puzzles' %}">Open Puzzles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'completed-puzzles' %}">Completed Puzzles</a>
+                <a class="nav-link" href="{% url 'completed-puzzles' %}">Results</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'groups_list' %}">Groups</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'resources_list' %}">Resources</a>
+                <a class="nav-link" href="#">Resources</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
@@ -108,7 +112,7 @@
         <div class="navbar-collapse collapse text-right" id="account">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.is_authenticated  %}
+            {% if user.pk != 1 %}
 
               <li class="nav-item dropdown d-none d-xl-block">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
@@ -117,7 +121,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">View group profile</a>
                   <a class="dropdown-item" href="{% url 'user_update' %}">Account settings</a>
-                  <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                  <a class="dropdown-item" href="#">History of challenges</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                 </div>
@@ -128,7 +132,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="nav-link" href="#">View group profile</a>
                 <a class="nav-link" href="#">Account settings</a>
-                <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                <a class="nav-link" href="#">History of challenges</a>
                 <div class="dropdown-divider"></div>
                 <a class="nav-link" href="{% url 'logout' %}">Log out</a>
               </li>
@@ -160,14 +164,11 @@
 
   <!-- Page Content -->
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-9 my-5">
 
     {% block content %}
 
     {% endblock %}
-      </div>
-    </div>
+
   </div>
 
   <!-- Footer -->

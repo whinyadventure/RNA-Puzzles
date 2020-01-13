@@ -12,17 +12,16 @@ logger=get_task_logger(__name__)
 def send_feedback_email_task(name, email, message):
     from guardian.utils import get_anonymous_user
     from rnapuzzles.models import NewsModel
-    for i in range(100):
+    for i in range(1):
         inner.delay("ala")
     return True
 
 @app.task
 def inner(name):
-    import time
-    logger.info("Start")
-    time.sleep(20)
-    logger.info("Stop")
-    return True
+    import rnapuzzles.signals
+    # from rnapuzzles.models.submission import Submission
+    # Submission.objects.create(content="A", challenge_id=1, user_id=1)
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(**kwargs):
     #Sending the email every 10 Seconds

@@ -36,7 +36,7 @@ class ChallengeForm(forms.ModelForm):
             if puzzle_info is None:
                 self._errors['puzzle_info'] = self.error_class([u'Base challenge is required.'])
 
-        start_date = datetime.date.fromisoformat(str(self.cleaned_data.get('start_date')))
+        start_date = self.cleaned_data.get('start_date')
 
         if self.instance.pk is None:
             if start_date < datetime.date.today():
@@ -46,7 +46,7 @@ class ChallengeForm(forms.ModelForm):
                 self._errors['start_date'] =\
                     self.error_class([u'The opening date cannot be earlier than creation date.'])
 
-        end_date = datetime.date.fromisoformat(str(cleaned_data.get('end_date')))
+        end_date = cleaned_data.get('end_date')
 
         if end_date <= start_date:
             self._errors['end_date'] =\

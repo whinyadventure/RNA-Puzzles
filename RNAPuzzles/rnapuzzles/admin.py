@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 from martor.widgets import AdminMartorWidget
-from .models import CustomUser, NewsModel, FaqModel
+from .models import CustomUser, NewsModel, FaqModel, PuzzleInfo, Challenge, ChallengeFile, Metric, Submission, Score
 
 from django.apps import apps
 from .models import CustomUser
@@ -42,3 +42,9 @@ class MarkdownModelAdmin(admin.ModelAdmin):
 
 admin.site.register(NewsModel, MarkdownModelAdmin)
 admin.site.register(FaqModel, MarkdownModelAdmin)
+admin.site.register(PuzzleInfo)
+admin.site.register(Challenge)
+admin.site.register(ChallengeFile)
+admin.site.register(Metric)
+admin.site.register(Submission)
+admin.site.register(Score)
