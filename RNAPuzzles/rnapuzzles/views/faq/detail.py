@@ -7,11 +7,12 @@ from rnapuzzles.models import NewsModel, FaqModel
 
 
 class Detail(PermissionRequiredMixin, DetailView):
-
-    permission_required = "view_faqmodel"
+    accept_global_perms = True
+    permission_required = "rnapuzzles.view_faqmodel"
     model = FaqModel
 
     def get(self, request, *args, **kwargs):
+
         print(request)
 
         try:

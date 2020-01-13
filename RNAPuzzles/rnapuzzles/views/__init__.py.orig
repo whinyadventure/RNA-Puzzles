@@ -1,0 +1,12 @@
+from .news import *
+from .user import *
+from .group import *
+from .contact import *
+from .faq import *
+from .resources import *
+<<<<<<< HEAD
+from .Puzzles import *
+from .home import *
+=======
+from .puzzles import *
+>>>>>>> 49b5baf8d69667bc3cc4b5f861df03174d6da788

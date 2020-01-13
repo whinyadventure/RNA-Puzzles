@@ -10,6 +10,7 @@ from rnapuzzles.models import FaqModel
 class Delete(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
 
     permission_required = "rnapuzzles.delete_faqmodel"
+    accept_global_perms = True
     model = FaqModel
     success_url = "faq"
     success_message = "FAQ was deleted"

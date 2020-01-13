@@ -8,7 +8,7 @@ from rnapuzzles.views.news.form import Form
 
 
 class Update(PermissionRequiredMixin, SuccessMessageMixin,  UpdateView):
-
+    accept_global_perms = True
     permission_required = "rnapuzzles.change_newsmodel"
     model = NewsModel
     success_url = ""

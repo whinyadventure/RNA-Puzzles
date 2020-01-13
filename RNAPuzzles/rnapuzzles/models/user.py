@@ -47,18 +47,20 @@ class UserManager(BaseUserManager):
 
 class Group(models.Model):
 
+    class Meta:
+        permissions = [
+            ("name_group", "Can change the name of the Group"),
+            ("contact_group", "Can change the contact of the Group"),
+            ("description_group", "Can change the contact of the Group"),
+            ("accept_group", "Can accept user for specific group")
+
+        ]
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     group_name = models.CharField(_('group name'), unique=True, max_length=30, blank=False)
     group_description = models.TextField(blank=True)
     leader = models.ForeignKey("rnapuzzles.CustomUser", on_delete=models.CASCADE, null=True, default=None)
     contact = models.EmailField(blank=True)
 
-    class Meta:
-        permissions = (
-            ("see_email", "Permission for seeing group contact email"),
-            ("edit_group_name", "Permission for changing group name"),
-            ("edit_group_description", "Permission for changing group description")
-        )
 
     def __str__(self):
         return self.group_name

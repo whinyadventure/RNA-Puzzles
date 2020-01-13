@@ -8,7 +8,7 @@ from rnapuzzles.models import ResourcesModel
 
 
 class Delete(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
-
+    accept_global_perms = True
     permission_required = "rnapuzzles.delete_resourcesmodel"
     model = ResourcesModel
     success_url = "resources"
