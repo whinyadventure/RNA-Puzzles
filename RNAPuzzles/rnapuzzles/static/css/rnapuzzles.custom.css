@@ -18,4 +18,14 @@
     border-bottom: none;
 }
 
+.card-body .card-field-label {
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+    font-size: large;
+}
+
+.card-body .card-field-content {
+    margin-bottom: 1rem;
+}
+
 
