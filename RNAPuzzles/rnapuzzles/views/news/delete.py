@@ -8,7 +8,7 @@ from rnapuzzles.models import NewsModel
 
 
 class Delete(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
-
+    accept_global_perms = True
     permission_required = "rnapuzzles.delete_newsmodel"
     model = NewsModel
     success_url = "news"

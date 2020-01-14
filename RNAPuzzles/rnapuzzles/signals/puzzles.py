@@ -2,6 +2,7 @@ from django.core.files.base import ContentFile
 from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch import receiver
 from django.conf import settings
+from guardian.shortcuts import assign_perm, remove_perm
 
 from rnapuzzles.models import PuzzleInfo, Challenge, ChallengeFile
 
@@ -95,3 +96,19 @@ def challenge_file_post_save(sender, instance, *args, **kwargs):
 @receiver(post_delete, sender=ChallengeFile)
 def post_delete_file(sender, instance, *args, **kwargs):
     instance.file.delete(save=False)
+
+
+@receiver(post_save, sender=PuzzleInfo)
+def post_save_puzzleinfo_creation(sender, instance: PuzzleInfo, *args, **kwargs):
+    if kwargs.get("created", False):
+        assign_perm("rnapuzzles.delete_puzzleinfo", instance.author, instance)
+
+@receiver(post_save, sender=Challenge)
+def post_save_challenge_change(sender, instance: Challenge, *args, **kwargs):
+        if(instance.current_status != 0):
+            remove_perm("rnapuzzles.delete_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+
+        if(instance.current_status != 4):
+            assign_perm("rnapuzzles.change_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+
+

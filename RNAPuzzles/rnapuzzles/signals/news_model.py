@@ -13,7 +13,8 @@ def assign_news_perm(sender, instance: NewsModel, **kwargs):
     if kwargs.get("created", False):
         assign_perm("rnapuzzles.change_newsmodel", instance.author, instance)
         assign_perm("rnapuzzles.delete_newsmodel", instance.author, instance)
-        object = Group.objects.get(name="Defaults")
+
+        object,_ = Group.objects.get_or_create(name="Defaults")
         assign_perm("rnapuzzles.view_newsmodel", object, instance)
 
 
