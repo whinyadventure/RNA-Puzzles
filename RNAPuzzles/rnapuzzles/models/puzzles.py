@@ -37,6 +37,8 @@ class PuzzleInfo(models.Model):
 
         return True
 
+    metrics = models.ManyToManyField("rnapuzzles.Metric")
+
     class Meta:
         verbose_name = 'Puzzle Information'
 
@@ -129,7 +131,7 @@ class Challenge(models.Model):
         return self.__get_label('end_date')
 
     def __str__(self):
-        return 'puzzle_info: %s challenge.id: %s' % (self.puzzle_info_id, str(self.id))
+        return 'Puzzle %s-%s' % (self.puzzle_info_id, str(self.round))
 
     def save(self, *args, **kwargs):
 
