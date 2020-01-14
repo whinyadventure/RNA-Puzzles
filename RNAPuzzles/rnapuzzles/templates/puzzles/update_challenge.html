@@ -3,6 +3,7 @@
 
 {% block edit_type %}
     {% include 'form_errors.html' with form=challenge_form %}
+    {% include 'form_errors.html' with form=current_files_form %}
     {% include 'form_errors.html' with form=files_form %}
 
     {% load crispy_forms_tags %}
@@ -11,9 +12,9 @@
 
     {% for challenge, files in data %}
         {% if challenge.round == 1 %}
-            {% include 'puzzles/puzzle_information.html' %}
+            {% include 'puzzles/puzzle_info.html' %}
         {% else %}
-            {% include 'puzzles/puzzle_information.html' with puzzle=None %}
+            {% include 'puzzles/puzzle_info.html' with puzzle=None %}
         {% endif %}
     {% endfor %}
 
@@ -26,36 +27,38 @@
         <h3 class="mt-4">Suplementary files</h3>
         <hr class="mt-1 mb-4">
 
-        <div class="h4 mb-3 ml-3">
-            <img class="arrow" src="{% static 'img/arrow.svg' %}">
-            Current files
-        </div>
-
         {{current_files_form.management_form }}
+        {% if current_files_form.forms %}
+            <div class="h4 mb-3 ml-3">
+                <img class="arrow" src="{% static 'img/arrow.svg' %}">
+                Current files
+            </div>
 
-        <div id="current_file-form-wrapper" class="ml-auto col-11 ">
-            {% for form in current_files_form.forms %}
-                {{ form|crispy }}
-                <hr class="my-4">
-            {% endfor %}
-        </div>
-
-        <div class="h4 mb-3 ml-3">
-            <img class="arrow" src="{% static 'img/arrow.svg' %}">
-            Add new files
-        </div>
+            <div id="current_file-form-wrapper" class="ml-auto col-11 ">
+                {% for form in current_files_form.forms %}
+                    {{ form|crispy }}
+                    <hr class="my-4">
+                {% endfor %}
+            </div>
+        {% endif %}
 
         {{ files_form.management_form }}
+        {% if files_form.forms %}
+            <div class="h4 mb-3 ml-3">
+                <img class="arrow" src="{% static 'img/arrow.svg' %}">
+                Add new files
+            </div>
 
-        <div id="file-form-wrapper" class="ml-auto col-11 ">
-            {% for form in files_form.forms %}
-                <div class="file-form-container">
-                    {{ form|crispy }}
-                    <button type="button" class="btn btn-success add-file-form"><i class="fa fa-plus"></i> Add file</button>
-                    <hr class="my-4">
-                </div>
-            {% endfor %}
-        </div>
+            <div id="file-form-wrapper" class="ml-auto col-11 ">
+                {% for form in files_form.forms %}
+                    <div class="file-form-container">
+                        {{ form|crispy }}
+                        <button type="button" class="btn btn-success add-file-form"><i class="fa fa-plus"></i> Add file</button>
+                        <hr class="my-4">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <input type="submit" name="submit_form" class="btn btn-primary float-right" value="Save"/>
     </form>

@@ -11,12 +11,15 @@ def create_new(request):
     template_name = 'puzzles/new_challenge.html'
 
     if request.method == 'POST':
-        puzzle_info_form = PuzzleInfoForm(request.POST, hide_condition=True)    # hide_condition hides form fields concerning yet unknown reference structure --> lookup in puzzles_forms.py
+
+        puzzle_info_form = PuzzleInfoForm(request.POST)
         challenge_form = ChallengeForm(request.POST)
         files_form = FilesFormset(request.POST, request.FILES)
 
         if puzzle_info_form.is_valid() and challenge_form.is_valid() and files_form.is_valid():
-            puzzle_info = puzzle_info_form.save()
+            puzzle_info = puzzle_info_form.save(commit=False)
+            puzzle_info.author = request.user
+            puzzle_info.save()
 
             challenge = challenge_form.save(commit=False)
             challenge.puzzle_info = puzzle_info
@@ -33,7 +36,7 @@ def create_new(request):
             return redirect(reverse('organizer-puzzles'))
 
     else:
-        puzzle_info_form = PuzzleInfoForm(hide_condition=True)
+        puzzle_info_form = PuzzleInfoForm()
         challenge_form = ChallengeForm()
         files_form = FilesFormset(queryset=Challenge.objects.none())
 

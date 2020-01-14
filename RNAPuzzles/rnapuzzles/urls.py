@@ -61,7 +61,8 @@ puzzles_pattern = [
     path('', puzzles.list_open, name='open-puzzles'),
     path('completed-puzzles', puzzles.list_completed, name='completed-puzzles'),
     path('my-puzzles/', include(organizer_puzzles_pattern)),
-    re_path(r"(?P<pk>\d+)/download/$", puzzles.file_download, name='download-file'),
+    re_path(r"(?P<pk>\d+)/download-file/$", puzzles.file_download, name='download-file'),
+    re_path(r"(?P<pk>\d+)/download-target-structure/$", puzzles.pdb_download, name='download-structure'),
 ]
 
 urlpatterns = [
