@@ -6,15 +6,23 @@ from django.utils.translation import ugettext_lazy as _
 from ...models.user import CustomUser
 
 
-class SiginForm(AuthenticationForm):
+class SigninForm(AuthenticationForm):
+
+    error_messages = {
+        'user_unconfirmed': _("Confirm email before sign in."),
+        'user_inactive': _("Your account is not accepted by member."),
+        'invalid_login': _("Please enter a correct %(username)s and password. "
+                           "Note that both fields may be case-sensitive."),
+    }
 
     username = None
+    password = None
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
 
     class Meta:
         model = CustomUser
-        fields = ["email", "password"]
+        fields = ["email"]
 
     def __init__(self, request=None, *args, **kwargs):
         self.request = kwargs['initial']['request']
@@ -24,7 +32,7 @@ class SiginForm(AuthenticationForm):
 
     def clean(self):
         email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data.get('password1')
 
         if email and password:
             self.user_cache = authenticate(self.request, email=email, password=password)

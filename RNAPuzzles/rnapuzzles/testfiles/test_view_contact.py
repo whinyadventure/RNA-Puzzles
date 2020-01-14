@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from guardian.utils import get_anonymous_user
 
-from rnapuzzles.models import Group, CustomUser
+from ..models import Group, CustomUser
 
 
 class AnonymousPermissions(TestCase):
