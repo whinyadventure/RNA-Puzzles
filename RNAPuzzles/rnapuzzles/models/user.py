@@ -49,11 +49,10 @@ class Group(models.Model):
 
     class Meta:
         permissions = [
+            #("change_group", "Can change the description of the Group"),
             ("name_group", "Can change the name of the Group"),
-            ("contact_group", "Can change the contact of the Group"),
-            ("description_group", "Can change the contact of the Group"),
-            ("accept_group", "Can accept user for specific group")
-
+            #("contact_group", "Can change the contact of the Group"),
+            #("description_group", "Can change the contact of the Group"),
         ]
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     group_name = models.CharField(_('group name'), unique=True, max_length=30, blank=False)
@@ -69,9 +68,9 @@ class Group(models.Model):
 class CustomUser(AbstractUser):
 
     ROLE_CHOICES = (
-        (1, 'organizer'),
-        (2, 'participant'),
-        (3, 'group leader')
+        (1, 'Organizer'),
+        (2, 'Participant'),
+        (3, 'Group Leader')
     )
 
     username = None

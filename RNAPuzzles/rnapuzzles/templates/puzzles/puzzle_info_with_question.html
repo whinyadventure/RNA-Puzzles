@@ -1,0 +1,28 @@
+{% extends 'puzzles/puzzle_info.html' %}
+
+{% block submit_question %}
+    {% if challenge.current_status == 1 or challenge.current_status == 4 and list_name != 'My puzzles' %}
+        <div class="accordion md-accordion" id="accordion-faq-{{ challenge.id }}" role="tablist"
+             aria-multiselectable="true">
+          <div class="card border-0">
+            <div class="card-header" role="tab" id="accordion-faq-heading-{{ challenge.id }}">
+              <a class="collapsed" data-toggle="collapse" href="#collapse-faq-{{ challenge.id }}"
+                 aria-expanded="false" aria-controls="collapse-faq-{{ challenge.id }}"
+                 onclick="$('#collapsed-icon-faq-{{ challenge.id }}').toggleClass('fa-rotate-180')">
+                <h5 class="mb-0">
+                  Ask a question <i id="collapsed-icon-faq-{{ challenge.id }}" class="fa fa-angle-down"></i>
+                </h5>
+              </a>
+            </div>
+            <div id="collapse-faq-{{ challenge.id }}" class="collapse" role="tabpanel"
+                 aria-labelledby="accordion-faq-heading-{{ challenge.id }}">
+              <div class="card-body">
+                  {% load crispy_forms_tags %}
+                  {% csrf_token %}
+                  {% crispy email_form %}
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+{% endblock %}

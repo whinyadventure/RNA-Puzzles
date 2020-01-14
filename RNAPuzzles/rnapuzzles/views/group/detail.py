@@ -1,11 +1,14 @@
 from django.views.generic.detail import DetailView
 from django.db.models import Q
+from guardian.mixins import PermissionRequiredMixin
 
 from ...models.user import Group, CustomUser
 
 
-class Detail(DetailView):
+class Detail(PermissionRequiredMixin, DetailView):
 
+    PermissionRequiredMixin.accept_global_perms = True
+    permission_required = "rnapuzzles.view_group"
     model = Group
     template_name = "group_detail.html"
     pk_url_kwarg = "pk"

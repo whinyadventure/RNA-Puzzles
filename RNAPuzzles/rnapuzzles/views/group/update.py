@@ -9,7 +9,7 @@ from .form import Form
 
 class Update(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
 
-    permission_required = "edit_group_description"
+    permission_required = "rnapuzzles.change_group"
     model = Group
     success_message = "Successfully updated."
     success_url = ""

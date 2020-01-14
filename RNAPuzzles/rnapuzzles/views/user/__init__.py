@@ -3,3 +3,7 @@ from .signin import *
 from .signup import *
 from .update import *
 from .passwordUpdate import *
+from .passwordReset import *
+from .newPassword import *
+from .resetForm import *
+from .unconfirmedList import *
