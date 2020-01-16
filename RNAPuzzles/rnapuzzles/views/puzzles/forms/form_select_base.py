@@ -1,3 +1,4 @@
+from datetime import datetime
 from django import forms
 from django.db.models import Q
 
@@ -11,7 +12,7 @@ class SelectForm(forms.Form):
                                             .filter(Q(id__in=Challenge.objects
                                                       .order_by('puzzle_info', '-round')
                                                       .distinct('puzzle_info'))
-                                                    & Q(current_status=4))
+                                                    & Q(end_date__lte=datetime.now()))
                                             .values('puzzle_info_id')))
 
     # get last round of each puzzle_info and filter only completed

@@ -11,6 +11,7 @@
 <script>
 $(document).ready(function() {
     $('#dt').DataTable({
+   order: [[ 0, "desc" ]],
   "columnDefs": [
     { "type": "num", "targets": 0 },
     { "type": "html", "targets": 1 },
@@ -41,7 +42,7 @@ $(document).ready(function() {
         <td>{{user_scores.user}}</td>
         <td>{{user_scores.user.group}}</td>
         {% for score in user_scores.scores %}
-            <td>{{score.score}}</td>
+            <td>{{score.score|floatformat:4 }}</td>
 
         {% endfor %}
 

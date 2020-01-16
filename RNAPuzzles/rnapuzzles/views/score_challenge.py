@@ -13,7 +13,11 @@ class Challenge(DetailView):
             self.object: ChallengeModel = self.get_object()
         except Http404:
             # redirect here
-            return HttpResponseRedirect(reverse("puzzle_list"))
+            return HttpResponseRedirect(reverse("completed-puzzles"))
+        #TODO
+        # if not self.object.result_published:
+        #     return HttpResponseRedirect(reverse("completed-puzzles"))
+
         puzzle = self.object.puzzle_info
         print(puzzle.metrics.all())
 

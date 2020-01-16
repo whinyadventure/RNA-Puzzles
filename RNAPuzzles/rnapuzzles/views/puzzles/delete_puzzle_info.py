@@ -1,12 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import DeleteView
 from django.urls import reverse
+from guardian.mixins import PermissionRequiredMixin
 
 from rnapuzzles.models import PuzzleInfo
 
-
-class PuzzleInfoDelete(DeleteView):
-
+#TODO block if len(puzzleInfo.challenge_set) != 1 or one challenge is oppened
+class PuzzleInfoDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = "rnapuzzle.delete_puzzleinfo"
     template_name = 'puzzles/puzzle_delete.html'
     model = PuzzleInfo
     success_message = "Puzzle was deleted"

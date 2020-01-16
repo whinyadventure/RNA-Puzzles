@@ -5,7 +5,12 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import EmailMessage
+<<<<<<< Updated upstream
 from guardian.shortcuts import assign_perm
+=======
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
+>>>>>>> Stashed changes
 
 from ...models.user import CustomUser, Group
 from RNAPuzzles import settings
@@ -56,7 +61,6 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
                 institution=self.cleaned_data['institution']
             )
 
-            assign_perm("edit_group_description", user, group)
             user.save()
             group.save()
 
@@ -75,8 +79,6 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
             group.leader = user
             group.contact = user.email
 
-            assign_perm("edit_group_name", user, group)
-            assign_perm("edit_group_description", user, group)
             user.save()
             group.save()
 

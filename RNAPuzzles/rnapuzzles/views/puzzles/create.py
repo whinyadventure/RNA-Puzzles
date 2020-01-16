@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from guardian.decorators import permission_required
 
 from .forms import *
 from rnapuzzles.models import Challenge
 
 
 # TODO: add user object manipulation permissions
+@permission_required("rnapuzzles.add_puzzleinfo")
 def create_new(request):
 
     template_name = 'puzzles/new_challenge.html'
@@ -41,7 +43,7 @@ def create_new(request):
 
     return render(request, template_name, context)
 
-
+@permission_required("rnapuzzles.add_puzzleinfo")
 def create_next(request):
 
     template_name = 'puzzles/next_round.html'

@@ -50,10 +50,10 @@ class Group(models.Model):
     class Meta:
         permissions = [
             ("name_group", "Can change the name of the Group"),
-            ("contact_group", "Can change the contact of the Group"),
-            ("description_group", "Can change the contact of the Group"),
-            ("accept_group", "Can accept user for specific group")
 
+            ("accept_group", "Can accept user for group"),
+            #("contact_group", "Can change the contact of the Group"),
+            #("description_group", "Can change the contact of the Group"),
         ]
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     group_name = models.CharField(_('group name'), unique=True, max_length=30, blank=False)

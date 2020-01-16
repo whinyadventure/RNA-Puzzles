@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 from martor.widgets import AdminMartorWidget
-from .models import CustomUser, NewsModel, FaqModel, PuzzleInfo, Challenge, ChallengeFile, Metric, Submission, Score
+from .models import CustomUser, NewsModel, FaqModel, PuzzleInfo, Challenge, ChallengeFile, Metric, Submission, Score, \
+    Group
 
 from django.apps import apps
 from .models import CustomUser
@@ -48,3 +49,4 @@ admin.site.register(ChallengeFile)
 admin.site.register(Metric)
 admin.site.register(Submission)
 admin.site.register(Score)
+admin.site.register(Group)

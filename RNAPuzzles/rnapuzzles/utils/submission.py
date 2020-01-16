@@ -74,14 +74,18 @@ def validate_batch(file):
 
 
 def save_single(name, content, user, puzzle_pk=None):
-    content = content.decode("utf-8")
+    try:
+        content = content.decode("utf-8")
+    except:
+        pass
+
     if puzzle_pk is None:
         puzzle_info = PuzzleInfo.objects.get(pk=get_puzzle_id(name))
     else:
         puzzle_info = PuzzleInfo.objects.get(pk=puzzle_pk)
 
     challenge = get_open_challenge(puzzle_info)
-    return Submission.objects.create(challenge=challenge, user=user, content=content)
+    return Submission.objects.create(challenge_id=challenge.pk, user=user, content=content)
 
 
 def save_zip(file, user):

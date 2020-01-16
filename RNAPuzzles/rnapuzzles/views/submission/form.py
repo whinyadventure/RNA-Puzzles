@@ -33,14 +33,15 @@ class Form(forms.ModelForm):
             util.validate_batch(self.cleaned_data["file"])
 
         else:
-            util.validate_single(self.cleaned_data["file"].name, self.cleaned_data["file"].read(), self.pk)
+            self.content = self.cleaned_data["file"].read()
+            util.validate_single(self.cleaned_data["file"].name, self.content, self.pk)
         return self.cleaned_data
 
     def save(self, commit=True):
         if util.is_batch(self.cleaned_data["file"].name):
             util.save_zip(self.cleaned_data["file"], self.user)
         else:
-            util.save_single(self.cleaned_data["file"].name, str(self.cleaned_data["file"].read()), self.user,
+            util.save_single(self.cleaned_data["file"].name, self.content, self.user,
                              self.pk)
 
     class Meta:

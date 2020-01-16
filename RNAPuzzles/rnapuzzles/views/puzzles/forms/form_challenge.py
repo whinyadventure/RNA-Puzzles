@@ -11,12 +11,57 @@ class ChallengeForm(forms.ModelForm):
     class Meta:
         model = Challenge
 
-        fields = ('puzzle_info', 'start_date', 'end_date')
+        fields = ('puzzle_info', 'start_date', 'end_date', 'end_automatic')
 
         widgets = {
             'puzzle_info': forms.HiddenInput(),
+<<<<<<< Updated upstream
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
+=======
+
+            'start_date': DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                    'minDate': next_full_hour().strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': next_full_hour().strftime('%Y-%m-%d %H:%M'),
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            ),
+
+            'end_date': DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                    'minDate': (next_full_hour() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (next_full_hour() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M'),
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            ),
+
+            'end_automatic': DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            )
+        }
+
+        help_texts = {
+            'start_date': 'Minimum open date is within next full hour.',
+            'end_date': 'Default: 30 days after the opening date',
+>>>>>>> Stashed changes
         }
 
     def __init__(self, *args, **kwargs):
@@ -24,6 +69,13 @@ class ChallengeForm(forms.ModelForm):
         self.instance = kwargs.pop('instance', None)
         super(ChallengeForm, self).__init__(*args, **kwargs)
 
+<<<<<<< Updated upstream
+=======
+        self.fields['start_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
+        self.fields['end_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
+        self.fields['end_automatic'].input_formats = [settings.DATETIME_INPUT_FORMATS]
+
+>>>>>>> Stashed changes
         if required_puzzle:
             self.fields['puzzle_info'].required = True
 

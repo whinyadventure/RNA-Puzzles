@@ -35,6 +35,7 @@ class Score(models.Model):
 
     class Meta:
         unique_together = ('submission', 'metric')
-    def save(self, *args, **kwargs):
-        if not self.challenge:
-            self.challenge = self.submission.challenge
+    # def save(self, *args, **kwargs):
+    #     print(self.challenge)
+    #     if not self.challenge:
+    #         self.challenge = self.submission.challenge
