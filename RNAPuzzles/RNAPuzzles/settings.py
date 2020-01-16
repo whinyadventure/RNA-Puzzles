@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'guardian',
     'publications',
     'captcha',
-    'django_tables2',
+    'tempus_dominus',
     'rnapuzzles',
 ]
 

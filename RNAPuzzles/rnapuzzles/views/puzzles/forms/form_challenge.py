@@ -1,7 +1,9 @@
 from django import forms
 import datetime
 
-from rnapuzzles.models import Challenge
+from tempus_dominus.widgets import DateTimePicker
+
+from rnapuzzles.models import Challenge, settings
 
 
 class ChallengeForm(forms.ModelForm):
@@ -15,10 +17,6 @@ class ChallengeForm(forms.ModelForm):
 
         widgets = {
             'puzzle_info': forms.HiddenInput(),
-<<<<<<< Updated upstream
-            'start_date': forms.DateInput(attrs={'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'type': 'date'}),
-=======
 
             'start_date': DateTimePicker(
                 options={
@@ -61,7 +59,7 @@ class ChallengeForm(forms.ModelForm):
         help_texts = {
             'start_date': 'Minimum open date is within next full hour.',
             'end_date': 'Default: 30 days after the opening date',
->>>>>>> Stashed changes
+
         }
 
     def __init__(self, *args, **kwargs):
@@ -69,13 +67,10 @@ class ChallengeForm(forms.ModelForm):
         self.instance = kwargs.pop('instance', None)
         super(ChallengeForm, self).__init__(*args, **kwargs)
 
-<<<<<<< Updated upstream
-=======
         self.fields['start_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
         self.fields['end_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
         self.fields['end_automatic'].input_formats = [settings.DATETIME_INPUT_FORMATS]
 
->>>>>>> Stashed changes
         if required_puzzle:
             self.fields['puzzle_info'].required = True
 
