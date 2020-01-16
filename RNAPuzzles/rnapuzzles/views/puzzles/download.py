@@ -1,5 +1,10 @@
 from django.http import HttpResponse
+
 from guardian.decorators import permission_required
+
+from rnapuzzles.models import PuzzleInfo, ChallengeFile
+
+
 
 from rnapuzzles.models import PuzzleInfo, ChallengeFile
 
@@ -12,6 +17,7 @@ def file_download(request, pk):
     response['Content-Disposition'] = "attachment; filename=%s" % challenge_file.file.name
 
     return response
+
 
 @permission_required("rnapuzzles.view_puzzleinfo")
 def pdb_download(request, pk):

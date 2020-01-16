@@ -1,42 +1,28 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from .user import CustomUser
 import datetime
 from six import text_type
-import os
 
 
-def puzzle_info_img_filename(instance, filename):
-    return 'puzzle_{}_img{}'.format(instance.pk, os.path.splitext(filename)[1])
-
-
+# TODO: test extention validators, move validation to forms
 class PuzzleInfo(models.Model):
-
-
-    description = models.CharField(verbose_name="Description", max_length=250)
+    description = models.CharField(verbose_name="Description", max_length=250, help_text='Maximum 250 characters.')
     sequence = models.TextField(verbose_name="RNA sequence (5' to 3')")
-    publish_date = models.DateTimeField(verbose_name='Target 3D structure publication date', blank=True, null=True)
-    reference = models.TextField(verbose_name="Reference", blank=True)
+    publish_date = models.DateField(verbose_name='Target 3D structure publication date', blank=True, null=True)
+    reference = models.CharField(verbose_name="Reference", max_length=500, help_text='Maximum 500 characters.',
+                                 blank=True)
     reference_url = models.URLField(verbose_name="Reference URL", blank=True)
-    pdb_id = models.CharField(verbose_name="PDB ID", max_length=4, blank=True)
+    pdb_id = models.CharField(verbose_name="PDB ID", max_length=4,
+                              help_text='Maximum 4 characters (by PDB ID convention).', blank=True)
     pdb_url = models.URLField(verbose_name="PDB URL", blank=True)
-    pdb_file = models.FileField(verbose_name="Target 3D structure file", blank=True)
+    pdb_file = models.FileField(verbose_name="Target 3D structure file", help_text='Allowed types: .pdb, .cif',
+                                validators=[FileExtensionValidator(allowed_extensions=['pdb', 'cif'])], blank=True)
     img = models.ImageField(verbose_name="Target 3D structure graphic representation",
-                            upload_to=puzzle_info_img_filename, blank=True,
-                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])])
-    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
-
-    def is_fully_filled(self):
-
-        fields_names = [f.name for f in self._meta.get_fields()]
-
-        for field_name in fields_names:
-            value = getattr(self, field_name)
-            if value is None or value == '':
-                return False
-
-        return True
+                            help_text='Allowed file types: .jpg, .png',
+                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])], blank=True)
 
     metrics = models.ManyToManyField("rnapuzzles.Metric")
 
@@ -85,6 +71,16 @@ class PuzzleInfo(models.Model):
     def __str__(self):
         return 'Puzzle %s' % (str(self.id))
 
+    def clean(self):
+        if self.publish_date:
+            if self.publish_date < datetime.date.today():
+                raise ValidationError('The date cannot be in the past.')
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+
+        return super(PuzzleInfo, self).save(*args, **kwargs)
+
 
 # TODO: write auto-run script updating Challenge current_status at certain occasions
 '''
@@ -115,10 +111,12 @@ class Challenge(models.Model):
     )
 
     round = models.IntegerField(default=1, editable=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(verbose_name='Opening date')
     end_date = models.DateTimeField(verbose_name='Closing date')
     end_automatic = models.DateTimeField(verbose_name='Closing automatic date')
+
     # current_status = models.IntegerField(choices=STATUS_TYPE, editable=False)
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
     puzzle_info = models.ForeignKey(PuzzleInfo, on_delete=models.CASCADE, blank=True, null=True)

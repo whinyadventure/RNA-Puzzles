@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    {{ email_form.media }}
+{% endblock %}
+
 {% block content %}
     <div class="d-flex">
         <div class="h2 justify-content-center align-self-center mr-auto">
@@ -14,7 +18,14 @@
 
     <hr class="mt-1 mb-3">
 
-    {% for puzzle_info, challenge, files in data %}
-        {% include 'puzzles/puzzle_information.html' with list_name=list_name puzzle=puzzle_info challenge=challenge files=files %}
-    {% endfor %}
+    {% if list_name == 'My puzzles' %}
+        {% for puzzle, challenge, files in data %}
+            {% include 'puzzles/puzzle_info.html' %}
+        {% endfor %}
+    {% else %}
+        {% for puzzle, challenge, files, email_form in data %}
+            {% include 'puzzles/puzzle_info_with_question.html' %}
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}

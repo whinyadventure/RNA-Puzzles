@@ -13,9 +13,9 @@ class ContactForm(forms.Form):
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
     def __init__(self, *args, **kwargs):
-        ask_question = kwargs.pop('ask', False)
         user = kwargs.pop('user', None)
-        puzzle_id = kwargs.pop('puzzle_id', None)
+        challenge = kwargs.pop('challenge', None)
+        list_name = kwargs.pop('list', None)
 
         super(ContactForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -25,13 +25,21 @@ class ContactForm(forms.Form):
 
         self.helper.add_input(Submit('submit', 'Submit'))
 
-        if ask_question:
+        if user:
 
-            kwargs.update(initial={
-                'from_email': user,
-                'subject': '[Open puzzles: Puzzle {}] Question from user'.format(puzzle_id)
-            })
+            if challenge.round == 1:
+                puzzle_public_id = 'Puzzle {}'.format(challenge.puzzle_info.id)
+            else:
+                puzzle_public_id = 'Puzzle {}-{}'.format(challenge.puzzle_info.id, challenge.round)
 
+            if list_name == 'Open puzzles':
+                subject = '[Open puzzles: ' + puzzle_public_id + '] Question from ' + str(user)
+            else:
+                subject = '[Completed puzzles: ' + puzzle_public_id + '] Question from ' + str(user)
+
+            self.fields['from_email'].initial = user.email
             self.fields['from_email'].widget.attrs['readonly'] = True
+
+            self.fields['subject'].initial = subject
             self.fields['subject'].widget.attrs['readonly'] = True
 

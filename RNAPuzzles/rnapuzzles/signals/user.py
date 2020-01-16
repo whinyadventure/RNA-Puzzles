@@ -29,8 +29,9 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
 
         if (instance.role == 3):
             assign_perm("rnapuzzles.change_group", instance, instance.group_name)
-            assign_perm("rnapuzzles.description_group", instance, instance.group_name)
+            #assign_perm("rnapuzzles.change_group_name", instance, instance.group_name)
             assign_perm("rnapuzzles.name_group", instance, instance.group_name)
+
 
             assign_perm("rnapuzzles.accept_group", instance)
             # assign_perm("rnapuzzles.contact_group", instance, instance.group_name)
@@ -46,6 +47,7 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
             assign_perm("rnapuzzles.view_faqmodel", object)
             assign_perm("rnapuzzles.view_resourcesmodel", object)
             assign_perm("rnapuzzles.view_group", object)
+
 
 
 @receiver(pre_save, sender=CustomUser)

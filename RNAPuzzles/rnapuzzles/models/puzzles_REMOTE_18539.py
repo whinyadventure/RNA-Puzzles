@@ -13,7 +13,6 @@ def puzzle_info_img_filename(instance, filename):
 
 class PuzzleInfo(models.Model):
 
-
     description = models.CharField(verbose_name="Description", max_length=250)
     sequence = models.TextField(verbose_name="RNA sequence (5' to 3')")
     publish_date = models.DateTimeField(verbose_name='Target 3D structure publication date', blank=True, null=True)
@@ -100,47 +99,28 @@ class PuzzleInfo(models.Model):
 
 
 class Challenge(models.Model):
-    CREATED = 0
-    OPEN = 1
-    UNDER_MODELING = 2  # TODO remove
-    EVALUATED = 3
-    COMPLETED = 4
 
     STATUS_TYPE = (
-        (CREATED, 'Created'),
-        (OPEN, 'Open'),
-        (UNDER_MODELING, 'Under modeling'),
-        (EVALUATED, 'Evaluated'),
-        (COMPLETED, 'Completed')
+        (0, 'Created'),
+        (1, 'Open'),
+        (2, 'Under modeling'),
+        (3, 'Evaluated'),
+        (4, 'Completed')
     )
 
     round = models.IntegerField(default=1, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(verbose_name='Opening date')
     end_date = models.DateTimeField(verbose_name='Closing date')
-    end_automatic = models.DateTimeField(verbose_name='Closing automatic date')
-    # current_status = models.IntegerField(choices=STATUS_TYPE, editable=False)
+    current_status = models.IntegerField(choices=STATUS_TYPE, editable=False)
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
     puzzle_info = models.ForeignKey(PuzzleInfo, on_delete=models.CASCADE, blank=True, null=True)
-    result_published = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-puzzle_info', '-created_at']
 
     def __get_label(self, field):
         return text_type(self._meta.get_field(field).verbose_name)
-
-    @property
-    def current_status(self):
-        if datetime.datetime.now() < self.start_date:
-            return self.CREATED
-        if datetime.datetime.now() < self.end_date:
-            return self.OPEN
-
-        if not self.result_published:
-            return self.EVALUATE
-
-        return self.COMPLETED
 
     @property
     def start_date_label(self):
@@ -166,10 +146,11 @@ class Challenge(models.Model):
 
 
 class ChallengeFile(models.Model):
+
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, editable=False)
-    note = models.CharField(max_length=50, help_text='Information about file content. Maximum 50 characters.',
-                            blank=True)
+    note = models.CharField(max_length=50, help_text='Information about file content. Maximum 50 characters.', blank=True)
     file = models.FileField(blank=True)
 
     def __str__(self):
         return 'challenge: %s file.id: %s' % (self.challenge_id, str(self.id))
+

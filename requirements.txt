@@ -30,3 +30,4 @@ urllib3==1.25.7
 vine==1.3.0
 webencodings==0.5.1
 zipp==0.6.0
+django-tempus-dominus==5.1.2.9

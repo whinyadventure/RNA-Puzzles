@@ -8,6 +8,7 @@ from ...models.user import CustomUser
 
 class UnconfirmedList(PermissionRequiredMixin, ListView):
     accept_global_perms = True
+
     permission_required = "rnapuzzles.accept_group"
     model = CustomUser
     template_name = "rnapuzzles/user_unconfirmed_list.html"

@@ -22,7 +22,8 @@ class ChallengeDelete(PermissionRequiredMixin,DeleteView):
 
     def puzzle_id(self):
         challenge = Challenge.objects.get(pk=self.kwargs['pk'])
-        puzzle_id = str(challenge.puzzle_info_id) + '-' + str(challenge.round)
+        puzzle_id = '{0}-{1}'.format(challenge.puzzle_info_id, challenge.round)
+
         return puzzle_id
 
     def get_success_url(self):

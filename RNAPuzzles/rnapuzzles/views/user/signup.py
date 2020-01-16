@@ -30,7 +30,7 @@ class Signup(SuccessMessageMixin, CreateView):
         if user is not None and account_activation_token.check_token(user, token):
             user.email_confirmed = True
             user.save()
-            # return redirect('home')
+
             return render(request, 'rnapuzzles/email_confirmed.html')
         else:
             return render(request, 'rnapuzzles/email_invalid.html')
