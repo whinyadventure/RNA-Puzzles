@@ -6,6 +6,7 @@
 
 {% block content %}
     {% load crispy_forms_tags %}
+<h1>Join to RNA-Puzzles</h1>
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}

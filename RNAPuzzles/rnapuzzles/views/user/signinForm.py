@@ -42,7 +42,6 @@ class SigninForm(AuthenticationForm):
                 self.confirm_login_allowed(self.user_cache)
 
             else:
-                print("error")
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
@@ -50,6 +49,28 @@ class SigninForm(AuthenticationForm):
                 )
 
         return self.cleaned_data
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        user = CustomUser.objects.get(email=email)
+
+        print("clen email")
+
+        if not user.email_confirmed:
+            raise forms.ValidationError(
+               self.error_messages['user_unconfirmed'],
+                code='user_unconfirmed',
+                )
+            return email
+
+        if not user.is_authorised:
+            raise forms.ValidationError(
+               self.error_messages['user_inactive'],
+                code='user_inactive',
+                )
+
+        return email
 
     def confirm_login_allowed(self, user):
         pass

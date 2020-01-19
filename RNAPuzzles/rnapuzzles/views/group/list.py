@@ -1,11 +1,12 @@
 from django.views.generic.list import ListView
 from ...models.user import Group
 from .detail import Detail
-from guardian.mixins import PermissionListMixin
+from guardian.mixins import PermissionRequiredMixin
 
 
-class List(PermissionListMixin, ListView):
+class List(PermissionRequiredMixin, ListView):
 
+    PermissionRequiredMixin.accept_global_perms = True
     permission_required = "rnapuzzles.view_group"
     model = Group
     template_name = "groups_list.html"

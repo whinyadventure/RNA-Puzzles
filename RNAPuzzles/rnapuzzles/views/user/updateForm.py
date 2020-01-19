@@ -15,4 +15,4 @@ class Form(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ["email", "first_name", "last_name", "institution"]
+        fields = ["first_name", "last_name", "institution"]
