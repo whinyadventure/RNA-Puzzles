@@ -2,9 +2,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from guardian.mixins import PermissionRequiredMixin
-from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 from ...models.user import CustomUser
+from RNAPuzzles import settings
 
 
 class UnconfirmedList(PermissionRequiredMixin, ListView):
@@ -26,7 +29,22 @@ class UnconfirmedList(PermissionRequiredMixin, ListView):
         if request.user.has_perm("rnapuzzles.accept_group"):
             user = CustomUser.objects.get(pk=pk)
             user.is_authorised = True
+
+            current_site = settings.DOMAIN_URL
+            mail_subject = 'Your RNA-PUZZLES account is active now.'
+            message = render_to_string('rnapuzzles/email_active_account.html', {
+                'user': user,
+            })
+
+            to_email = user.email
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+
+            email.send()
+            print(email)
             user.save()
+
             return HttpResponseRedirect("/accounts/unconfirmed")
         else:
             return render(request, 'home.html')
@@ -35,6 +53,20 @@ class UnconfirmedList(PermissionRequiredMixin, ListView):
         if request.user.has_perm("rnapuzzles.accept_group"):
             user = CustomUser.objects.get(pk=pk)
             user.is_disabled = True
+
+            current_site = settings.DOMAIN_URL
+            mail_subject = 'Your RNA-PUZZLES account was disabled.'
+            message = render_to_string('rnapuzzles/email_disable_account.html', {
+                'user': user,
+            })
+
+            to_email = user.email
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+
+            email.send()
+            print(email)
             user.save()
             return HttpResponseRedirect("/accounts/unconfirmed")
         else:

@@ -36,11 +36,11 @@
 
   <header>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-xl bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-xl ">
       <div class="container">
 
         <a class="navbar-brand" href="{% url 'home' %}">
-          <img id="logo" src="{% static 'img/logo.svg' %}" alt="RNA-Puzzles>">
+          <img id="logo" src="{% static 'img/RNA-logo-1-biale.svg' %}" alt="RNA-Puzzles>">
         </a>
 
         <!-- account toggle -->
@@ -59,46 +59,46 @@
             {% if user.is_authenticated %}
 
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                <a class="nav-link text-light" href="{% url 'home' %}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'news_list' %}">News</a>
+                <a class="nav-link text-light" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'open-puzzles' %}">Open Puzzles</a>
+                <a class="nav-link text-light" href="{% url 'open-puzzles' %}">Open Puzzles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'completed-puzzles' %}">Completed Puzzles</a>
+                <a class="nav-link text-light" href="{% url 'completed-puzzles' %}">Completed Puzzles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'groups_list' %}">Groups</a>
+                <a class="nav-link text-light" href="{% url 'groups_list' %}">Groups</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'resources_list' %}">Resources</a>
+                <a class="nav-link text-light" href="{% url 'resources_list' %}">Resources</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
+                <a class="nav-link text-light" href="{% url 'publications:index' %}">Publications</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'faq_list' %}">FAQ</a>
+                <a class="nav-link text-light" href="{% url 'faq_list' %}">FAQ</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                <a class="nav-link text-light" href="{% url 'contact' %}">Contact</a>
               </li>
 
             {% else %}
 
               <li class="nav-item active">
-                <a class="nav-link" href="">Home</a>
+                <a class="nav-link text-light" href="">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'news_list' %}">News</a>
+                <a class="nav-link text-light" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
+                <a class="nav-link text-light" href="{% url 'publications:index' %}">Publications</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                <a class="nav-link text-light" href="{% url 'contact' %}">Contact</a>
               </li>
 
             {% endif %}
@@ -112,7 +112,7 @@
             {% if user.is_authenticated  %}
 
               <li class="nav-item dropdown d-none d-xl-block">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
+                <a class="nav-link dropdown-toggle border border-light" data-toggle="dropdown">Account</a>
                 <div class="dropdown-menu">
                   <h6 class="dropdown-header"> {{ user }} </h6>
                   <div class="dropdown-divider"></div>
@@ -145,10 +145,10 @@
             {% else %}
 
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'signin' %}">Login</a>
+                <a class="nav-link text-light" href="{% url 'signin' %}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'signup' %}">Register</a>
+                <a class="nav-link text-light border border-light" href="{% url 'signup' %}">Register</a>
               </li>
 
             {% endif %}

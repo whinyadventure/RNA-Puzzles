@@ -1,5 +1,3 @@
-import json
-
 from django import forms
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
@@ -10,6 +8,7 @@ from django.core.mail import EmailMessage
 from django.utils.encoding import force_bytes
 from django.urls import reverse
 from django.contrib.auth.tokens import default_token_generator
+
 from ...models import CustomUser
 from RNAPuzzles import settings
 from ...tokens import password_reset_token
@@ -61,7 +60,7 @@ class ResetForm(SuccessMessageMixin, forms.Form):
             email = form.data['email']
             user = CustomUser.objects.get(email=email)
             current_site = settings.DOMAIN_URL
-            mail_subject = 'Activate your RNA-PUZZLES account.'
+            mail_subject = 'Password reset.'
             message = render_to_string('rnapuzzles/email_password_reset.html', {
                 'user': user,
                 'domain': current_site,

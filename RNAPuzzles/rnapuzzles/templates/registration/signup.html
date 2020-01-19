@@ -6,6 +6,8 @@
 
 {% block content %}
     {% load crispy_forms_tags %}
+    {% load static %}
+<img  class="middle-align" src="{% static 'img/RNA-logo-icon.svg' %}" height="100" alt="RNA-Puzzles>">
 <h1>Join to RNA-Puzzles</h1>
     <form method="post">
         {% csrf_token %}
