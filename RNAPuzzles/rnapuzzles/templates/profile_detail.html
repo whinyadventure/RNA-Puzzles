@@ -1,22 +1,19 @@
 {% extends  'base.html' %}
 
 {% block content %}
-<div id="main-card" class="card mt-4 mb-4">
-    <div class="card-header">
-        <div class="h3 align-self-center">
-            <h1>{{object.first_name}} {{object.last_name}}</h1>
-        </div>
-    </div>
-    <div class="card-body">
-        <div id="id_email"><b>Email address:</b> {{object.email}}</div>
-        <div id="id_role"><b>Role:</b> {{object.get_role_display}}</div>
-        {% if  object.role != 1 %}
-            <div id="id_group_name"><b>Group name:</b> {{object.group_name}}</div>
-            <div id="id_institution"><b>Institution:</b> {{object.institution}}</div>
-        {% endif %}
-    </div>
-</div>
-    <a class="navbar-toggler" href="{% url 'user_update' %}"><i class="far fa-edit"></i>Edit</a>
 
+    <h1>{{object.first_name}} {{object.last_name}}</h1>
+    <br>
+    <p><div id="id_email"><b>Email address:</b> {{object.email}}</div>
+    <div id="id_role"><b>Role:</b> {{object.get_role_display}}</div>
+    {% if  object.role != 1 %}
+        <div id="id_group_name"><b>Group name:</b> {{object.group_name}}</div>
+        <div id="id_institution"><b>Institution:</b> {{object.institution}}</div>
+    {% endif %}
+    </p>
+    <br>
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary custom-button " href="{% url 'user_update' %}">Edit</a>
+    </div>
 {% endblock %}
 
