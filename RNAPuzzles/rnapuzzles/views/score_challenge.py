@@ -8,7 +8,9 @@ from rnapuzzles.models import Challenge as ChallengeModel, PuzzleInfo, Submissio
 class Challenge(DetailView):
     model = ChallengeModel
     template_name = "rnapuzzles/score_table.html"
+
     def get(self, request, *args, **kwargs):
+
         try:
             self.object: ChallengeModel = self.get_object()
         except Http404:
@@ -37,8 +39,6 @@ class Challenge(DetailView):
             setattr(s,"scores", m)
 
             res.append(s)
-
-
 
         context = self.get_context_data()
         context["object_list"] = res

@@ -17,19 +17,26 @@
 .accordion .card-header {
     border-bottom: none;
 }
-html{
-height: 100%;
-}
-body{
-position: relative;
-min-height: 100%;
+
+html {
+    height: 100%;
 }
 
-footer{
+body {
+    position: relative;
+    min-height: 100%;
+}
+
+footer {
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+#base-main-content {
+    margin-top: 3rem;
+    margin-bottom: 6rem;
 }
 
 .card-body .card-field-label {

@@ -8,13 +8,6 @@ from tempus_dominus.widgets import DateTimePicker
 from rnapuzzles.models import Challenge, settings
 
 
-def next_full_hour(created_at=None):
-    if created_at:
-        return created_at.replace(second=0, minute=0) + timedelta(hours=1)
-    else:
-        return datetime.today().replace(microsecond=0, second=0, minute=0) + timedelta(hours=1)
-
-
 class ChallengeForm(forms.ModelForm):
 
     class Meta:
@@ -29,8 +22,8 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': next_full_hour().strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': next_full_hour().strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -42,8 +35,8 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (next_full_hour() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': (next_full_hour() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (datetime.now() + timedelta(days=1, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (datetime.now() + timedelta(days=30, minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -55,6 +48,7 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
+                    'minDate': (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -64,9 +58,8 @@ class ChallengeForm(forms.ModelForm):
         }
 
         help_texts = {
-            'start_date': 'Minimum open date is within next full hour.',
+            'start_date': 'Minimum opening date is in 30 minutes.',
             'end_date': 'Default: 30 days after the opening date',
-
         }
 
     def __init__(self, *args, **kwargs):
@@ -76,9 +69,7 @@ class ChallengeForm(forms.ModelForm):
 
         self.fields['start_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
         self.fields['end_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-
         self.fields['end_automatic'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-
 
         if required_puzzle:
             self.fields['puzzle_info'].required = True
@@ -111,18 +102,31 @@ class ChallengeForm(forms.ModelForm):
                 }
             )
 
-            self.fields['start_date'].help_text = 'Minimum available open date is challenge creation date.'
+            self.fields['end_automatic'].widget = DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                    'minDate': self.instance.created_at.strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': self.instance.end_automatic.strftime('%Y-%m-%d %H:%M'),
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            )
+
+            self.fields['start_date'].help_text = 'Minimum available opening date is challenge creation date.'
             self.fields['end_date'].help_text = ''
 
-            to_hide = []
+            disable = []
 
             if self.instance.current_status == 1:
-                to_hide = ['start_date']
+                disable = ['start_date', 'end_automatic']
 
-            elif self.instance.current_status in {2, 3}:
-                to_hide = ['start_date', 'end_date']
+            elif self.instance.current_status >= 2:
+                disable = ['start_date', 'end_date', 'end_automatic']
 
-            for item in to_hide:
+            for item in disable:
                 self.fields[item].disabled = True
 
     def clean(self):
@@ -138,7 +142,7 @@ class ChallengeForm(forms.ModelForm):
 
         if self.instance.pk is None:
 
-            if start_date < datetime.today():
+            if start_date < datetime.now():
                 self._errors['start_date'] = self.error_class([u'Opening date cannot be in the past.'])
         else:
 
@@ -151,5 +155,11 @@ class ChallengeForm(forms.ModelForm):
         if end_date <= start_date:
             self._errors['end_date'] =\
                 self.error_class([u'Closing date cannot be earlier or same as the opening date.'])
+
+        end_automatic = cleaned_data.get('end_automatic')
+
+        if end_automatic <= start_date or end_automatic >= end_date:
+            self._errors['end_automatic'] =\
+                self.error_class([u"Closing date for in silico prediction submission must be within range of opening and closing dates."])
 
         return cleaned_data

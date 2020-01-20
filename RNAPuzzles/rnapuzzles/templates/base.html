@@ -1,4 +1,5 @@
 {% load static %}
+{% load guardian_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -120,7 +121,9 @@
                     <a class="dropdown-item" href="{% url 'group_detail' request.user.group_name.id %}">View group profile</a>
                   {% endif %}
                   <a class="dropdown-item" href="{% url 'user_update' %}">Account settings</a>
-                  <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                  {% if perms.rnapuzzles.add_puzzleinfo %}
+                    <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                  {% endif %}
                   <a class="dropdown-item" href="{% url 'unconfirmed_list' %}">Pending request</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
@@ -135,7 +138,9 @@
                   {% endif %}
 
                 <a class="nav-link" href="{% url 'user_update' %}">Account settings</a>
-                <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                {% if perms.rnapuzzles.add_puzzleinfo %}
+                  <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                {% endif %}
                 <a class="dropdown-item" href="{% url 'unconfirmed_list' %}">Pending request</a>
 
                 <div class="dropdown-divider"></div>
@@ -170,7 +175,7 @@
   <!-- Page Content -->
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-9 my-5">
+      <div id="base-main-content" class="col-md-9">
 
     {% block content %}
 
@@ -187,7 +192,7 @@
       </div>
       <div class="footer-copyright text-center py-3">
           <span>
-            © 2019 Politechnika Poznańska
+            © 2020 Poznan University of Technology
           </span>
       </div>
     </div>

@@ -6,7 +6,7 @@ from guardian.mixins import PermissionRequiredMixin
 from rnapuzzles.models import Challenge
 
 
-class ChallengeDelete(PermissionRequiredMixin,DeleteView):
+class ChallengeDelete(PermissionRequiredMixin, DeleteView):
     accept_global_perms = True
     permission_required = "rnapuzzles.delete_challenge"
     model = Challenge

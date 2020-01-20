@@ -27,15 +27,10 @@ class ContactForm(forms.Form):
 
         if user:
 
-            if challenge.round == 1:
-                puzzle_public_id = 'Puzzle {}'.format(challenge.puzzle_info.id)
-            else:
-                puzzle_public_id = 'Puzzle {}-{}'.format(challenge.puzzle_info.id, challenge.round)
-
             if list_name == 'Open puzzles':
-                subject = '[Open puzzles: ' + puzzle_public_id + '] Question from ' + str(user)
+                subject = '[Open puzzles: {}] Question from {}'.format(challenge, str(user))
             else:
-                subject = '[Completed puzzles: ' + puzzle_public_id + '] Question from ' + str(user)
+                subject = '[Completed puzzles: {}] Question from {}'.format(challenge, str(user))
 
             self.fields['from_email'].initial = user.email
             self.fields['from_email'].widget.attrs['readonly'] = True

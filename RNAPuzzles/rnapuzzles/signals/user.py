@@ -14,11 +14,11 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
         object.user_set.add(instance)
         # assign_perm("rnapuzzles.view_newsmodel", instance)
 
-        if (instance.role == 1):  # Organizer
+        if instance.role == 1:  # Organizer
 
             object, created = Group.objects.get_or_create(name="Organizers")
             object.user_set.add(instance)
-            if (created):
+            if created:
                 assign_perm("rnapuzzles.view_newsmodel", object)
                 assign_perm("rnapuzzles.view_puzzleinfo", object)
                 assign_perm("rnapuzzles.add_puzzleinfo", object)
@@ -27,7 +27,7 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
                 assign_perm("rnapuzzles.view_group", object)
                 assign_perm("rnapuzzles.accept_group", object)
 
-        if (instance.role == 3):
+        if instance.role == 3:
             assign_perm("rnapuzzles.change_group", instance, instance.group_name)
             #assign_perm("rnapuzzles.change_group_name", instance, instance.group_name)
             assign_perm("rnapuzzles.name_group", instance, instance.group_name)
@@ -37,17 +37,16 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
             # assign_perm("rnapuzzles.contact_group", instance, instance.group_name)
             # assign_perm("rnapuzzles.accept_group", instance, instance.group_name)
 
-    if (instance.role in [2, 3]):
+    if instance.role in [2, 3]:
         object, created = Group.objects.get_or_create(name="Participant")
         object.user_set.add(instance)
         assign_perm("rnapuzzles.description_group", instance, instance.group_name)
-        if (created):
+        if created:
             assign_perm("rnapuzzles.view_newsmodel", object)
             assign_perm("rnapuzzles.view_puzzleinfo", object)
             assign_perm("rnapuzzles.view_faqmodel", object)
             assign_perm("rnapuzzles.view_resourcesmodel", object)
             assign_perm("rnapuzzles.view_group", object)
-
 
 
 @receiver(pre_save, sender=CustomUser)

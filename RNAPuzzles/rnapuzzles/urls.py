@@ -61,12 +61,19 @@ organizer_puzzles_pattern = [
     re_path(r"(?P<pk>\d+)/update-round/$", puzzles.update_challenge, name='update-challenge'),
     re_path(r"(?P<pk>\d+)/delete-puzzle/$", puzzles.PuzzleInfoDelete.as_view(), name='puzzle-info-delete'),
     re_path(r"(?P<pk>\d+)/delete-round/$", puzzles.ChallengeDelete.as_view(), name='challenge-delete'),
+    re_path(r"(?P<pk>\d+)/publish-results/$", puzzles.publish_results, name='publish-results'),
+]
+
+completed_puzzles_pattern = [
+    path('', puzzles.list_completed, name='completed-puzzles'),
+    re_path(r"(?P<pk>\d+)/results/$", puzzles.results, name='show-results'),
 ]
 
 puzzles_pattern = [
     path('', puzzles.list_open, name='open-puzzles'),
-    path('completed-puzzles', puzzles.list_completed, name='completed-puzzles'),
+    path('completed-puzzles/', include(completed_puzzles_pattern)),
     path('my-puzzles/', include(organizer_puzzles_pattern)),
+    re_path(r"(?P<pk>\d+)/download-all-files/$", puzzles.file_download_batch, name='download-all-files'),
     re_path(r"(?P<pk>\d+)/download-file/$", puzzles.file_download, name='download-file'),
     re_path(r"(?P<pk>\d+)/download-target-structure/$", puzzles.pdb_download, name='download-structure'),
 ]
@@ -83,6 +90,7 @@ scores_pattern = [
     re_path(r"challenge/(?P<pk>\d+)/$", score_challenge.Challenge.as_view(), name="challenge_score"),
 
 ]
+
 urlpatterns = [
     path('', views.home, name='home'),
     path("news/", include(news_patterns)),

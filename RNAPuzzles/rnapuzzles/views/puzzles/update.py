@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from guardian.decorators import permission_required
 
 from rnapuzzles.models import PuzzleInfo, Challenge
 from .forms import *
 
 
-#TODO guardian
-#@permission_required('auth.change_puzzleinfo', (, 'pk', 'pk'),return_403=True)
+@permission_required("rnapuzzles.add_puzzleinfo")
 def update_puzzle_info(request, pk):
 
     template_name = 'puzzles/update_puzzle.html'
@@ -52,8 +52,8 @@ def update_puzzle_info(request, pk):
 
     return render(request, template_name, context)
 
-#TODO guardian
-#@permission_required('auth.change_challenge', (Challenge, 'pk', 'pk'),return_403=True)
+
+@permission_required("rnapuzzles.add_puzzleinfo")
 def update_challenge(request, pk):
 
     template_name = 'puzzles/update_challenge.html'

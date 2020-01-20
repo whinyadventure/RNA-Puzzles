@@ -5,7 +5,7 @@ from guardian.mixins import PermissionRequiredMixin
 
 from rnapuzzles.models import PuzzleInfo
 
-#TODO block if len(puzzleInfo.challenge_set) != 1 or one challenge is oppened
+
 class PuzzleInfoDelete(PermissionRequiredMixin, DeleteView):
     permission_required = "rnapuzzle.delete_puzzleinfo"
     template_name = 'puzzles/puzzle_delete.html'

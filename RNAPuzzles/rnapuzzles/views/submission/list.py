@@ -10,6 +10,7 @@ class List(PermissionListMixin, ListView):
     permission_required = "rnapuzzles.view_submission"
     model = Submission
     ordering = ["-date"]
+
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
         try:

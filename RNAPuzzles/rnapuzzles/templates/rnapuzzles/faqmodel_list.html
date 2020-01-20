@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load martortags %}
 {% load staticfiles %}
+
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/card_collapse.css' %}">
   {% include "rnapuzzles/markdown_head.html" %}
 {% endblock %}
+
 {% block content %}
 <form class="form-inline md-form form-sm mt-0" method="get">
   <i class="fas fa-search" aria-hidden="true"></i>

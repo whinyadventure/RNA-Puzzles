@@ -1,12 +1,35 @@
 from django.http import HttpResponse
-
 from guardian.decorators import permission_required
 
-from rnapuzzles.models import PuzzleInfo, ChallengeFile
+from rnapuzzles.models import PuzzleInfo, Challenge, ChallengeFile
+
+import io
+import zipfile
 
 
+@permission_required("rnapuzzles.view_puzzleinfo")
+def file_download_batch(request, pk):
 
-from rnapuzzles.models import PuzzleInfo, ChallengeFile
+    challenge = Challenge.objects.get(pk=pk)
+    files = challenge.challengefile_set.all()
+    archive_name = 'puzzle_{}-{}_input_files.zip'.format(challenge.puzzle_info.pk, challenge.round)
+
+    in_memory_zip = io.BytesIO()
+
+    with zipfile.ZipFile(in_memory_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
+
+        for single in files:
+
+            with single.file.open('rb') as f:
+                single_content = f.read()
+
+            zf.writestr(single.file.name, single_content)
+
+    response = HttpResponse(in_memory_zip.getvalue(), content_type='application/zip')
+    response['Content-Disposition'] = "attachment; filename=%s" % archive_name
+
+    return response
+
 
 @permission_required("rnapuzzles.view_puzzleinfo")
 def file_download(request, pk):

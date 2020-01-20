@@ -11,6 +11,7 @@ from django.contrib import messages
 from rnapuzzles.models import PuzzleInfo, Challenge
 from rnapuzzles.views.contact.form import ContactForm
 
+
 @permission_required("rnapuzzles.view_puzzleinfo")
 def list_open(request):
 
@@ -18,7 +19,7 @@ def list_open(request):
     name = 'Open puzzles'
 
     n = datetime.datetime.now()
-    challenges = Challenge.objects.filter(Q(end_date__gte=n)|Q(start_date__lte=n))
+    challenges = Challenge.objects.filter(Q(end_date__gte=n) & Q(start_date__lte=n))
 
     data = []
 
@@ -47,14 +48,15 @@ def list_open(request):
             return redirect(reverse('open-puzzles'))
 
     context = {'list_name': name, 'data': data}
+
     return render(request, template_name, context)
+
 
 @permission_required("rnapuzzles.view_puzzleinfo")
 def list_completed(request):
 
     template_name = 'puzzles/list_puzzles.html'
     name = 'Completed puzzles'
-
 
     challenges = Challenge.objects.filter(result_published=True)
 
@@ -86,6 +88,7 @@ def list_completed(request):
     return render(request, template_name, context)
 
 
+@permission_required("rnapuzzles.view_puzzleinfo")
 def list_organizer(request):
 
     template_name = 'puzzles/list_puzzles.html'

@@ -6,7 +6,6 @@ from .forms import *
 from rnapuzzles.models import Challenge
 
 
-# TODO: add user object manipulation permissions
 @permission_required("rnapuzzles.add_puzzleinfo")
 def create_new(request):
 
@@ -14,7 +13,7 @@ def create_new(request):
 
     if request.method == 'POST':
 
-        puzzle_info_form = PuzzleInfoForm(request.POST)
+        puzzle_info_form = PuzzleInfoForm(request.POST, request.FILES)
         challenge_form = ChallengeForm(request.POST)
         files_form = FilesFormset(request.POST, request.FILES)
 
@@ -45,6 +44,7 @@ def create_new(request):
     context = {'new': True, 'info_form': puzzle_info_form, 'challenge_form': challenge_form, 'files_form': files_form}
 
     return render(request, template_name, context)
+
 
 @permission_required("rnapuzzles.add_puzzleinfo")
 def create_next(request):
