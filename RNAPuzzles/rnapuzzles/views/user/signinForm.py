@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.utils.translation import ugettext_lazy as _
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 from ...models.user import CustomUser
 
@@ -29,6 +31,22 @@ class SigninForm(AuthenticationForm):
         self.user_cache = None
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         self.username_field = CustomUser._meta.get_field(CustomUser.EMAIL_FIELD)
+
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('email', css_class='form-group col-md-4 mb-0 offset-md-4'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('password1', css_class='form-group col-md-4 mb-0 offset-md-4'),
+                css_class='form-row '
+            ),
+            Row(
+                Submit('submit', 'Sign in', css_class="custom-button"),
+                css_class='form-row flex-d justify-content-center'
+            )
+        )
 
     def clean(self):
         email = self.cleaned_data.get('email')

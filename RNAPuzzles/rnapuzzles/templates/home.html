@@ -1,16 +1,17 @@
 {% extends  'base.html' %}
 
 {% block content %}
-<h1>RNA-Puzzles</h1>
-is a collective experiment for blind RNA structure prediction.
-
-<div id="main-card" class="card mt-4 mb-4">
-    <div class="card-header">
-        <div class="h3 align-self-center">
-            Aims of the project
-        </div>
+{% load static %}
+<div class="d-flex justify-content-center">
+        <img  class="" src="{% static 'img/RNA-logo.svg' %}" height="85" alt="RNA-Puzzles">
     </div>
-    <div class="card-body">
+    <div class="d-flex justify-content-center">
+        Collective experiment for blind RNA structure prediction.
+    </div>
+<br>
+
+<h1>Aims of the project</h1>
+
         <ul>
             <li>To determine the capabilities and limitations of current methods of 3D RNA structure prediction based on sequence;</li>
             <li>To find whether and how progress has been made, as well as what has yet to be done to achieve better solutions</li>
@@ -19,13 +20,8 @@ is a collective experiment for blind RNA structure prediction.
             <li>To encourage the RNA structure prediction community in their efforts to improve the current tools and to make automated prediction tools available.</li>
             <li>To explore the underlying mechanism of ligand-RNA binding and the conformational changes in riboswitches.</li>
         </ul>
-    </div>
-    <div class="card-header">
-        <div class="h3 align-self-center">
-            Basic Rules
-        </div>
-    </div>
-    <div class="card-body">
+
+<h1>Basic Rules</h1>
         <ul>
             <li>Confidential agreement: "I will use the provided sequence data for prediction purposes only. I will not distribute the sequences in any form outside my working group."</li>
             <li>It is strongly recommanded that all the predictions formatted in standard PDB format. So that all the modellers could have a fair comparison without considering the file format and prediction region. We provide a python script here for generating standard PDB format files, only the coordinates need to be replaced by the predictors.</li>
@@ -34,24 +30,14 @@ is a collective experiment for blind RNA structure prediction.
             <li>Please put all prediction models together in one PDB file as NMR format (Separate models by lines: "MODEL n" and "ENDMDL").</li>
             <li>For submission, please either use our online submission system or send us an email.</li>
         </ul>
-    </div>
-    <div class="card-header">
-        <div class="h3 align-self-center">
-            Call for participants
-        </div>
-    </div>
-    <div class="card-body">
+
+<h1>Call for participants</h1>
         <ul>
             <li>We hope more crystallgraphers could help us in providing more crystal, cryo-EM or NMR structures. Any kind of RNA related structure information is encouraged. Anyone who may have a RNA structure please contact us.</li>
             <li>We encourage more predictors who are interested in RNA structure prediction to take part in this compitition to push forward the field. Anyone who is interested please send us an email.</li>
         </ul>
-    </div>
-        <div class="card-header">
-        <div class="h3 align-self-center">
-            Metrics in RNA 3D structure comparison
-        </div>
-    </div>
-    <div class="card-body">
+
+<h1>Metrics in RNA 3D structure comparison</h1>
         <p>
             <b>Root Mean Square Deviation (RMSD)</b>
             Root Mean Square Deviation (RMSD) is a widely used metric for comparison of 3D structures of biomolecules. The RMSD calculation involves an alignment of all the atoms that are found both in the predicted model and the reference structure. A superimposition is performed based on the aligned atoms, and Root Mean Square Deviation is calculated based on the Euclidean distances between them.
@@ -87,7 +73,6 @@ is a collective experiment for blind RNA structure prediction.
         <b>Mean of Circular Quantities (MCQ)</b>
         In the practice of RNA structure modeling, several approaches try to represent the RNA structure with simplified models, such as network model and reconstruct the RNA 3D structure with standard bond lengths and bond angles. Assuming the standard bond lengths and bond angles are constant values, it is important to understand the accuracy of the torsion angles, which are the only degrees of freedom in the modeling in this context. Therefore, the Mean of Circular Quantities (MCQ) is a metric to compare RNA 3D structures in the torsion angle space. A nucleotide can be described by six torsion angles from the backbone, while the δ dihedral is constrained by the sugar ring. The residue-wise comparison in the torsion angle space highlights the dissimilarity in local structure. We binarize the torsion angle difference into four bins: <15°, 15-30°, 30-60°, and >60°. MCQ value <15° means the best similarity, while >60° implies severe structural change. When considering local structure, MCQ can compare the similarity of a selected fragments.
         </p>
-    </div>
-</div>
+
 
 {% endblock %}

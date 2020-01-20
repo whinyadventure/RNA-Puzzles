@@ -40,7 +40,7 @@
       <div class="container">
 
         <a class="navbar-brand" href="{% url 'home' %}">
-          <img id="logo" src="{% static 'img/RNA-logo-1-biale.svg' %}" alt="RNA-Puzzles>">
+          <img id="logo" src="{% static 'img/RNA-logo-biale.svg' %}" alt="RNA-Puzzles">
         </a>
 
         <!-- account toggle -->
@@ -89,7 +89,7 @@
             {% else %}
 
               <li class="nav-item active">
-                <a class="nav-link text-light" href="">Home</a>
+                <a class="nav-link text-light" href="{% url 'home' %}">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link text-light" href="{% url 'news_list' %}">News</a>
@@ -180,7 +180,7 @@
   </div>
 
   <!-- Footer -->
-  <footer class="page-footer bg-light">
+  <footer class="page-footer">
     <div class="container">
       <div class="footer-nav">
 

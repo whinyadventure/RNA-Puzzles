@@ -9,6 +9,10 @@ body{
     color: #4F5459;
 }
 
+a{
+    color: #4F5459;
+}
+
 nav{
     background-color: #49517C;
     color: #FFFFFF;
@@ -43,6 +47,7 @@ footer{
   right: 0;
   bottom: 0;
   left: 0;
+  background-color: #E5E5E5;
 }
 
 .card-body .card-field-label {
@@ -53,6 +58,12 @@ footer{
 
 .card-body .card-field-content {
     margin-bottom: 1rem;
+}
+
+.custom-button{
+    background-color: #49517C;
+    border: None;
+    border-radius: 0px;
 }
 
 
