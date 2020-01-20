@@ -1,6 +1,7 @@
 from django import forms
 from martor.fields import MartorFormField
-from django.utils.translation import ugettext_lazy as _
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 from ...models import Group, CustomUser
@@ -8,7 +9,7 @@ from ...models import Group, CustomUser
 
 class Form(forms.ModelForm):
 
-    group_description = MartorFormField()
+    group_description = MartorFormField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(Form, self).__init__(*args, **kwargs)
@@ -19,6 +20,26 @@ class Form(forms.ModelForm):
         if not user.has_perm("name_group", group):
             self.fields["group_name"].widget = forms.HiddenInput()
             self.fields["contact"].widget = forms.HiddenInput()
+
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('group_name', css_class='form-group col-md-4 mb-0 offset-md-4'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('contact', css_class='form-group col-md-4 mb-0 offset-md-4'),
+                css_class='form-row '
+            ),
+            Row(
+                Column('group_description', css_class='form-group'),
+                css_class='form-row justify-content-center custom-martor'
+            ),
+            Row(
+                Submit('submit', 'Save', css_class="custom-button"),
+                css_class='form-row flex-d justify-content-center'
+            )
+        )
 
     class Meta:
         model = Group

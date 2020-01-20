@@ -16,10 +16,9 @@
         <form method="post">
             {% crispy form %}
         </form>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mb-3">
         Already have an account? &nbsp;<a class="font-weight-bold" href="{% url 'signin' %}">Sign in</a>
     </div>
-<br>
     {% load static %}
     <script src="{% static 'js/signupForm.js' %}"></script>
 
