@@ -7,4 +7,5 @@ from rnapuzzles.celery import spawn_tasks
 
 @receiver(post_save, sender=Submission)
 def post_save_challenge_change(sender, instance: Submission, *args, **kwargs):
-    spawn_tasks(instance.pk)
+    if(kwargs.get("created", False)):
+        spawn_tasks(instance.pk)

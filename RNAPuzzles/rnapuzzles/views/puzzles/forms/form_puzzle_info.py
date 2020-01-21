@@ -43,19 +43,17 @@ class PuzzleInfoForm(forms.ModelForm):
         super(PuzzleInfoForm, self).__init__(*args, **kwargs)
 
 
-        if self.hide_condition:
-            to_hide = ['publish_date', 'reference', 'reference_url', 'pdb_id', 'pdb_url', 'pdb_file', 'img']
-
         self.fields['publish_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
 
         if self.instance.id:
-
+            options = {
+                'format': 'DD-MM-YYYY HH:mm',
+                'pickSeconds': False
+            }
+            if self.instance.publish_date:
+                options['defaultDate'] = self.instance.publish_date.strftime('%Y-%m-%d %H:%M')
             self.fields['publish_date'].widget = DateTimePicker(
-                options={
-                    'format': 'DD-MM-YYYY HH:mm',
-                    'pickSeconds': False,
-                    'defaultDate': self.instance.publish_date.strftime('%Y-%m-%d %H:%M'),
-                },
+                options = options,
                 attrs={
                     'append': 'fa fa-calendar',
                     'icon_toggle': True,
@@ -97,17 +95,17 @@ class PuzzleInfoForm(forms.ModelForm):
         #
         #     if ext not in allowed_extensions:
         #         self._errors['pdb_file'] = self.error_class([u'Invalid extension of target 3D structure file.'])
-
-        if 'pdb_file' in self.changed_data:
-
-            pdb_file = cleaned_data['pdb_file']
-
-            allowed_extensions = ['.pdb', '.cif']
-
-            name, ext = os.path.splitext(pdb_file.name)
-
-            if ext not in allowed_extensions:
-                self._errors['pdb_file'] = self.error_class([u'Invalid extension of target 3D structure file.'])
+        #
+        # if 'pdb_file' in self.changed_data:
+        #
+        #     pdb_file = cleaned_data['pdb_file']
+        #
+        #     allowed_extensions = ['.pdb', '.cif']
+        #
+        #     name, ext = os.path.splitext(pdb_file.name)
+        #
+        #     if ext not in allowed_extensions:
+        #         self._errors['pdb_file'] = self.error_class([u'Invalid extension of target 3D structure file.'])
 
 
         return cleaned_data

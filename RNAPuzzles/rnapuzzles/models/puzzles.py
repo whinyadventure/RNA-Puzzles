@@ -132,13 +132,15 @@ class Challenge(models.Model):
 
     @property
     def current_status(self):
+
+        print(self.start_date, datetime.datetime.utcnow())
         if datetime.datetime.now() < self.start_date:
             return self.CREATED
         if datetime.datetime.now() < self.end_date:
             return self.OPEN
 
         if not self.result_published:
-            return self.EVALUATE
+            return self.EVALUATED
 
         return self.COMPLETED
 
@@ -154,14 +156,6 @@ class Challenge(models.Model):
         return 'Puzzle %s-%s' % (self.puzzle_info_id, str(self.round))
 
     def save(self, *args, **kwargs):
-
-        if self.pk is None:
-            # initialize current_status
-            if self.start_date == datetime.date.today():
-                self.current_status = 1
-            else:
-                self.current_status = 0
-
         super(Challenge, self).save(*args, **kwargs)
 
 

@@ -17,10 +17,12 @@ def create_new(request):
         puzzle_info_form = PuzzleInfoForm(request.POST)
         challenge_form = ChallengeForm(request.POST)
         files_form = FilesFormset(request.POST, request.FILES)
+        print(request.POST)
 
         if puzzle_info_form.is_valid() and challenge_form.is_valid() and files_form.is_valid():
             puzzle_info = puzzle_info_form.save(commit=False)
             puzzle_info.author = request.user
+
             puzzle_info.save()
 
             challenge = challenge_form.save(commit=False)

@@ -101,4 +101,3 @@ def update_challenge(request, pk):
 
     return render(request, template_name, context)
 
-

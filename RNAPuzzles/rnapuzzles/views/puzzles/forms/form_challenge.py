@@ -1,6 +1,7 @@
 from django import forms
 from datetime import datetime, timedelta
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from tempus_dominus.widgets import DateTimePicker
 
 from tempus_dominus.widgets import DateTimePicker
@@ -13,6 +14,9 @@ def next_full_hour(created_at=None):
         return created_at.replace(second=0, minute=0) + timedelta(hours=1)
     else:
         return datetime.today().replace(microsecond=0, second=0, minute=0) + timedelta(hours=1)
+
+def next_full_day():
+    return datetime.today().replace(microsecond=0, second=0, minute=0) + timedelta(days=1)
 
 
 class ChallengeForm(forms.ModelForm):
@@ -55,6 +59,7 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
+                    'defaultDate': next_full_day().strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -72,13 +77,12 @@ class ChallengeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         required_puzzle = kwargs.pop('required_puzzle', False)
 
+
         super(ChallengeForm, self).__init__(*args, **kwargs)
 
-        self.fields['start_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-        self.fields['end_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-
-        self.fields['end_automatic'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-
+        self.fields['start_date'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['end_date'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['end_automatic'].input_formats = settings.DATETIME_INPUT_FORMATS
 
         if required_puzzle:
             self.fields['puzzle_info'].required = True
@@ -133,6 +137,7 @@ class ChallengeForm(forms.ModelForm):
 
             if puzzle_info is None:
                 self._errors['puzzle_info'] = self.error_class([u'Base challenge is required.'])
+
 
         start_date = cleaned_data.get('start_date')
 
