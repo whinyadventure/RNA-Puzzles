@@ -193,7 +193,7 @@ MARTOR_ENABLE_CONFIGS = {
 }
 
 # To setup the martor editor with label or not (default is False)
-MARTOR_ENABLE_LABEL = False
+MARTOR_ENABLE_LABEL = True
 
 # Imgur API Keys
 MARTOR_IMGUR_CLIENT_ID = 'your-client-id'

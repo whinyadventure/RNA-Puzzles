@@ -9,27 +9,25 @@
 {% block content %}
 {% get_obj_perms request.user for group as "group_perms" %}
 
-<div id="main-card" class="card mt-4 mb-4">
-    <div class="card-header">
-        <div class="h3 align-self-center">
-            <h1>{{object.group_name}}</h1>
-        </div>
-    </div>
-    <div class="card-body">
-        <div><b>Leader:</b>   {{object.leader}}</div>
+<div class="d-flex justify-content-center mb-3">
+    <h1>{{object.group_name}}</h1>
+</div>
+<div>
+        <div class="offset-md-1"><b>Leader:</b>   {{object.leader}}</div>
         {% if object.members%}
-            <div><b>Other Members:</b></div>
+            <div class="offset-md-1"><b>Other Members:</b></div>
         {% endif %}
-        <ul>
+        <ul class="offset-md-2">
         {% for member in object.members %}
             {{member}}
         {% endfor %}</ul>
-
-        <div class="card-body markdown-body " >{{ object.group_description|safe_markdown }}</div>
-    </div>
+        <div class="offset-md-1"><b>Contact:</b>   {{object.contact}}</div>
+        <div class="card-body markdown-body offset-md-1" >{{ object.group_description|safe_markdown }}</div>
 </div>
 {% if "change_group" in group_perms %}
-    <a href="{{object.id}}/update"><i class="far fa-edit"></i>Edit</a>
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary custom-button " href="{{object.id}}/update">Edit</a>
+    </div>
 {% endif %}
 
 {% endblock %}

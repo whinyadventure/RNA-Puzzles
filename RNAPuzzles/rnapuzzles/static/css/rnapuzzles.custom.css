@@ -1,5 +1,29 @@
+html{
+    height: 100%;
+}
+
+body{
+    position: relative;
+    min-height: 100%;
+    font-family: "Times New Roman", Times, serif;
+    color: #4F5459;
+}
+
+a{
+    color: #4F5459;
+}
+
+nav{
+    background-color: #49517C;
+    color: #FFFFFF;
+}
+
+
+
 #logo {
+
      height: 35px;
+     width: 200px;
 }
 
 .arrow {
@@ -18,20 +42,12 @@
     border-bottom: none;
 }
 
-html {
-    height: 100%;
-}
-
-body {
-    position: relative;
-    min-height: 100%;
-}
-
-footer {
+footer{
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
+  background-color: #E5E5E5;
 }
 
 #base-main-content {
@@ -49,4 +65,18 @@ footer {
     margin-bottom: 1rem;
 }
 
+.custom-button{
+    background-color: #49517C;
+    border: None;
+    border-radius: 0px;
+    color: #FFFFFF;
+}
+
+.custom-table-head{
+    background-color: #E5E5E5;
+}
+
+.custom-martor{
+height: 70%;
+}
 
