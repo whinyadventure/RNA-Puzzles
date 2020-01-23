@@ -42,6 +42,7 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
             assign_perm("rnapuzzles.view_faqmodel", object)
             assign_perm("rnapuzzles.view_resourcesmodel", object)
             assign_perm("rnapuzzles.view_group", object)
+            assign_perm("rnapuzzles.add_submission", object)
 
 
 @receiver(pre_save, sender=CustomUser)

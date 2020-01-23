@@ -59,4 +59,3 @@ def post_save_challenge_change(sender, instance: Challenge, *args, **kwargs):
     if instance.current_status == 3:
         remove_perm("rnapuzzles.change_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
 
-

@@ -1,0 +1,12 @@
+SECRET_KEY="m7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy"
+DEBUG=FALSE
+DB_NAME=RNA
+DB_USER=admin
+DB_PASSWORD=password
+DB_HOST=postgres-postgresql-0
+DB_PORT=5432
+
+RABBITMQ_USER=user
+RABBITMQ_PASSWORD=password
+RABBITMQ_HOST=rabbitmq-rabbitmq-ha-0
+RABBITMQ_PORT=5672

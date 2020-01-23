@@ -13,10 +13,10 @@ class List(PermissionListMixin, ListView):
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
-        try:
-            queryset = queryset\
-                .filter(user=self.request.user)
-        except:
-            pass
+        # try:
+        #     queryset = queryset\
+        #         .filter(user=self.request.user)
+        # except:
+        #     pass
 
         return queryset

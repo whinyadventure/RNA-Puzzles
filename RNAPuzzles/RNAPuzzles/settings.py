@@ -20,13 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'm7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy'
+SECRET_KEY = os.getenv("SECRET_KEY",'m7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", True) == "True"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["127.0.0.1", "django-service"]
 LOGOUT_REDIRECT_URL = '/'
 DOMAIN_URL = "127.0.0.1"
 
@@ -113,11 +112,11 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rna',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv("DB_NAME",'rna'),
+        'USER': os.getenv("DB_USER",'postgres'),
+        'PASSWORD': os.getenv("DB_PASSWORD",'password'),
+        'HOST': os.getenv("DB_HOST",'localhost'),
+        'PORT': os.getenv("DB_PORT",'5432'),
     }
 }
 
@@ -154,8 +153,8 @@ USE_L10N = False
 
 USE_TZ = False
 
-DATETIME_FORMAT = 'd M Y, H:i '
-DATETIME_INPUT_FORMATS = '%d-%m-%Y %H:%M'
+DATETIME_FORMAT = ['d M Y, H:i ']
+DATETIME_INPUT_FORMATS = ['%d-%m-%Y %H:%M']
 
 TEMPUS_DOMINUS_LOCALIZE = True
 TEMPUS_DOMINUS_INCLUDE_ASSETS = True
@@ -166,7 +165,7 @@ TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_ROOT = "/var/www/html/"#os.path.join(PROJECT_ROOT, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -237,9 +236,11 @@ SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 
 # RabbitMq
-CELERY_BROKER_URL = 'amqp://user:password@{host}:{port}'.format(
+CELERY_BROKER_URL = 'amqp://{user}:{password}@{host}:{port}'.format(
     host=os.getenv('RABBITMQ_HOST', 'localhost'),
-    port=os.getenv('RABBITMQ_PORT', '5672')
+    port=os.getenv('RABBITMQ_PORT', '5672'),
+    user=os.getenv("RABBITMQ_USER", "user"),
+    password=os.getenv("RABBITMQ_PASSWORD", "password")
 )
 
 

@@ -10,8 +10,30 @@
 
 <script>
 $(document).ready(function() {
-    $('#dt').DataTable({
-   order: [[ 0, "desc" ]],
+ // Setup - add a text input to each footer cell
+    $('#dt thead tr').clone(true).appendTo( '#dt thead' );
+    $('#dt thead tr:eq(1) th').each( function (i) {
+
+        var title = $(this).text();
+        if(title=="User" || title=="Group"){
+            $(this).html( '<input type="text" placeholder="Search '+title+'" size=15 padding=0/>' );
+
+            $( 'input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        }else{
+            $(this).html('');
+        }
+    } );
+    var table = $('#dt').DataTable({
+    orderCellsTop: true,
+        fixedHeader: true,
+   order: [[ 0, "asc" ]],
   "columnDefs": [
     { "type": "num", "targets": 0 },
     { "type": "html", "targets": 1 },
@@ -23,7 +45,31 @@ $(document).ready(function() {
 
 {% endblock %}
 {% block content %}
-<h1>Your submissions</h1>
+<h1>Results for {{object}}</h1>
+    <div class="custom-radio-group">
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-all"
+                   onchange="document.location.href='{% url 'challenge_score' pk=object.pk%}'" {% if all %} checked{% endif %}>
+            <label class="custom-control-label" for="radio-all">All results</label>
+        </div>
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-silico"
+                   onchange="document.location.href='{% url 'challenge_score_automatic' pk=object.pk %}'" {% if  in_silico %} checked{% endif %}>
+            <label class="custom-control-label" for="radio-silico">In silico</label>
+        </div>
+
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-vivo"
+                   onchange="document.location.href='{% url 'challenge_score_user' pk=object.pk %}'" {% if  in_vivo %} checked{% endif %}>
+            <label class="custom-control-label" for="radio-vivo">In vivo(?)</label>
+        </div>
+
+    </div>
+    <br>
+<br><br>
 <table id="dt" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
     <thead>
     <tr>
@@ -40,7 +86,7 @@ $(document).ready(function() {
     <tr>
         <th scope="row">{{forloop.counter}}</th>
         <td>{{user_scores.user}}</td>
-        <td>{{user_scores.user.group}}</td>
+        <td>{{user_scores.user.group_name}}</td>
         {% for score in user_scores.scores %}
             <td>{{score.score|floatformat:4 }}</td>
 

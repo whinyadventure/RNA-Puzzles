@@ -88,6 +88,8 @@ submission_pattern = [
 
 scores_pattern = [
     re_path(r"challenge/(?P<pk>\d+)/$", score_challenge.Challenge.as_view(), name="challenge_score"),
+    re_path(r"challenge/(?P<pk>\d+)/automatic$", score_challenge.ChallengeAutomatic.as_view(), name="challenge_score_automatic"),
+    re_path(r"challenge/(?P<pk>\d+)/user$", score_challenge.ChallengeUser.as_view(), name="challenge_score_user"),
 
 ]
 

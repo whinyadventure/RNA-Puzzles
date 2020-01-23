@@ -162,6 +162,7 @@
 
         {% if challenge.current_status == 1 and list_name != 'My puzzles' %}
             <a href="{% url 'submission_new' challenge.id %}"><button type="button" class="btn btn-primary"> Submit model</button></a>
+
         {% endif %}
 
         {% if challenge.current_status == 3 and list_name != 'Results' %}

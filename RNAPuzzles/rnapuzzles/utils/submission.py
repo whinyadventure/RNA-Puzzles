@@ -4,7 +4,7 @@ import zipfile
 from django.db.models import Q
 from django.forms import forms
 
-from rnapuzzles.models import PuzzleInfo, Submission
+from rnapuzzles.models import PuzzleInfo, Submission, Challenge
 
 batch_file_formats = ["zip"]
 file_file_formats = ["pdb", "cif", "in"]  # TODO
@@ -84,8 +84,9 @@ def save_single(name, content, user, puzzle_pk=None):
     else:
         puzzle_info = PuzzleInfo.objects.get(pk=puzzle_pk)
 
-    challenge = get_open_challenge(puzzle_info)
-    return Submission.objects.create(challenge_id=challenge.pk, user=user, content=content)
+    challenge: Challenge = get_open_challenge(puzzle_info)
+    is_automatic = challenge.end_automatic > datetime.datetime.now()
+    return Submission.objects.create(challenge_id=challenge.pk, user=user, content=content, is_automatic=is_automatic)
 
 
 def save_zip(file, user):

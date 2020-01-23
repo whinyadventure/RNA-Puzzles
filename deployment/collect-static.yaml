@@ -1,0 +1,45 @@
+# collectstatic-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rnapuzzles-collectstatic-job
+  labels:
+    app.kubernetes.io/name: rnapuzzles
+spec:
+  template:
+    spec:
+      containers:
+      - name: rnapuzzles
+        image: rnapuzzles
+        imagePullPolicy: Always
+        command: ['python', 'manage.py', 'collectstatic', '--noinput',]
+        env:
+          - name: STATIC_ROOT
+            value: /var/www/html/static/
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: rnapuzzles-env
+                key: secret_key
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: rnapuzzles-env
+                key: db_name
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: rnapuzzles-env
+                key: db_user
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: rnapuzzles-env
+                key: db_password
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: rnapuzzles-env
+                key: db_host         
+      restartPolicy: Never
+  backoffLimit: 4

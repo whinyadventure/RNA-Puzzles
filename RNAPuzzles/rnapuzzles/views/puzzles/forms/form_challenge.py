@@ -67,9 +67,9 @@ class ChallengeForm(forms.ModelForm):
 
         super(ChallengeForm, self).__init__(*args, **kwargs)
 
-        self.fields['start_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-        self.fields['end_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-        self.fields['end_automatic'].input_formats = [settings.DATETIME_INPUT_FORMATS]
+        self.fields['start_date'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['end_date'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['end_automatic'].input_formats = settings.DATETIME_INPUT_FORMATS
 
         if required_puzzle:
             self.fields['puzzle_info'].required = True

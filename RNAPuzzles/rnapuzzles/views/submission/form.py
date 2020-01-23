@@ -35,6 +35,7 @@ class Form(forms.ModelForm):
         else:
             self.content = self.cleaned_data["file"].read()
             util.validate_single(self.cleaned_data["file"].name, self.content, self.pk)
+
         return self.cleaned_data
 
     def save(self, commit=True):
