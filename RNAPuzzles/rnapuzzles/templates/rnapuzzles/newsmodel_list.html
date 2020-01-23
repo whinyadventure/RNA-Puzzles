@@ -7,6 +7,11 @@
 {% block content %}
 {% load guardian_tags %}
 
+<div class="h2 justify-content-center align-self-center mr-auto">
+  News
+</div>
+<hr class="mt-1 mb-3">
+
 {% if perms.rnapuzzles.add_newsmodel %}
   <form action="{% url 'news_new' %}" method="get">
     <div class="span9 btn-block">

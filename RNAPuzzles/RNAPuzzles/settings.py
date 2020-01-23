@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY",'m7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", True) == "True"
+DEBUG = os.getenv("DEBUG", True) != "True"
 
 ALLOWED_HOSTS = ["127.0.0.1", "django-service"]
 LOGOUT_REDIRECT_URL = '/'

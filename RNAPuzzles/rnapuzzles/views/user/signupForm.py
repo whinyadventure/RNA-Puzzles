@@ -41,7 +41,6 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Column(),
                 Column('first_name', css_class='form-group col-md-3 mb-0 offset-md-3'),
                 Column('last_name', css_class='form-group col-md-3 mb-0'),
                 css_class='form-row'
