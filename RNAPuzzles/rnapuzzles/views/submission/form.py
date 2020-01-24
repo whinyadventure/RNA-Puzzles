@@ -9,10 +9,9 @@ from rnapuzzles.utils import submission as util
 from rnapuzzles.models import ResourcesModel, Submission, PuzzleInfo
 
 
-class Form(forms.ModelForm):
-    success_url = ""
-
-    file = forms.FileField(help_text="Help text")
+class FormSingle(forms.ModelForm):
+    label = forms.CharField(max_length=10, help_text="Label for submitted file")
+    file = forms.FileField(help_text="*.pdb file")
 
     helper = FormHelper()
     helper.form_id = 'submission_form'
@@ -23,27 +22,47 @@ class Form(forms.ModelForm):
         self.objects = []
         self.pk = kwargs.pop('pk')
         self.user = kwargs.pop('user')
-        super(Form, self).__init__(*args, **kwargs)
+        super(FormSingle, self).__init__(*args, **kwargs)
 
     def clean(self):
-        super(Form, self).clean()
-
-        if util.is_batch(self.cleaned_data["file"].name):
-            self.pk = None
-            util.validate_batch(self.cleaned_data["file"])
-
-        else:
-            self.content = self.cleaned_data["file"].read()
-            util.validate_single(self.cleaned_data["file"].name, self.content, self.pk)
+        super(FormSingle, self).clean()
+        self.content = self.cleaned_data["file"].read()
+        util.validate_single(self.cleaned_data["file"].name, self.content, self.pk, self.cleaned_data["label"])
 
         return self.cleaned_data
 
     def save(self, commit=True):
-        if util.is_batch(self.cleaned_data["file"].name):
-            util.save_zip(self.cleaned_data["file"], self.user)
-        else:
-            util.save_single(self.cleaned_data["file"].name, self.content, self.user,
-                             self.pk)
+        util.save_single(self.content, self.user, self.pk, self.cleaned_data["label"])
+
+    class Meta:
+        model = Submission
+        fields = ["label","file"]
+
+
+class FormBatch(forms.ModelForm):
+    success_url = ""
+
+    file = forms.FileField(help_text="Zip file with files named PuzzleCode_Label.pdb")
+
+
+    helper = FormHelper()
+    helper.form_id = 'submission_form'
+    helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
+    helper.form_method = 'POST'
+
+    def __init__(self, *args, **kwargs):
+        self.objects = []
+        self.pk = kwargs.pop('pk')
+        self.user = kwargs.pop('user')
+        super(FormBatch, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super(FormBatch, self).clean()
+        util.validate_batch(self.cleaned_data["file"])
+        return cleaned_data
+
+    def save(self, commit=True):
+        util.save_batch(self.cleaned_data["file"], self.user)
 
     class Meta:
         model = Submission

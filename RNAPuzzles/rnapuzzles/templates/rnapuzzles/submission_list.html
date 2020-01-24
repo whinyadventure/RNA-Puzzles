@@ -30,6 +30,8 @@ $(document).ready(function() {
     <tr>
         <th class="th-sm">#</th>
         <th class="th-sm">User</th>
+        <th class="th-sm">Label</th>
+        <th class="th-sm">Round</th>
         <th class="th-sm">Challenge</th>
         <th class="th-sm">Status</th>
         <th class="th-sm">Date</th>
@@ -39,9 +41,17 @@ $(document).ready(function() {
     <tbody>
     {% for submission in object_list %}
     <tr>
-        <th scope="row">{{forloop.counter}}</th>
-        <td>{{submission.user}}</td>
-        <td><a href="{{group.id}}">{{submission.challenge}}</a></td>
+        <th scope="row"><a href="{% url 'submission_detail' pk=submission.pk %}">{{forloop.counter}}</a></th>
+        {% if submission.user.group_name %}
+        <td><a href="{% url 'group_detail' object=submission.user.group_name.pk%}"> {{submission.user}}</a></td>
+
+        {% else %}
+        <td>{{submission.user}}</a></td>
+
+        {% endif %}
+        <td>{{submission.label}}</td>
+        <td>{% if submission.is_automatic %}Automatic {%else%} Human {% endif %} </td>
+        <td>{{submission.challenge}}</td>
         <td >{{submission.get_status_display}}</td>
         <td>{{submission.date}}</td>
         <td><a href="{% url 'submission_content' pk=submission.pk %}">Show</a></td>

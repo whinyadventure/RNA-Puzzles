@@ -17,9 +17,10 @@
     <form method="post">
         {% crispy form %}
     </form>
+
 <br>
 <div class="d-flex justify-content-center">
-    <a class="font-weight-bold" href="{% url 'signup' %}">Sign up</a>&nbsp;for an account &bull; Forgot&nbsp;<a class="font-weight-bold" href="{% url 'signup' %}">password</a>?
+    <a class="font-weight-bold" href="{% url 'signup' %}">Sign up</a>&nbsp;for an account &bull; Forgot&nbsp;<a class="font-weight-bold" href="{% url 'user_password_reset' %}">password</a>?
 </div>
 
 {% endblock %}

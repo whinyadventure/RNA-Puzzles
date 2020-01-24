@@ -66,7 +66,9 @@ organizer_puzzles_pattern = [
 
 completed_puzzles_pattern = [
     path('', puzzles.list_completed, name='completed-puzzles'),
-    re_path(r"(?P<pk>\d+)/results/$", puzzles.results, name='show-results'),
+    re_path(r"(?P<pk>\d+)/results/$", puzzles.ChallengeAll.as_view(), name='show-results'),
+    re_path(r"(?P<pk>\d+)/results/automatic/$", puzzles.ChallengeAutomatic.as_view(), name='show-results-automatic'),
+    re_path(r"(?P<pk>\d+)/results/human/$", puzzles.ChallengeUser.as_view(), name='show-results-human'),
 ]
 
 puzzles_pattern = [
@@ -79,10 +81,11 @@ puzzles_pattern = [
 ]
 
 submission_pattern = [
-    re_path(r"create/$", submission.Create.as_view(), name="submission_new"),
-    re_path(r"create/(?P<pk>\d+)/$", submission.Create.as_view(), name="submission_new"),
+    re_path(r"create/$", submission.CreateBatch.as_view(), name="submission_batch"),
+    re_path(r"create/(?P<pk>\d+)/$", submission.CreateSingle.as_view(), name="submission_single"),
     re_path(r"list/$", submission.List.as_view(), name="submission_user_list"),
     re_path(r"content/(?P<pk>\d+)/$", submission.Content.as_view(), name="submission_content"),
+    re_path(r"(?P<pk>\d+)/$", submission.Detail.as_view(), name="submission_detail"),
 
 ]
 

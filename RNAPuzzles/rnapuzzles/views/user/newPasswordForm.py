@@ -31,10 +31,15 @@ class NewPasswordForm(SuccessMessageMixin, forms.ModelForm):
             self.user = CustomUser.objects.get(pk=self.uid)
         except:
             self.user = None
-
+        self.linkvalid = True
         if not(self.user is not None and default_token_generator.check_token(self.user, self.token)):
+            self.linkvalid = False
+            #return HttpResponseRedirect("/")
+    def clean(self):
+        clean_data = super(NewPasswordForm, self).clean()
+        if not (self.user is not None and default_token_generator.check_token(self.user, self.token)):
             return HttpResponseRedirect("/")
-
+        return clean_data
     def clean_new_password2(self):
         password1 = self.cleaned_data.get('newpassword1')
         password2 = self.cleaned_data.get('new_password2')

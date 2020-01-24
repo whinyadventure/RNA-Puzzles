@@ -124,6 +124,10 @@
                   {% if perms.rnapuzzles.add_puzzleinfo %}
                     <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
                   {% endif %}
+                  {% if perms.rnapuzzles.add_submission %}
+                   <a class="dropdown-item" href="{% url 'submission_user_list' %}">My submissions</a>
+                  {% endif %}
+
                   <a class="dropdown-item" href="{% url 'unconfirmed_list' %}">Pending request</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>

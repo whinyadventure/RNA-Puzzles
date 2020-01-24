@@ -14,8 +14,6 @@ from rnapuzzles.models import Submission, Score, PuzzleInfo, Metric
 @celery.task(name="spawn_tasks_for_metric_caluculation")
 def spawn_tasks(submission):
     submission = Submission.objects.get(pk=submission)
-    print("AaA")
-
     rnaqua_metrics.delay(submission.pk)
 
 @celery.task(name="calculate score")
@@ -37,14 +35,17 @@ def rnaqua_metrics(submission_pk):
             file.write(puzzle.pdb_file.read().decode("utf-8"))
 
         print(subprocess.run(["java", "-jar", "../rnaqua.jar", "--command", "ALL-SCORES-AT-ONCE", "-s",submitted_path, "-r",ref_path, "-o",output_path]))
+
         with open(output_path, "r") as file:
-            out_dict = xmltodict.parse(file.read())
+            res_rnaqua = file.read()
+            out_dict = xmltodict.parse(res_rnaqua)
             print(out_dict['comprehensiveScores']["structure"])
             root = out_dict['comprehensiveScores']["structure"]
 
             if(root["description"]["errors"]):
                 sub.status = sub.ERROR
-                sub.error_msg = root["description"]["errors"]
+                sub.msg = res_rnaqua
+                sub.save()
                 return 1
 
             infs_metrics = ["wc", "nwc", "stacking", "all"]
@@ -67,6 +68,7 @@ def rnaqua_metrics(submission_pk):
                                                        metric_id=metric.pk, score=value, status=Score.SUCCESS)
                 score.save()
         sub.status = sub.SUCCESS
+        sub.msg = res_rnaqua
         sub.save()
         return 0
     # except:

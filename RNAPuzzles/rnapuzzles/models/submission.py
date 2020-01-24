@@ -11,6 +11,7 @@ class Submission(models.Model):
     SUCCESS = 3
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, editable=False)
+    label = models.CharField(max_length=10)
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     status_choices = [
@@ -22,7 +23,7 @@ class Submission(models.Model):
     is_automatic = models.BooleanField()
 
     status = models.SmallIntegerField(choices=status_choices, default=SUBMITTED)
-    error_msg = models.CharField(max_length=50, blank=True)
+    msg = models.TextField(blank=True)
 
 class Score(models.Model):
     ERROR = 0

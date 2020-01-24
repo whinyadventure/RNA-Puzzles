@@ -23,11 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY",'m7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", True) == "True"
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = ["127.0.0.1", "django-service"]
 LOGOUT_REDIRECT_URL = '/'
-DOMAIN_URL = "127.0.0.1"
+DOMAIN_URL = "lepus.cs.put.poznan.pl"
+LOGIN_URL = "/accounts/signin/"
 
 # Application definition
 
@@ -94,7 +95,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'RNAPuzzles.wsgi.application'
 AUTH_USER_MODEL = 'rnapuzzles.CustomUser'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+if os.getenv("EMAIL_HOST_USER") and os.getenv("EMAIL_HOST_PASSWORD"):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER",False)
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD",False)
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 from django.contrib.messages import constants as messages
 
@@ -113,8 +123,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv("DB_NAME",'rna'),
-        'USER': os.getenv("DB_USER",'postgres'),
-        'PASSWORD': os.getenv("DB_PASSWORD",'password'),
+        'USER': "ps_user",#os.getenv("DB_USER",'postgres'),
+        'PASSWORD': "pdfsadgsadawfasd",#os.getenv("DB_PASSWORD",'password'),
         'HOST': os.getenv("DB_HOST",'localhost'),
         'PORT': os.getenv("DB_PORT",'5432'),
     }
@@ -143,9 +153,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-GB'
+#LANGUAGE_CODE = 'en-GB'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 
@@ -153,10 +163,10 @@ USE_L10N = False
 
 USE_TZ = False
 
-DATETIME_FORMAT = ['d M Y, H:i ']
+DATETIME_FORMAT = 'd M Y, H:i '
 DATETIME_INPUT_FORMATS = ['%d-%m-%Y %H:%M']
 
-TEMPUS_DOMINUS_LOCALIZE = True
+TEMPUS_DOMINUS_LOCALIZE = False
 TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
 
@@ -184,11 +194,11 @@ STATICFILES_DIRS = (
 # Global martor settings
 # Input: string boolean, `true/false`
 MARTOR_ENABLE_CONFIGS = {
-    'imgur': 'true',     # to enable/disable imgur/custom uploader.
+    'imgur': 'false',     # to enable/disable imgur/custom uploader.
     'mention': 'false',  # to enable/disable mention
     'jquery': 'true',    # to include/revoke jquery (require for admin default django)
     'living': 'false',   # to enable/disable live updates in preview
-    'spellcheck': 'false',
+    'spellcheck': 'true',
 }
 
 # To setup the martor editor with label or not (default is False)
