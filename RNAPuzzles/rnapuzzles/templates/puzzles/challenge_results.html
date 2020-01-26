@@ -14,8 +14,8 @@ $(document).ready(function() {
     $('#dt thead tr:eq(1) th').each( function (i) {
 
         var title = $(this).text();
-        if(title=="User" || title=="Group"){
-            $(this).html( '<input type="text" placeholder="Search '+title+'" size=15 padding=0/>' );
+        if(title=="User" || title=="Group" || title=="Label"){
+            $(this).html( '<input type="text" placeholder="Search '+title+'" size=10 padding=0/>' );
 
             $( 'input', this ).on( 'keyup change', function () {
                 if ( table.column(i).search() !== this.value ) {
@@ -69,14 +69,14 @@ $(document).ready(function() {
 
         <div class="custom-control custom-radio">
             <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-silico"
-                   onchange="document.location.href='{% url 'show-results_automatic' pk=object.pk %}'" {% if  in_silico %} checked{% endif %}>
+                   onchange="document.location.href='{% url 'show-results-automatic' pk=object.pk %}'" {% if  in_silico %} checked{% endif %}>
             <label class="custom-control-label" for="radio-silico">In silico</label>
         </div>
 
 
         <div class="custom-control custom-radio">
             <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-vivo"
-                   onchange="document.location.href='{% url 'show-results_human' pk=object.pk %}'" {% if  in_vivo %} checked{% endif %}>
+                   onchange="document.location.href='{% url 'show-results-human' pk=object.pk %}'" {% if  in_vivo %} checked{% endif %}>
             <label class="custom-control-label" for="radio-vivo">In vivo(?)</label>
         </div>
 
@@ -88,6 +88,7 @@ $(document).ready(function() {
             <th class="th-sm">#</th>
             <th class="th-sm">User</th>
             <th class="th-sm">Group</th>
+            <th class="th-sm">Label</th>
             {% for metric in metric_list %}
                 <th class="th-sm">{{metric}}</th>
             {% endfor %}
@@ -99,6 +100,8 @@ $(document).ready(function() {
             <th scope="row">{{forloop.counter}}</th>
             <td>{{user_scores.user}}</td>
             <td>{{user_scores.user.group_name}}</td>
+            <td>{{user_scores.label}}</td>
+
             {% for score in user_scores.scores %}
                 <td>{{score.score|floatformat:4 }}</td>
 

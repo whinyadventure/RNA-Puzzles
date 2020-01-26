@@ -28,6 +28,10 @@ RUN apk update && \
        harfbuzz-dev \
        fribidi-dev
 
+# Java
+RUN apk fetch openjdk8
+RUN apk add openjdk8
+
 # Python Application Deps
 COPY requirements.txt .
 RUN pip install -r requirements.txt
@@ -39,6 +43,8 @@ RUN pip install gunicorn
 COPY RNAPuzzles ./RNAPuzzles/
 
 WORKDIR /code/RNAPuzzles
+
+
 
 ENTRYPOINT ["gunicorn"]
 CMD ["RNAPuzzles.wsgi:application"]

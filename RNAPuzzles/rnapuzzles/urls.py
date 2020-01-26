@@ -89,12 +89,12 @@ submission_pattern = [
 
 ]
 
-scores_pattern = [
-    re_path(r"challenge/(?P<pk>\d+)/$", score_challenge.Challenge.as_view(), name="challenge_score"),
-    re_path(r"challenge/(?P<pk>\d+)/automatic$", score_challenge.ChallengeAutomatic.as_view(), name="challenge_score_automatic"),
-    re_path(r"challenge/(?P<pk>\d+)/user$", score_challenge.ChallengeUser.as_view(), name="challenge_score_user"),
-
-]
+# scores_pattern = [
+#     re_path(r"challenge/(?P<pk>\d+)/$", score_challenge.Challenge.as_view(), name="challenge_score"),
+#     re_path(r"challenge/(?P<pk>\d+)/automatic$", score_challenge.ChallengeAutomatic.as_view(), name="challenge_score_automatic"),
+#     re_path(r"challenge/(?P<pk>\d+)/user$", score_challenge.ChallengeUser.as_view(), name="challenge_score_user"),
+#
+# ]
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -105,5 +105,5 @@ urlpatterns = [
     path("contact/", views.contactView, name="contact"),
     path("resources/", include(resources_pattern)),
     path("submission/", include(submission_pattern)),
-    path("scores/", include(scores_pattern))
+    #path("scores/", include(scores_pattern))
 ]

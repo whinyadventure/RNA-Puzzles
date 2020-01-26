@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY",'m7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "True") == "True"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["127.0.0.1", "django-service"]
 LOGOUT_REDIRECT_URL = '/'
@@ -157,11 +157,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 TIME_ZONE = 'CET'
 
-USE_I18N = True
+#USE_I18N = True
 
-USE_L10N = False
+#USE_L10N = False
 
-USE_TZ = False
+USE_TZ = True
 
 DATETIME_FORMAT = 'd M Y, H:i '
 DATETIME_INPUT_FORMATS = ['%d-%m-%Y %H:%M']

@@ -1,6 +1,8 @@
 from django import forms
 from datetime import datetime, timedelta
 from django.conf import settings
+from django.utils import timezone
+from django.utils.timezone import localdate
 from tempus_dominus.widgets import DateTimePicker
 
 from tempus_dominus.widgets import DateTimePicker
@@ -35,8 +37,8 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (datetime.now() + timedelta(days=1, minutes=30)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': (datetime.now() + timedelta(days=30, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (timezone.now() + timedelta(days=1, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (timezone.now() + timedelta(days=30, minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -48,7 +50,9 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (timezone.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (timezone.now() + timedelta(days=2, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -142,7 +146,7 @@ class ChallengeForm(forms.ModelForm):
 
         if self.instance.pk is None:
 
-            if start_date < datetime.now():
+            if start_date < timezone.now():
                 self._errors['start_date'] = self.error_class([u'Opening date cannot be in the past.'])
         else:
 

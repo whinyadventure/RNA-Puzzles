@@ -29,13 +29,13 @@ class ChallengeAll(PermissionRequiredMixin, DetailView):
     template_name = 'puzzles/challenge_results.html'
 
     def get_permission_object(self):
-        return self.object.puzzle_info
+        return self.get_object().puzzle_info
     def get_submissions(self):
-        return Submission.objects.filter(challenge=self.object).order_by('user', '-date').distinct('user')
+        return Submission.objects.filter(challenge=self.object, status=Submission.SUCCESS).order_by('user','label' ,'-date').distinct('user', 'label')
 
     def get_context_data(self, **kwargs):
         context = super(ChallengeAll, self).get_context_data(**kwargs)
-        context['challenge'] = self.object
+        context['challenge'] = self.get_object()
         context['puzzle'] = PuzzleInfo.objects.get(pk=self.object.puzzle_info.pk)
         context['files'] = self.object.challengefile_set.all()
         context["list_name"] = "Results"

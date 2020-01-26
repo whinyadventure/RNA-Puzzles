@@ -1,5 +1,6 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils import timezone
 
 from .user import CustomUser
 import datetime
@@ -105,10 +106,10 @@ class Challenge(models.Model):
 
     @property
     def current_status(self):
-        if datetime.datetime.now() < self.start_date:
+        if timezone.now() < self.start_date:
             return self.CREATED
 
-        if datetime.datetime.now() < self.end_date:
+        if timezone.now() < self.end_date:
             return self.OPEN
 
         if not self.result_published:
@@ -118,10 +119,10 @@ class Challenge(models.Model):
 
     @property
     def current_status_label(self):
-        if datetime.datetime.now() < self.start_date:
+        if timezone.now() < self.start_date:
             return 'Created'
 
-        if datetime.datetime.now() < self.end_date:
+        if timezone.now() < self.end_date:
             return 'Open'
 
         if not self.result_published:

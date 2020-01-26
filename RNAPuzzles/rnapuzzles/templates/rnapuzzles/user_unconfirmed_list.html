@@ -1,7 +1,10 @@
 {% extends  'base.html' %}
 
 {% block content %}
-<h1>Unconfirmed Users</h1>
+<div class="h2 justify-content-center align-self-center mr-auto">
+Unconfirmed Users
+</div>
+<hr class="mt-1 mb-3">
 <table class="table">
     <thead class="thead-light">
         <tr>
@@ -34,7 +37,9 @@
     </tbody>
     {% endif %}
     {% empty %}
+    <div class="d-flex justify-content-center">
     No users to confirm.
+    </div>
     {% endfor %}
 </table>
 

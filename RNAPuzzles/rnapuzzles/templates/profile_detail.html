@@ -1,9 +1,10 @@
 {% extends  'base.html' %}
 
 {% block content %}
-
+<div class="h2 justify-content-center align-self-center mr-auto">
     <h1>{{object.first_name}} {{object.last_name}}</h1>
-    <br>
+</div>
+<hr class="mt-1 mb-3">
     <p><div id="id_email"><b>Email address:</b> {{object.email}}</div>
     <div id="id_role"><b>Role:</b> {{object.get_role_display}}</div>
     {% if  object.role != 1 %}

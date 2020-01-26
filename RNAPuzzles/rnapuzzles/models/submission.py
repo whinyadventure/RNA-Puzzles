@@ -16,7 +16,7 @@ class Submission(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     status_choices = [
         (SUBMITTED, 'Submitted'),
-        (EVALUATION, 'Waiting'),
+        (EVALUATION, 'Evaluation'),
         (ERROR, 'Error'),  # At least one metric failed
         (SUCCESS, ' Success')  # All metrics calculated
     ]

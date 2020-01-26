@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.http import HttpResponse
+from django.utils import timezone
 from guardian.decorators import permission_required
 
 from rnapuzzles.models import PuzzleInfo, Challenge, ChallengeFile, datetime
@@ -18,7 +19,7 @@ def list_open(request):
     template_name = 'puzzles/list_puzzles.html'
     name = 'Open puzzles'
 
-    n = datetime.datetime.now()
+    n = timezone.now()
     challenges = Challenge.objects.filter(Q(end_date__gte=n) & Q(start_date__lte=n))
 
     data = []

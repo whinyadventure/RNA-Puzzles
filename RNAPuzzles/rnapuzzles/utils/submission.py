@@ -88,7 +88,6 @@ def validate_batch(file):
 
 
 def save_single(content, user, puzzle_pk, label):
-    print(content)
     content = content.decode("utf-8")
     puzzle_info = PuzzleInfo.objects.get(pk=puzzle_pk)
 

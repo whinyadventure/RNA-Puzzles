@@ -9,9 +9,10 @@
 {% block content %}
 {% get_obj_perms request.user for group as "group_perms" %}
 
-<div class="d-flex justify-content-center mb-3">
+<div class="h2 justify-content-center align-self-center mr-auto">
     <h1>{{object.group_name}}</h1>
 </div>
+<hr class="mt-1 mb-3">
 <div>
         <div class="offset-md-1"><b>Leader:</b>   {{object.leader}}</div>
         {% if object.members%}
