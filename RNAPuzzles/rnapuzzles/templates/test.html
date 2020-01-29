@@ -19,34 +19,73 @@ $(document).ready(function() {
 
 
 } );
+function rewrite(){
+var divs = document.querySelectorAll('[id^=id_formset_input]')
+for (var i = 0, len = divs.length; i < len; i++) {
+    if(divs[i].id.endsWith("alignment") && divs[i].disabled == false)
+        divs[i].value = document.getElementById("id_alignment").value;
+
+}
+};
 </script>
 
 {% endblock %}
 {% block content %}
-<h1>Your submissions</h1>
+<h1>Calculate metrics for: {{challenge}}</h1>
+Challenge<form action="" method="post">
+    {% csrf_token %}
+    {{ res.management_form }}
+
+{{alignment}}
+<button type="button" class="btn btn-primary" onclick="rewrite()" style="margin: 10px;">Rewrite alignment to all submissions</button>
 <table id="dt" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
     <thead>
     <tr>
         <th class="th-sm">#</th>
         <th class="th-sm">User</th>
-        <th class="th-sm">Group</th>
-        {% for metric in metric_list %}
-            <th class="th-sm">{{metric}}</th>
-        {% endfor %}
+        <th class="th-sm">Label</th>
+        <th class="th-sm">Round</th>
+        <th class="th-sm">Alignment</th>
+        <th class="th-sm">Status</th>
+        <th class="th-sm">Content</th>
+        <th class="th-sm">Run</th>
     </tr>
     </thead>
     <tbody>
-    {% for user_scores in object_list %}
-    <tr>
-        <th scope="row">{{forloop.counter}}</th>
-        <td>{{user_scores.user}}</td>
-        <td>{{user_scores.user.group}}</td>
-        {% for score in user_scores.scores %}
-            <td>{{score}}</td>
+    {% for submission in res.forms %}
+    {% if submission.instance.status == 2 %}
+    <tr class="table-danger">
+    {% elif submission.instance.status == 3 %}
+    <tr class="table-success">
+    {% elif submission.instance.status == 1 %}
+    <tr class="alert-secondary">
 
-        {% endfor %}
+    {% else %}
+    <tr class="table-info">
 
+    {% endif %}
 
+        <th scope="row" ><a href="{% url 'submission_detail' pk=submission.instance.pk %}">{{forloop.counter}}</a></th>
+        {% if submission.instance.user.group_name %}
+        <td><a href="{% url 'group_detail' pk=submission.instance.user.group_name.pk%}"> {{submission.instance.user}}</a></td>
+
+        {% else %}
+        <td>{{submission.instance.user}}</a></td>
+
+        {% endif %}
+        <td>{{submission.instance.label}}</td>
+        <td>{% if submission.instance.is_automatic %}Automatic {%else%} Human {% endif %} </td>
+
+        <td>{{submission.alignment}}{{submission.id}}</td>
+
+        <td ><a href="{% url 'submission_detail' pk=submission.instance.pk %}">{{submission.instance.get_status_display}}</a></td>
+        <td><a href="{% url 'submission_content' pk=submission.instance.pk %}">Show</a></td>
+        {% if submission.instance.status != 1 %}
+        <td> <input class="btn btn-primary" type="submit" name="single_{{submission.instance.pk}}" value="Run"></td>
+        {% else %}
+        <td> <input class="btn btn-secondary" disabled="True" type="submit" name="single_{{submission.instance.pk}}" value="Run"></td>
+
+        {% endif %}
     </tr>
 
 
@@ -54,8 +93,9 @@ $(document).ready(function() {
     </tbody>
 
 </table>
-
-
+    <input class="btn btn-primary" type="submit" name="save" value="Save">
+    <input class="btn btn-primary" type="submit" name="metrics" value="Save and compute metrics" />
+</form>
 
 {% endblock %}
 

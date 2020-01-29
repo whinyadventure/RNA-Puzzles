@@ -88,12 +88,15 @@ class Challenge(models.Model):
     end_date = models.DateTimeField(verbose_name='Closing date')
     end_automatic = models.DateTimeField(verbose_name='Closing date for in silico prediction submission')
     result_published = models.BooleanField(default=False)
-
+    notification_email_send = models.BooleanField(default=False)
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
     puzzle_info = models.ForeignKey(PuzzleInfo, on_delete=models.CASCADE, blank=True, null=True)
-
+    alignment = models.CharField(max_length=20, blank=True)
     class Meta:
         ordering = ['-puzzle_info', '-created_at']
+        permissions = [
+            ("metrics_challenge", "Run computation of metrics"),
+        ]
 
     def __str__(self):
         if self.round == 1:

@@ -21,7 +21,7 @@ class Submission(models.Model):
         (SUCCESS, ' Success')  # All metrics calculated
     ]
     is_automatic = models.BooleanField()
-
+    alignment = models.CharField(max_length=20, blank=True)
     status = models.SmallIntegerField(choices=status_choices, default=SUBMITTED)
     msg = models.TextField(blank=True)
 

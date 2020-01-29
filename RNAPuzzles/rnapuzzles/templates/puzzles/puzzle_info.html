@@ -157,6 +157,8 @@
     {% block submit_question %}
     {% endblock %}
 
+{% load guardian_tags %}
+    {% get_obj_perms request.user for challenge as "context_var" %}
 
     <div id="model-submit-row" class="d-flex justify-content-end mt-3 mb-5 mr-5">
 
@@ -166,10 +168,18 @@
         {% endif %}
 
         {% if challenge.current_status == 3 and list_name != 'Results' %}
+            {% if "metrics_challenge" in context_var or perms.rnapuzzles.metrics_challenge %}
+                 <a href="{% url 'metrics-calculate' pk=challenge.pk %}"><button type="button" class="btn btn-primary" style=" margin-right: 30px;">Calculate metrics</button></a>
+            {% endif %}
+
             <a href="{% url 'show-results' challenge.id %}"><button type="button" class="btn btn-primary"> Results </button></a>
         {% endif %}
 
         {% if challenge.current_status == 2 %}
+            {% if "metrics_challenge" in context_var or perms.rnapuzzles.metrics_challenge %}
+                 <a href="{% url 'metrics-calculate' pk=challenge.pk %}"><button type="button" class="btn btn-primary" style=" margin-right: 30px;">Calculate metrics</button></a>
+            {% endif %}
+
             <a href="{% url 'publish-results' challenge.id %}"><button type="button" class="btn btn-primary"> Publish results </button></a>
         {% endif %}
     </div>

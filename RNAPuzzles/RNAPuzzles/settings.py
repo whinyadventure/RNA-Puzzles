@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY",'m7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = ["127.0.0.1", "django-service"]
 LOGOUT_REDIRECT_URL = '/'
@@ -123,8 +123,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv("DB_NAME",'rna'),
-        'USER': "ps_user",#os.getenv("DB_USER",'postgres'),
-        'PASSWORD': "pdfsadgsadawfasd",#os.getenv("DB_PASSWORD",'password'),
+        'USER': os.getenv("DB_USER",'postgres'),
+        'PASSWORD': os.getenv("DB_PASSWORD",'password'),
         'HOST': os.getenv("DB_HOST",'localhost'),
         'PORT': os.getenv("DB_PORT",'5432'),
     }

@@ -1,7 +1,7 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import news, faq, resources, group, user, puzzles, submission, score_challenge
+from .views import news, faq, resources, group, user, puzzles, submission, score_challenge, metrics
 import publications.views as plist
 
 news_patterns = [
@@ -78,6 +78,7 @@ puzzles_pattern = [
     re_path(r"(?P<pk>\d+)/download-all-files/$", puzzles.file_download_batch, name='download-all-files'),
     re_path(r"(?P<pk>\d+)/download-file/$", puzzles.file_download, name='download-file'),
     re_path(r"(?P<pk>\d+)/download-target-structure/$", puzzles.pdb_download, name='download-structure'),
+    re_path(r"(?P<pk>\d+)/compute/$",  metrics.calculate_metrics, name="metrics-calculate"),
 ]
 
 submission_pattern = [

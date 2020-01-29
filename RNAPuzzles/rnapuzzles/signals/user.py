@@ -25,6 +25,7 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
                 assign_perm("rnapuzzles.view_faqmodel", object)
                 assign_perm("rnapuzzles.view_resourcesmodel", object)
                 assign_perm("rnapuzzles.view_group", object)
+                assign_perm("rnapuzzles.view_submission", object)
                 assign_perm("rnapuzzles.accept_group", object)
 
         if (instance.role == 3):

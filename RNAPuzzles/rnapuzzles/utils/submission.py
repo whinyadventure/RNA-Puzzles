@@ -3,6 +3,7 @@ import zipfile
 
 from django.db.models import Q
 from django.forms import forms
+from django.utils import timezone
 
 from rnapuzzles.models import PuzzleInfo, Submission, Challenge
 import re
@@ -92,7 +93,7 @@ def save_single(content, user, puzzle_pk, label):
     puzzle_info = PuzzleInfo.objects.get(pk=puzzle_pk)
 
     challenge: Challenge = get_open_challenge(puzzle_info)
-    is_automatic = challenge.end_automatic > datetime.datetime.now()
+    is_automatic = challenge.end_automatic > timezone.now()
     return Submission.objects.create(challenge_id=challenge.pk, user=user, content=content, is_automatic=is_automatic, label=label)
 
 

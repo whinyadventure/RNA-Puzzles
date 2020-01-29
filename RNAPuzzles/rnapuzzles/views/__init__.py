@@ -8,3 +8,4 @@ from .puzzles import *
 from .home import *
 from .submission import *
 from .score_challenge import *
+from .metrics import *
