@@ -7,7 +7,7 @@ from rnapuzzles.models import PuzzleInfo
 
 
 class PuzzleInfoDelete(PermissionRequiredMixin, DeleteView):
-    permission_required = "rnapuzzle.delete_puzzleinfo"
+    permission_required = "rnapuzzles.delete_puzzleinfo"
     template_name = 'puzzles/puzzle_delete.html'
     model = PuzzleInfo
     success_message = "Puzzle was deleted"

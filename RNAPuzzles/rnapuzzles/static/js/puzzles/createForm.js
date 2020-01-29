@@ -1,14 +1,8 @@
 // initial values
-$('input[type="file"]').each(function() {
-  var filename = $(this).val().split('\\').pop();
 
-  if(filename != '') {
-    $(this).next('label').text(filename);
-  }
-  else {
-    $(this).next('label').text('Choose file');
-  }
-})
+$('.file-form-container:not(:first)').each(function(){
+    changeButtonVal($(this));
+});
 
 var forms = $('.file-form-container');
 

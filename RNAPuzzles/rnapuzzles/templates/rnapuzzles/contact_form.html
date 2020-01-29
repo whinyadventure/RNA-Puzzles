@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block content %}
+
+    <div class="h2 justify-content-center align-self-center mr-auto">
+        Contact
+    </div>
+    <hr class="mt-1 mb-3">
+
     {% load crispy_forms_tags %}
     {% csrf_token %}
     {% crispy form %}

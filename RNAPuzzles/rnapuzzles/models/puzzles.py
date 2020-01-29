@@ -77,6 +77,7 @@ class PuzzleInfo(models.Model):
 
 
 class Challenge(models.Model):
+
     CREATED = 0
     OPEN = 1
     EVALUATED = 2
@@ -85,8 +86,8 @@ class Challenge(models.Model):
     round = models.IntegerField(default=1, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(verbose_name='Opening date')
-    end_date = models.DateTimeField(verbose_name='Closing date')
-    end_automatic = models.DateTimeField(verbose_name='Closing date for in silico prediction submission')
+    end_date = models.DateTimeField(verbose_name='Closing date for human category')
+    end_automatic = models.DateTimeField(verbose_name='Closing date for server category')
     result_published = models.BooleanField(default=False)
 
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
@@ -144,6 +145,7 @@ class Challenge(models.Model):
 
 
 class ChallengeFile(models.Model):
+
     note = models.CharField(max_length=50, help_text='Information about file content. Maximum 50 characters.', blank=True)
     file = models.FileField(blank=True)
 

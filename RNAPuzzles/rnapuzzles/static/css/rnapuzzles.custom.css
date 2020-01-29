@@ -1,28 +1,30 @@
-html{
+html {
     height: 100%;
 }
 
-body{
+body {
     position: relative;
     min-height: 100%;
     font-family: "Times New Roman", Times, serif;
     color: #4F5459;
 }
 
-a{
-    color: #4F5459;
-}
-
-nav{
+nav {
     background-color: #49517C;
     color: #FFFFFF;
 }
 
-
 #logo {
+    height: 45px;
+    width: 200px;
+}
 
-     height: 35px;
-     width: 200px;
+#home-img {
+    max-height: 80px;
+}
+
+.nav-icons {
+    color: #FFFFFF;
 }
 
 .arrow {
@@ -41,12 +43,12 @@ nav{
     border-bottom: none;
 }
 
-footer{
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: #E5E5E5;
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #E5E5E5;
 }
 
 #base-main-content {
@@ -75,7 +77,27 @@ footer{
     background-color: #E5E5E5;
 }
 
-.custom-martor{
-height: 70%;
+.custom-martor {
+    height: 70%;
+}
+
+#account-dropdown {
+    weight: auto;
+}
+
+#account-dropdown {
+    display: block;
+    visibility: hidden;
+    opacity:0;
+    transform: translateY(50px);
+    transition:.5s ease all;
+}
+
+#account-dropdown.show {
+    display: block;
+    visibility: visible;
+    opacity:1;
+    transform: translateY(0px);
+    transition:.5s ease all;
 }
 

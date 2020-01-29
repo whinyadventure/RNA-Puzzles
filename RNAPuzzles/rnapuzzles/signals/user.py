@@ -8,6 +8,7 @@ from django.contrib.auth.models import Group
 
 @receiver(post_save, sender=CustomUser)
 def add_user_group(sender, instance: CustomUser, **kwargs):
+
     if kwargs.get("created", False):
         object, _ = Group.objects.get_or_create(name="Defaults")
         # object,_ = Group.objects.get(name="Default")
@@ -27,16 +28,16 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
                 assign_perm("rnapuzzles.view_group", object)
                 assign_perm("rnapuzzles.accept_group", object)
 
-        if (instance.role == 3):
+        if instance.role == 3:
             assign_perm("rnapuzzles.change_group", instance, instance.group_name)
             assign_perm("rnapuzzles.name_group", instance, instance.group_name)
             assign_perm("rnapuzzles.accept_group", instance)
 
-    if (instance.role in [2, 3]):
+    if instance.role in [2, 3]:
         object, created = Group.objects.get_or_create(name="Participant")
         object.user_set.add(instance)
         assign_perm("rnapuzzles.change_group", instance, instance.group_name)
-        if (created):
+        if created:
             assign_perm("rnapuzzles.view_newsmodel", object)
             assign_perm("rnapuzzles.view_puzzleinfo", object)
             assign_perm("rnapuzzles.view_faqmodel", object)

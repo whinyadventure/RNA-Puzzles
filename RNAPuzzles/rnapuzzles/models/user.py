@@ -57,7 +57,6 @@ class Group(models.Model):
     leader = models.ForeignKey("rnapuzzles.CustomUser", on_delete=models.CASCADE, null=True, default=None)
     contact = models.EmailField(blank=True)
 
-
     def __str__(self):
         return self.group_name
 
@@ -76,12 +75,12 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(_('last name'), max_length=30, blank=False)
     institution = models.CharField(_('institution'), max_length=150, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=False, default=0)
-    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)  # TODO "on_delete"???
+    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
     member_authorized = models.BooleanField(default=False, blank=False)
 
     email_confirmed = models.BooleanField(default=False, blank=False)
     is_authorised = models.BooleanField(default=False, blank=False)
-    is_disabled = models.BooleanField(default=False, blank=False) # This can force is_active=False
+    is_disabled = models.BooleanField(default=False, blank=False)  # This can force is_active=False
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

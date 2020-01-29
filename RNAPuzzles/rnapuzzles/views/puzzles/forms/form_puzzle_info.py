@@ -1,7 +1,6 @@
 from django import forms
 from django.conf import settings
 from tempus_dominus.widgets import DateTimePicker
-import os
 
 from rnapuzzles.models import PuzzleInfo
 

@@ -44,14 +44,14 @@
           <img id="logo" src="{% static 'img/RNA-logo-biale.svg' %}" alt="RNA-Puzzles">
         </a>
 
-        <!-- account toggle -->
+        <!-- links toggle -->
         <button class="navbar-toggler order-first" type="button" data-toggle="collapse" data-target="#links">
-          <span class="navbar-toggler-icon"></span>
+          <i class="fas fa-bars nav-icons"></i>
         </button>
 
-        <!-- links toggle -->
+        <!-- account toggle -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#account">
-          <span class="fas fa-user"></span>
+          <i class="fas fa-user nav-icons"></i>
         </button>
 
         <div class="navbar-collapse collapse" id="links">
@@ -113,8 +113,11 @@
             {% if user.is_authenticated  %}
 
               <li class="nav-item dropdown d-none d-xl-block">
-                <a class="nav-link dropdown-toggle border border-light" data-toggle="dropdown">Account</a>
-                <div class="dropdown-menu">
+                <a class="nav-link border px-4 border-light" data-toggle="dropdown"
+                   onclick="$('#collapsed-icon-account').toggleClass('fa-rotate-180')">
+                  Account <i id="collapsed-icon-account" class="fa fa-angle-down"></i>
+                </a>
+                <div class="dropdown-menu p-3" id="account-dropdown">
                   <a class="dropdown-header" href="{% url 'user_detail' %}"> {{ user }} </a>
                   <div class="dropdown-divider"></div>
                   {% if request.user.group_name %}
@@ -135,29 +138,29 @@
               </li>
 
               <li class="nav-item d-xl-none">
-                <h6 class="header"> {{ user }} </h6>
-                <div class="dropdown-divider"></div>
+                <a class="nav-link text-light" href="{% url 'user_detail' %}"> {{ user }} </a>
+                <div class="dropdown-divider ml-auto col-5"></div>
                   {% if request.user.group_name %}
-                    <a class="dropdown-item" href="{% url 'group_detail' request.user.group_name.id %}">View group profile</a>
+                    <a class="nav-link text-light" href="{% url 'group_detail' request.user.group_name.id %}">View group profile</a>
                   {% endif %}
 
-                <a class="nav-link" href="{% url 'user_update' %}">Account settings</a>
+                <a class="nav-link text-light" href="{% url 'user_update' %}">Account settings</a>
                 {% if perms.rnapuzzles.add_puzzleinfo %}
-                  <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                  <a class="nav-link text-light" href="{% url 'organizer-puzzles' %}">My puzzles</a>
                 {% endif %}
-                <a class="dropdown-item" href="{% url 'unconfirmed_list' %}">Pending request</a>
+                <a class="nav-link text-light" href="{% url 'unconfirmed_list' %}">Pending request</a>
 
-                <div class="dropdown-divider"></div>
-                <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                <div class="dropdown-divider ml-auto col-10"></div>
+                <a class="nav-link text-light" href="{% url 'logout' %}">Log out</a>
               </li>
 
             {% else %}
 
               <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'signin' %}">Login</a>
+                <a class="nav-link text-light px-4" href="{% url 'signin' %}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-light border border-light" href="{% url 'signup' %}">Register</a>
+                <a class="nav-link text-light border border-light px-4" href="{% url 'signup' %}">Register</a>
               </li>
 
             {% endif %}
