@@ -1,78 +1,43 @@
-{% extends  'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 {% load static %}
 <div class="d-flex justify-content-center">
-        <img  class="" src="{% static 'img/RNA-logo.svg' %}" height="85" alt="RNA-Puzzles">
+        <img class="img-fluid" id="home-img" src="{% static 'img/RNA-logo.svg' %}" alt="RNA-Puzzles">
     </div>
     <div class="d-flex justify-content-center">
         Collective experiment for blind RNA structure prediction.
     </div>
 <br>
 
-<h1>Aims of the project</h1>
+<div class="text-justify">
+    <h1>Aims of the project</h1>
 
-        <ul>
-            <li>To determine the capabilities and limitations of current methods of 3D RNA structure prediction based on sequence;</li>
-            <li>To find whether and how progress has been made, as well as what has yet to be done to achieve better solutions</li>
-            <li>To identify whether there are specific bottlenecks that hold back the field;</li>
-            <li>To promote the available methods and guide potential users in the choice of suitable tools for real-world problems;</li>
-            <li>To encourage the RNA structure prediction community in their efforts to improve the current tools and to make automated prediction tools available.</li>
-            <li>To explore the underlying mechanism of ligand-RNA binding and the conformational changes in riboswitches.</li>
-        </ul>
+            <ul>
+                <li>To determine the capabilities and limitations of current methods of 3D RNA structure prediction based on sequence.</li>
+                <li>To find whether and how progress has been made, as well as what has yet to be done to achieve better solutions.</li>
+                <li>To identify whether there are specific bottlenecks that hold back the field.</li>
+                <li>To promote the available methods and guide potential users in the choice of suitable tools for real-world problems.</li>
+                <li>To encourage the RNA structure prediction community in their efforts to improve the current tools and to make automated prediction tools available.</li>
+                <li>To explore the underlying mechanism of ligand-RNA binding and the conformational changes in riboswitches.</li>
+            </ul>
 
-<h1>Basic Rules</h1>
-        <ul>
-            <li>Confidential agreement: "I will use the provided sequence data for prediction purposes only. I will not distribute the sequences in any form outside my working group."</li>
-            <li>It is strongly recommanded that all the predictions formatted in standard PDB format. So that all the modellers could have a fair comparison without considering the file format and prediction region. We provide a python script here for generating standard PDB format files, only the coordinates need to be replaced by the predictors.</li>
-            <li>RNA chains should be named in alphabetical order. e.g. A for the first chain, B for the second chain.</li>
-            <li>Up to FIVE prediction models could be predicted as the final results of one problem for each group. It is also recommended to submit ten models.</li>
-            <li>Please put all prediction models together in one PDB file as NMR format (Separate models by lines: "MODEL n" and "ENDMDL").</li>
-            <li>For submission, please either use our online submission system or send us an email.</li>
-        </ul>
+    <h1>Basic Rules</h1>
+            <ul>
+                <li>Confidential agreement: "I will use the provided sequence data for prediction purposes only. I will not distribute the sequences in any form outside my working group."</li>
+                <li>It is strongly recommended that all the predictions formatted in standard PDB format. So that all the modellers could have a fair comparison without considering the file format and prediction region. We provide a python script here for generating standard PDB format files, only the coordinates need to be replaced by the predictors.</li>
+                <li>RNA chains should be named in alphabetical order. e.g. A for the first chain, B for the second chain.</li>
+                <li>Up to FIVE prediction models could be predicted as the final results of one problem for each group. It is also recommended to submit ten models.</li>
+                <li>Please put all prediction models together in one PDB file as NMR format (Separate models by lines: "MODEL n" and "ENDMDL").</li>
+                <li>For submission, please either use our online submission system or send us an email.</li>
+            </ul>
 
-<h1>Call for participants</h1>
-        <ul>
-            <li>We hope more crystallgraphers could help us in providing more crystal, cryo-EM or NMR structures. Any kind of RNA related structure information is encouraged. Anyone who may have a RNA structure please contact us.</li>
-            <li>We encourage more predictors who are interested in RNA structure prediction to take part in this compitition to push forward the field. Anyone who is interested please send us an email.</li>
-        </ul>
-
-<h1>Metrics in RNA 3D structure comparison</h1>
-        <p>
-            <b>Root Mean Square Deviation (RMSD)</b>
-            Root Mean Square Deviation (RMSD) is a widely used metric for comparison of 3D structures of biomolecules. The RMSD calculation involves an alignment of all the atoms that are found both in the predicted model and the reference structure. A superimposition is performed based on the aligned atoms, and Root Mean Square Deviation is calculated based on the Euclidean distances between them.
-            RMSD calculation requires that the structures to be compared have the same length (the same set of atoms). The drawbacks of RMSD are a strong dependence of its value on the size of the structure and the spreading of the errors over the whole structure. Thus, the final result can be misleading. Nevertheless, RMSD is a well-established and widely used metric in structure comparison.
-        </p>
-
-        <p>
-        <b>Interaction Network Fidelity (INF)</b>
-        The whole RNA structure can be considered as a large interaction network composed of Watson-Crick interactions, non-Watson-Crick interactions, and base stacking. The correct prediction of all these interactions determines the success of the prediction. The interactions within the RNA structure can be extracted by programs such as MC-Annotate, 3DNA or RNApdbee. The Interaction Network Fidelity (INF) is defined as the Matthews correlation coefficient (MCC) between the interactions of the reference structure and that of the predicted model. Higher INF score indicates higher consistency between the prediction and the reference structure in terms of interactions. The Interaction Network Fidelity can also assess a specific type of interaction. Thus, INF_wc, INF_nwc, INF_stack, and INF_all, which define the Interaction Network Fidelity of Watson-Crick interactions, non-Watson-Crick interactions, stacking interactions, and overall interactions, are used in the assessment of RNA-Puzzles.
-        </p>
-
-        <p>
-        <b>Deformation Index (DI)</b>
-        Deformation Index (DI) is defined as the ratio between RMSD and INF. It aims to account for the relationship between these two metrics, and for RNA structure it is a more reliable similarity measure than RMSD itself.
-        </p>
-
-        <p>
-        <b>Deformation Profile (DP)</b>
-        To complement single value assessment metrics, Deformation Profile is a 2D distance matrix representing the average distance between a prediction and the reference structure. The deformation profile matrix calculation includes two steps: (i) computing 1-nt superimposition of predicted model over reference structure for each aligned nucleotide; (ii) computing the average distance between each base in the reference structure and the corresponding base in a predicted structure for each superimposition. The Deformation Profile displays the regions that depart most from the rest of the structure. Thus, it is effective in detecting the “poorly predicted” regions.
-        </p>
-
-        <p>
-        <b>P-value</b>
-        P-value represents the confidence that a prediction is significantly different from a randomly generated RNA 3D structure. It was designed as a quality measure for RNA 3D structure prediction resulting from empirical relations for RMSD distribution as a function of RNA length. Therefore, it is independent of the molecule size. P-value is capable to differentiate de novo algorithms predicting all interactions from those who require to input base-pairing information. Normally, P-value lower than 0.01 indicates a successful prediction.
-        </p>
-
-        <p>
-        <b>Clash score</b>
-        Clash score reports serious steric clashes identified in the RNA 3D structure. The score is computed as the number of disallowed (< 0.4 Å) overlaps of atom pairs per thousand atoms. All-atom contacts are computed by PROBE that uses van der Waals atom radii and identifies probes intersecting any not-covalently-bonded atom. In general, the existence of interatomic clashes indicates that local conformation is not stereochemically accurate and should be refined. Higher clash score indicates more severe steric clash. However, clashes can exist also in high-resolution structures. Moreover, even if the global 3D fold of RNA is close to the native one, clash score value can be quite high when base-base interactions are not accurately reconstructed. Clash score is computed for example by MolProbity incorporated into RNAQUA.
-        </p>
-
-        <p>
-        <b>Mean of Circular Quantities (MCQ)</b>
-        In the practice of RNA structure modeling, several approaches try to represent the RNA structure with simplified models, such as network model and reconstruct the RNA 3D structure with standard bond lengths and bond angles. Assuming the standard bond lengths and bond angles are constant values, it is important to understand the accuracy of the torsion angles, which are the only degrees of freedom in the modeling in this context. Therefore, the Mean of Circular Quantities (MCQ) is a metric to compare RNA 3D structures in the torsion angle space. A nucleotide can be described by six torsion angles from the backbone, while the δ dihedral is constrained by the sugar ring. The residue-wise comparison in the torsion angle space highlights the dissimilarity in local structure. We binarize the torsion angle difference into four bins: <15°, 15-30°, 30-60°, and >60°. MCQ value <15° means the best similarity, while >60° implies severe structural change. When considering local structure, MCQ can compare the similarity of a selected fragments.
-        </p>
+    <h1>Call for participants</h1>
+            <ul>
+                <li>We hope more crystallographers could help us in providing more crystal, cryo-EM or NMR structures. Any kind of RNA related structure information is encouraged. Anyone who may have a RNA structure please contact us.</li>
+                <li>We encourage more predictors who are interested in RNA structure prediction to take part in this competition to push forward the field. Anyone who is interested please send us an email.</li>
+            </ul>
+</div>
 
 
 {% endblock %}

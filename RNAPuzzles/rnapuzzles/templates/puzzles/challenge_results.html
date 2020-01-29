@@ -47,16 +47,16 @@ $(document).ready(function() {
     <div class="d-flex">
         <div class="h2 justify-content-center align-self-center mr-auto">
             Completed Puzzles
-            <img class="arrow" src="{% static 'img/arrow.svg' %}">
+            <i class="fa fa-angle-right"></i>
             {{ challenge }}
-            <img class="arrow" src="{% static 'img/arrow.svg' %}">
+            <i class="fa fa-angle-right"></i>
             Results
         </div>
     </div>
 
     <hr class="mt-1 mb-3">
 
-    {% include 'puzzles/puzzle_info.html' %}
+    {% include 'puzzles/puzzle_info_folded.html' %}
     </br>
 
     <div class="custom-radio-group">

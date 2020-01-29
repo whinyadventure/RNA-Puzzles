@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY",'m7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
+SECRET_KEY = os.getenv("SECRET_KEY", 'm7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
@@ -52,7 +52,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTHENTICATION_BACKENDS = (
 
-    'django.contrib.auth.backends.ModelBackend', # default
+    'django.contrib.auth.backends.ModelBackend',  # default
     'guardian.backends.ObjectPermissionBackend',
 )
 
@@ -107,7 +107,6 @@ else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 from django.contrib.messages import constants as messages
-
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
     messages.INFO: 'alert-info',
@@ -122,11 +121,11 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv("DB_NAME",'rna'),
-        'USER': os.getenv("DB_USER",'postgres'),
-        'PASSWORD': os.getenv("DB_PASSWORD",'password'),
-        'HOST': os.getenv("DB_HOST",'localhost'),
-        'PORT': os.getenv("DB_PORT",'5432'),
+        'NAME': os.getenv("POSTGRES_DB", 'rna'),
+        'USER': os.getenv("POSTGRES_USER",'postgres'),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD",'password'),
+        'HOST': os.getenv("POSTGRES_HOST", 'localhost'),
+        'PORT': os.getenv("POSTGRES_PORT", '5432'),
     }
 }
 

@@ -30,6 +30,7 @@ class ChallengeAll(PermissionRequiredMixin, DetailView):
 
     def get_permission_object(self):
         return self.get_object().puzzle_info
+
     def get_submissions(self):
         return Submission.objects.filter(challenge=self.object, status=Submission.SUCCESS).order_by('user','label' ,'-date').distinct('user', 'label')
 
@@ -78,6 +79,7 @@ class ChallengeAll(PermissionRequiredMixin, DetailView):
         context["metric_list"] = metrics_list
         return self.render_to_response(context)
 
+
 class ChallengeAutomatic(ChallengeAll):
     def get_submissions(self):
         submissions = super(ChallengeAutomatic, self).get_submissions()
@@ -89,11 +91,11 @@ class ChallengeAutomatic(ChallengeAll):
         context["in_silico"] = True
         return context
 
+
 class ChallengeUser(ChallengeAll):
     def get_submissions(self):
         submissions = super(ChallengeUser, self).get_submissions()
         return submissions.filter(is_automatic=False)
-
 
     def get_context_data(self, **kwargs):
         context = super(ChallengeUser, self).get_context_data(**kwargs)
