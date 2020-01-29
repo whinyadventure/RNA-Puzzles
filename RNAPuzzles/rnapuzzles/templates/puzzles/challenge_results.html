@@ -70,14 +70,14 @@ $(document).ready(function() {
         <div class="custom-control custom-radio">
             <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-silico"
                    onchange="document.location.href='{% url 'show-results-automatic' pk=object.pk %}'" {% if  in_silico %} checked{% endif %}>
-            <label class="custom-control-label" for="radio-silico">In silico</label>
+            <label class="custom-control-label" for="radio-silico">Automatic round</label>
         </div>
 
 
         <div class="custom-control custom-radio">
             <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-vivo"
                    onchange="document.location.href='{% url 'show-results-human' pk=object.pk %}'" {% if  in_vivo %} checked{% endif %}>
-            <label class="custom-control-label" for="radio-vivo">In vivo(?)</label>
+            <label class="custom-control-label" for="radio-vivo">Human round</label>
         </div>
 
     </div>
