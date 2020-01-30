@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 
 from rnapuzzles.models import PuzzleInfo, Challenge
 from rnapuzzles.views.contact.form import ContactForm
-
+from RNAPuzzles import settings
 
 @permission_required("rnapuzzles.view_puzzleinfo")
 def list_open(request):
@@ -41,7 +41,7 @@ def list_open(request):
             message = email_form.cleaned_data['message']
 
             try:
-                send_mail(subject, message, from_email, ['admin@example.com'])
+                send_mail(subject, message, from_email, settings.EMAIL_HOST_USER)
                 messages.add_message(request, messages.SUCCESS, 'Mail was send.')
 
             except BadHeaderError:

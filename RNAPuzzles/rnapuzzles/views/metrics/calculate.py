@@ -39,8 +39,8 @@ def calculate_metrics(request, pk):
             for s in res:
                 if "single_%s" %s.instance.pk in post_keys or "metrics" in request.POST:
                     res.save()
-                   # if s.instance.status != 1:
-                    spawn_tasks(s.instance.pk)
+                    if s.instance.status != 1:
+                        spawn_tasks(s.instance.pk)
             return redirect(reverse('metrics-calculate', args=[pk]))
 
 
