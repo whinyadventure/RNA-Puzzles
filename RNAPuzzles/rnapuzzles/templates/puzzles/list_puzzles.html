@@ -19,13 +19,85 @@
     <hr class="mt-1 mb-3">
 
     {% if list_name == 'My puzzles' %}
-        {% for puzzle, challenge, files in data %}
+        {% for puzzle, challenge, files in page_obj %}
             {% include 'puzzles/puzzle_info.html' %}
         {% endfor %}
     {% else %}
-        {% for puzzle, challenge, files, email_form in data %}
+        {% for puzzle, challenge, files, email_form in page_obj %}
             {% include 'puzzles/puzzle_info_with_question.html' %}
         {% endfor %}
     {% endif %}
+
+<nav aria-label="Page navigation" id="puzzle-list-nav">
+    <ul class="pagination justify-content-center pagination-sm">
+        {% if page_obj.has_previous %}
+          <!-- If it ain't a search result display, don't append the search query
+               to the URL. -->
+          {% if not search %}
+          <li class="page-item">
+                {% if list_name == 'My puzzles' %}
+                    <a class="page-link" href="{% url 'organizer-puzzles' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                {% elif listname == 'Completed puzzles' %}
+                    <a class="page-link" href="{% url 'completed-puzzles' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                {% else %}
+                    <a class="page-link" href="{% url 'open-puzzles' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                {% endif %}
+          </li>
+          {% else %}
+          <!-- Append the searched query to the URL, so that on a search results page,
+               the pagination don't revert to listing all the listview items. -->
+            <li class="page-item">
+                {% if list_name == 'My puzzles' %}
+                    <a class="page-link" href="{% url 'organizer-puzzles' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                {% elif listname == 'Completed puzzles' %}
+                    <a class="page-link" href="{% url 'completed-puzzles' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                {% else %}
+                    <a class="page-link" href="{% url 'open-puzzles' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                {% endif %}
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+        {% for object in page_obj.paginator.page_range %}
+                {% if list_name == 'My puzzles' %}
+                    <li class="page-item"><a class="page-link" href="{% url 'organizer-puzzles' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                {% elif listname == 'Completed puzzles' %}
+                    <li class="page-item"><a class="page-link" href="{% url 'completed-puzzles' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{% url 'open-puzzles' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          {% if not search %}
+          <li class="page-item">
+                {% if list_name == 'My puzzles' %}
+                    <a class="page-link" href="{% url 'organizer-puzzles' %}?page={{ page_obj.next_page_number }}">Next</a>
+                {% elif listname == 'Completed puzzles' %}
+                    <a class="page-link" href="{% url 'completed-puzzles' %}?page={{ page_obj.next_page_number }}">Next</a>
+                {% else %}
+                    <a class="page-link" href="{% url 'open-puzzles' %}?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+          </li>
+          {% else %}
+            <li class="page-item">
+                {% if list_name == 'My puzzles' %}
+                    <a class="page-link" href="{% url 'organizer-puzzles' %}?{{search}}&page={{ page_obj.next_page_number }}">Next</a>
+                {% elif listname == 'Completed puzzles' %}
+                    <a class="page-link" href="{% url 'completed-puzzles' %}?{{search}}&page={{ page_obj.next_page_number }}">Next</a>
+                {% else %}
+                    <a class="page-link" href="{% url 'open-puzzles' %}?{{search}}&page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
 
 {% endblock %}

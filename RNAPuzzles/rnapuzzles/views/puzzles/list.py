@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from rnapuzzles.models import PuzzleInfo, Challenge
 from rnapuzzles.views.contact.form import ContactForm
@@ -48,7 +49,11 @@ def list_open(request):
 
             return redirect(reverse('open-puzzles'))
 
-    context = {'list_name': name, 'data': data}
+    paginator = Paginator(data, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'list_name': name, 'data': data, 'page_obj': page_obj}
 
     return render(request, template_name, context)
 
@@ -84,7 +89,11 @@ def list_completed(request):
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
 
-    context = {'list_name': name, 'data': data}
+    paginator = Paginator(data, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'list_name': name, 'data': data, 'page_obj': page_obj}
 
     return render(request, template_name, context)
 
@@ -104,6 +113,10 @@ def list_organizer(request):
         files = challenge.challengefile_set.all()
         data.append([puzzle_info, challenge, files])
 
-    context = {'list_name': name, 'data': data}
+    paginator = Paginator(data, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'list_name': name, 'data': data, 'page_obj': page_obj}
 
     return render(request, template_name, context)
