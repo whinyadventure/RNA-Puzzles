@@ -19,23 +19,23 @@ Unconfirmed Users
     </thead>
 
     {% for user in object_list %}
-    {% if user.pk != 1%}
-    <tbody>
-        <tr>
-            <th scope="row">{{forloop.counter|add:"-1"}}</th>
-            <td>{{user.first_name}} {{user.last_name}}</td>
-            <td>{{user.get_role_display}}</td>
-            {% if user.group_name != None %}
-                <td>{{user.group_name}}</td>
-            {% else %}
-                <td></td>
-            {% endif %}
-            <td>{{user.institution}}</td>
-            <td><a href="{{user.pk}}/user_confirmed">Confirm</a></td>
-            <td><a href="{{user.pk}}/user_rejected">Reject</a></td>
-        </tr>
-    </tbody>
-    {% endif %}
+        {% if user.pk != 1%}
+        <tbody>
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{user.first_name}} {{user.last_name}}</td>
+                <td>{{user.get_role_display}}</td>
+                {% if user.group_name != None %}
+                    <td>{{user.group_name}}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td>{{user.institution}}</td>
+                <td><a href="{{user.pk}}/user_confirmed">Confirm</a></td>
+                <td><a href="{{user.pk}}/user_rejected">Reject</a></td>
+            </tr>
+        </tbody>
+        {% endif %}
     {% empty %}
         <p>No users to confirm</p>
     {% endfor %}
