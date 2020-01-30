@@ -9,6 +9,7 @@ from ...models import CustomUser
 
 
 class PasswordUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    print("Sialalala")
     template_name = "rnapuzzles/user_password_update.html"
     model = CustomUser
     success_url = ""
