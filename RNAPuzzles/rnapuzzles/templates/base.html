@@ -130,8 +130,9 @@
                   {% if perms.rnapuzzles.add_submission %}
                    <a class="dropdown-item" href="{% url 'submission_user_list' %}">My submissions</a>
                   {% endif %}
-
-                  <a class="dropdown-item" href="{% url 'unconfirmed_list' %}">Pending request</a>
+                  {% if perms.rnapuzzles.accept_group %}
+                    <a class="dropdown-item" href="{% url 'unconfirmed_list' %}">Pending request</a>
+                  {% endif %}
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                 </div>
@@ -148,8 +149,9 @@
                 {% if perms.rnapuzzles.add_puzzleinfo %}
                   <a class="nav-link text-light" href="{% url 'organizer-puzzles' %}">My puzzles</a>
                 {% endif %}
-                <a class="nav-link text-light" href="{% url 'unconfirmed_list' %}">Pending request</a>
-
+                {% if perms.rnapuzzles.accept_group %}
+                  <a class="nav-link text-light" href="{% url 'unconfirmed_list' %}">Pending request</a>
+                {% endif %}
                 <div class="dropdown-divider ml-auto col-10"></div>
                 <a class="nav-link text-light" href="{% url 'logout' %}">Log out</a>
               </li>

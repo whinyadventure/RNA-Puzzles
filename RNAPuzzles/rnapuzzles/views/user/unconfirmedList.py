@@ -22,7 +22,6 @@ class UnconfirmedList(PermissionRequiredMixin, ListView):
         data['object_list'] = data['object_list'].filter(email_confirmed=True, is_authorised=False, is_disabled=False )
         if self.request.user.role == 3:
             data['object_list'] = data['object_list'].filter(group_name=self.request.user.group_name)
-        print(self.request)
         return data
 
     def user_confirm(request, pk):

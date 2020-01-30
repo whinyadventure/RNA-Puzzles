@@ -73,8 +73,6 @@ class SigninForm(AuthenticationForm):
 
         user = CustomUser.objects.get(email=email)
 
-        print("clen email")
-
         if not user.email_confirmed:
             raise forms.ValidationError(
                self.error_messages['user_unconfirmed'],
