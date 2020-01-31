@@ -127,7 +127,7 @@ class ChallengeForm(forms.ModelForm):
                 self.fields[item].disabled = True
 
     def clean(self):
-        print(self.data)
+
         cleaned_data = super(ChallengeForm, self).clean()
 
         if self.fields['puzzle_info'].required:

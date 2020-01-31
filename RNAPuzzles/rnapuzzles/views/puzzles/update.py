@@ -6,98 +6,108 @@ from rnapuzzles.models import PuzzleInfo, Challenge
 from .forms import *
 
 
-@permission_required("rnapuzzles.add_puzzleinfo")
 def update_puzzle_info(request, pk):
 
     template_name = 'puzzles/update_puzzle.html'
 
     challenge = Challenge.objects.get(pk=pk)
-    puzzle = challenge.puzzle_info
 
-    puzzle_id = 'Puzzle {0}'.format(puzzle.id)
+    if request.user.has_perm("rnapuzzles.change_challenge", challenge):
 
-    puzzle_info_form = PuzzleInfoForm(request.POST or None, request.FILES or None, current_status=challenge.current_status, instance=puzzle)
-    challenge_form = ChallengeForm(request.POST or None, instance=challenge)
+        puzzle = challenge.puzzle_info
+        puzzle_id = 'Puzzle {0}'.format(puzzle.id)
 
-    current_files_form = CurrentFilesFormset(request.POST or None, request.FILES or None, instance=challenge)
+        puzzle_info_form = PuzzleInfoForm(request.POST or None, request.FILES or None, current_status=challenge.current_status, instance=puzzle)
+        challenge_form = ChallengeForm(request.POST or None, instance=challenge)
 
-    files_form = FilesFormsetEmpty(request.POST or None, request.FILES or None, queryset=Challenge.objects.none())
+        current_files_form = CurrentFilesFormset(request.POST or None, request.FILES or None, instance=challenge)
 
-    if challenge.current_status in {0, 1}:
-        files_form = FilesFormset(request.POST or None, request.FILES or None, queryset=Challenge.objects.none())
+        files_form = FilesFormsetEmpty(request.POST or None, request.FILES or None, queryset=Challenge.objects.none())
 
-    if request.method == 'POST':
+        if challenge.current_status in {0, 1}:
+            files_form = FilesFormset(request.POST or None, request.FILES or None, queryset=Challenge.objects.none())
 
-        if puzzle_info_form.is_valid() and challenge_form.is_valid()\
-                and current_files_form.is_valid() and files_form.is_valid():
+        if request.method == 'POST':
 
-            puzzle = puzzle_info_form.save()
-            challenge = challenge_form.save(commit=False)
-            challenge.puzzle_info = puzzle
-            challenge.save()
+            if puzzle_info_form.is_valid() and challenge_form.is_valid()\
+                    and current_files_form.is_valid() and files_form.is_valid():
 
-            current_files_form.save()
+                puzzle = puzzle_info_form.save()
+                challenge = challenge_form.save(commit=False)
+                challenge.puzzle_info = puzzle
+                challenge.save()
 
-            for form in files_form:
+                current_files_form.save()
 
-                if form.cleaned_data.get('file'):
-                    file = form.save(commit=False)
-                    file.challenge = challenge
-                    file.save()
+                for form in files_form:
 
-            return redirect(reverse('organizer-puzzles'))
+                    if form.cleaned_data.get('file'):
+                        file = form.save(commit=False)
+                        file.challenge = challenge
+                        file.save()
 
-    context = {'puzzle_id': puzzle_id, 'puzzle_info_form': puzzle_info_form, 'challenge_form': challenge_form,
-               'current_files_form': current_files_form, 'files_form': files_form}
+                return redirect(reverse('organizer-puzzles'))
 
-    return render(request, template_name, context)
+        context = {'puzzle_id': puzzle_id, 'puzzle_info_form': puzzle_info_form, 'challenge_form': challenge_form,
+                   'current_files_form': current_files_form, 'files_form': files_form}
+
+        return render(request, template_name, context)
+
+    return render(request, '403.html')
 
 
-@permission_required("rnapuzzles.add_puzzleinfo")
 def update_challenge(request, pk):
 
     template_name = 'puzzles/update_challenge.html'
 
     challenge = Challenge.objects.get(pk=pk)
-    puzzle = challenge.puzzle_info
-    previous_rounds = puzzle.challenge_set.all().order_by('round')
 
-    data = []
+    if request.user.has_perm("rnapuzzles.change_challenge", challenge):
 
-    for single in previous_rounds:
-        if single.pk != challenge.pk:
-            files = single.challengefile_set.all()
-            data.append((single, files))
+        puzzle = challenge.puzzle_info
+        previous_rounds = puzzle.challenge_set.all().order_by('round')
 
-    puzzle_id = 'Puzzle {0}-{1}'.format(puzzle.id, challenge.round)
+        data = []
 
-    challenge_form = ChallengeForm(request.POST or None, instance=challenge)
+        for single in previous_rounds:
+            if single.pk != challenge.pk:
+                files = single.challengefile_set.all()
+                data.append((single, files))
 
-    current_files_form = CurrentFilesFormset(request.POST or None, request.FILES or None, instance=challenge)
+        puzzle_id = 'Puzzle {0}-{1}'.format(puzzle.id, challenge.round)
 
-    files_form = FilesFormset(request.POST or None, request.FILES or None, queryset=Challenge.objects.none())
+        challenge_form = ChallengeForm(request.POST or None, instance=challenge)
 
-    if request.method == 'POST':
+        current_files_form = CurrentFilesFormset(request.POST or None, request.FILES or None, instance=challenge)
 
-        if challenge_form.is_valid() and current_files_form.is_valid() and files_form.is_valid():
+        files_form = FilesFormsetEmpty(request.POST or None, request.FILES or None, queryset=Challenge.objects.none())
 
-            challenge = challenge_form.save(commit=False)
-            challenge.puzzle_info = puzzle
-            challenge.save()
+        if challenge.current_status in {0, 1}:
+            files_form = FilesFormset(request.POST or None, request.FILES or None, queryset=Challenge.objects.none())
 
-            current_files_form.save()
+        if request.method == 'POST':
 
-            for form in files_form:
+            if challenge_form.is_valid() and current_files_form.is_valid() and files_form.is_valid():
 
-                if form.cleaned_data.get('file'):
-                    file = form.save(commit=False)
-                    file.challenge = challenge
-                    file.save()
+                challenge = challenge_form.save(commit=False)
+                challenge.puzzle_info = puzzle
+                challenge.save()
 
-            return redirect(reverse('organizer-puzzles'))
+                current_files_form.save()
 
-    context = {'puzzle_id': puzzle_id, 'puzzle': puzzle, 'data': data, 'challenge_form': challenge_form,
-               'current_files_form': current_files_form, 'files_form': files_form}
+                for form in files_form:
 
-    return render(request, template_name, context)
+                    if form.cleaned_data.get('file'):
+                        file = form.save(commit=False)
+                        file.challenge = challenge
+                        file.save()
+
+                return redirect(reverse('organizer-puzzles'))
+
+        context = {'puzzle_id': puzzle_id, 'puzzle': puzzle, 'data': data, 'challenge_form': challenge_form,
+                   'current_files_form': current_files_form, 'files_form': files_form}
+
+        return render(request, template_name, context)
+
+    return render(request, '403.html')
 
