@@ -55,14 +55,14 @@ def create_next(request):
     puzzle = None
     data = None
 
-    select_form = SelectForm(None)  # base puzzle selection
+    select_form = SelectForm(None, current_user=request.user)  # base puzzle selection
     challenge_form = ChallengeForm(required_puzzle=True)    # required_puzzle enforces selecting Puzzle in the first form
     files_form = FilesFormset(queryset=Challenge.objects.none())
 
     if request.method == 'POST':
 
         if 'choose_base' in request.POST:   # distinguish form posted with button's name
-            select_form = SelectForm(request.POST)
+            select_form = SelectForm(request.POST, current_user=request.user)
 
             if select_form.is_valid():
                 puzzle = select_form.cleaned_data.get('choice')

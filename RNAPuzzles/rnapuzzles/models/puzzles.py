@@ -93,12 +93,12 @@ class Challenge(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
     puzzle_info = models.ForeignKey(PuzzleInfo, on_delete=models.CASCADE, blank=True, null=True)
     alignment = models.CharField(max_length=20, blank=True)
+
     class Meta:
         ordering = ['-puzzle_info', '-created_at']
         permissions = [
             ("metrics_challenge", "Run computation of metrics"),
         ]
-
 
     def __str__(self):
         if self.round == 1:
@@ -116,6 +116,7 @@ class Challenge(models.Model):
         self.end_date = self.end_date.replace(second=0)
         self.end_automatic = self.end_automatic.replace(second=0)
         super(Challenge, self).save(*args, **kwargs)
+
     @property
     def current_status(self):
         if timezone.now() < self.start_date:

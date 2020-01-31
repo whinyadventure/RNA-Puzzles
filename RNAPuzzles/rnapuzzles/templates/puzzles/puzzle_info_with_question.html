@@ -1,7 +1,7 @@
 {% extends 'puzzles/puzzle_info.html' %}
 
 {% block submit_question %}
-    {% if challenge.current_status == 1 or challenge.current_status == 4 and list_name != 'My puzzles' %}
+    {% if challenge.current_status == 1 or challenge.current_status == 3 and list_name != 'My puzzles' %}
         <div class="accordion md-accordion" id="accordion-faq-{{ challenge.id }}" role="tablist"
              aria-multiselectable="true">
           <div class="card border-0">

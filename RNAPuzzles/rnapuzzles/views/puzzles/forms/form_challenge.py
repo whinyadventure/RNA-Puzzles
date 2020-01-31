@@ -118,7 +118,10 @@ class ChallengeForm(forms.ModelForm):
             disable = []
 
             if self.instance.current_status == 1:
-                disable = ['start_date', 'end_automatic']
+                disable = ['start_date']
+
+                if self.instance.end_automatic <= timezone.localtime(timezone.now()):
+                    disable.append('end_automatic')
 
             elif self.instance.current_status >= 2:
                 disable = ['start_date', 'end_date', 'end_automatic']
@@ -127,7 +130,7 @@ class ChallengeForm(forms.ModelForm):
                 self.fields[item].disabled = True
 
     def clean(self):
-        print(self.data)
+
         cleaned_data = super(ChallengeForm, self).clean()
 
         if self.fields['puzzle_info'].required:
