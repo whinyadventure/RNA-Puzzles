@@ -13,7 +13,6 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
         object, _ = Group.objects.get_or_create(name="Defaults")
         # object,_ = Group.objects.get(name="Default")
         object.user_set.add(instance)
-        assign_perm("rnapuzzles.content_submission", instance)
 
         if instance.role == CustomUser.ORGANIZER:  # Organizer
 
