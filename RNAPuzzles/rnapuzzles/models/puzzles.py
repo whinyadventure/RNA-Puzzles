@@ -99,6 +99,7 @@ class Challenge(models.Model):
             ("metrics_challenge", "Run computation of metrics"),
         ]
 
+
     def __str__(self):
         if self.round == 1:
             return 'Puzzle %s' % self.puzzle_info_id
@@ -108,6 +109,13 @@ class Challenge(models.Model):
     def __get_label(self, field):
         return text_type(self._meta.get_field(field).verbose_name)
 
+    def save(self, *args, **kwargs):
+        print(self.end_date)
+        self.start_date = self.start_date.replace(second=0)
+        print(self.end_date)
+        self.end_date = self.end_date.replace(second=0)
+        self.end_automatic = self.end_automatic.replace(second=0)
+        super(Challenge, self).save(*args, **kwargs)
     @property
     def current_status(self):
         if timezone.now() < self.start_date:

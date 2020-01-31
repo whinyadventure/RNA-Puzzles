@@ -32,7 +32,7 @@ class ChallengeAll(PermissionRequiredMixin, DetailView):
         return self.get_object().puzzle_info
 
     def get_submissions(self):
-        return Submission.objects.filter(challenge=self.object, status=Submission.SUCCESS).order_by('user','label' ,'-date').distinct('user', 'label')
+        return Submission.get_last_submissions(self.object.pk)
 
     def get_context_data(self, **kwargs):
         context = super(ChallengeAll, self).get_context_data(**kwargs)

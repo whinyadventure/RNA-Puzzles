@@ -33,6 +33,7 @@ class GroupView(TestCase):
     def test_list_object(self):
         self.client.force_login(self.user_object)
         response = self.client.get(reverse("groups_list"))
+        print(response)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(len(response.context["object_list"]) == 1)
 
@@ -50,28 +51,13 @@ class GroupView(TestCase):
     def test_view_without(self):
         self.client.force_login(self.user_without)
         response = self.client.get(reverse("group_detail", args=[self.group.pk]))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
 
     def test_view_object(self):
         self.client.force_login(self.user_object)
         response = self.client.get(reverse("group_detail", args=[self.group.pk]))
         self.assertEqual(response.status_code, 200)
 
-#     # def test_delete_with(self):
-#     #     self.client.force_login(self.user_with)
-#     #     response = self.client.get(reverse("group_delete", args=[self.group.pk]))
-#     #     self.assertEqual(response.status_code, 200)
-#     #
-#     # def test_delete_without(self):
-#     #     self.client.force_login(self.user_without)
-#     #     response = self.client.get(reverse("group_delete", args=[self.group.pk]))
-#     #     self.assertEqual(response.status_code, 302)
-#     #
-#     # def test_delete_object(self):
-#     #     self.client.force_login(self.user_object)
-#     #     response = self.client.get(reverse("group_delete", args=[self.group.pk]))
-#     #     self.assertEqual(response.status_code, 200)
-#
     def test_update_with(self):
         self.client.force_login(self.user_with)
         response = self.client.get(reverse("group_update", args=[self.group.pk]))

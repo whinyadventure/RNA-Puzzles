@@ -15,7 +15,7 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
         object.user_set.add(instance)
         # assign_perm("rnapuzzles.view_newsmodel", instance)
 
-        if instance.role == 1:  # Organizer
+        if instance.role == CustomUser.ORGANIZER:  # Organizer
 
             object, created = Group.objects.get_or_create(name="Organizers")
             object.user_set.add(instance)
@@ -32,7 +32,7 @@ def add_user_group(sender, instance: CustomUser, **kwargs):
         if instance.role == 3:
             assign_perm("rnapuzzles.change_group", instance, instance.group_name)
             assign_perm("rnapuzzles.name_group", instance, instance.group_name)
-            assign_perm("rnapuzzles.accept_group", instance)
+            assign_perm("rnapuzzles.accept_group", instance, instance.group_name)
 
     if instance.role in [2, 3]:
         object, created = Group.objects.get_or_create(name="Participant")

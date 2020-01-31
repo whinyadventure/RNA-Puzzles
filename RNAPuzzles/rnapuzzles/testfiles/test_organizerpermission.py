@@ -25,6 +25,12 @@ class OrganizerPermissions(TestCase):
         self.assertFalse(self.organizer.has_perm("rnapuzzles.delete_puzzleinfo"))
         self.assertFalse(self.organizer.has_perm("rnapuzzles.change_puzzleinfo"))
 
+    def test_organizer_permissions_challenge(self):
+        """Check default permissions of organizer for PuzzleInfo"""
+        self.assertFalse(self.organizer.has_perm("rnapuzzles.delete_challenge"))
+        self.assertFalse(self.organizer.has_perm("rnapuzzles.change_challenge"))
+
+
     def test_organizer_permissions_group(self):
         """Check default permissions of organizer for Group"""
         self.assertTrue(self.organizer.has_perm("rnapuzzles.view_group"))

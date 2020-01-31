@@ -162,7 +162,7 @@
 
     <div id="model-submit-row" class="d-flex justify-content-end mt-3 mb-5 mr-5">
 
-        {% if challenge.current_status == 1 and list_name != 'My puzzles' %}
+        {% if challenge.current_status == 1 and list_name != 'My puzzles'  and perms.rnapuzzles.add_submission%}
             <a href="{% url 'submission_single' challenge.id %}"><button type="button" class="btn btn-primary"> Submit model</button></a>
 
         {% endif %}

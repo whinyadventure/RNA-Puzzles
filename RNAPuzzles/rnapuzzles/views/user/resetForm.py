@@ -33,7 +33,7 @@ class ResetForm(SuccessMessageMixin, forms.Form):
         return self.cleaned_data
 
     def save(self, commit=True):
-        print("save")
+
         user = CustomUser.objects.get(email=self.cleaned_data['email'])
         current_site = settings.DOMAIN_URL
         mail_subject = 'Activate your RNA-PUZZLES account.'

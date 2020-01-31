@@ -95,7 +95,7 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
             user.set_password(self.cleaned_data['password1'])
 
         elif self.cleaned_data['role'] == 2:  # participant
-            print(self.cleaned_data['group_name'])
+
             group = Group.objects.get(group_name=self.cleaned_data['group_name'])
             user = group.customuser_set.create(
                 email=self.cleaned_data['email'],
@@ -109,7 +109,7 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
             group.save()
 
         elif self.cleaned_data['role'] == 3:  # leader
-            print("lider")
+
             group = Group(group_name=self.cleaned_data['new_group_name'])
             group.save()
             user = group.customuser_set.create(

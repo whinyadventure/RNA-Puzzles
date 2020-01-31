@@ -12,6 +12,7 @@ class Detail(PermissionRequiredMixin, DetailView):
     model = Group
     template_name = "group_detail.html"
     pk_url_kwarg = "pk"
+    return_403 = True
 
     @staticmethod
     def get_member_count(group):

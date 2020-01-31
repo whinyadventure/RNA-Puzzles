@@ -41,8 +41,8 @@ def list_open(request):
             message = email_form.cleaned_data['message']
 
             try:
-                send_mail(subject, message, from_email, settings.EMAIL_HOST_USER)
-                messages.add_message(request, messages.SUCCESS, 'Mail was send.')
+                send_mail(subject, message, settings.EMAIL_HOST_USER, [email_form.challenge.author.email])
+                messages.add_message(request, messages.SUCCESS, 'Message has been sent successfully!')
 
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')

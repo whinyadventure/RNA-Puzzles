@@ -5,7 +5,6 @@ from rnapuzzles.models import Challenge, CustomUser, Metric
 
 
 class Submission(models.Model):
-
     SUBMITTED = 0
     EVALUATION = 1
     ERROR = 2
@@ -27,9 +26,14 @@ class Submission(models.Model):
     status = models.SmallIntegerField(choices=status_choices, default=SUBMITTED)
     msg = models.TextField(blank=True)
 
+    @staticmethod
+    def get_last_submissions(challenge_pk):
+        return Submission.objects.filter(challenge_id=challenge_pk).order_by('user', 'label', 'is_automatic',
+                                                                             '-date').distinct('user', 'label',
+                                                                                               'is_automatic')
+
 
 class Score(models.Model):
-
     ERROR = 0
     SUCCESS = 1
     STATUS_CHOICES = (

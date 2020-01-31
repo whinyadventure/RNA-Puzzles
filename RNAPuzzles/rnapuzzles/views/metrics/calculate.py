@@ -17,7 +17,7 @@ class FormSingle(forms.ModelForm):
         (Challenge, 'pk', 'pk'), accept_global_perms=True)
 def calculate_metrics(request, pk):
     challenge = get_list_or_404(Challenge, pk=pk)[0]
-    submissions = Submission.objects.filter(challenge=pk)
+    submissions = Submission.get_last_submissions(pk)
     FormSet = modelformset_factory(Submission, fields=["alignment"], extra=0)
     alignment = FormSingle(request.POST if request.method == "POST" else None, instance=challenge)
     res = FormSet(request.POST if request.method == "POST" else None, queryset=submissions, prefix='formset_input')

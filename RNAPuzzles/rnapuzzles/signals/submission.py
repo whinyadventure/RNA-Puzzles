@@ -9,9 +9,9 @@ from rnapuzzles.celery import spawn_tasks
 
 @receiver(post_save, sender=Submission)
 def post_save_challenge_change(sender, instance: Submission, *args, **kwargs):
-
-    if kwargs.get("created", False):
-        assign_perm("rnapuzzles.view_submission", instance.user, instance)
-        print(instance.user.group_name, instance.user.group_name.leader)
-        assign_perm("rnapuzzles.view_submission", instance.user.group_name.leader, instance)
-
+    try:
+        if kwargs.get("created", False):
+            assign_perm("rnapuzzles.view_submission", instance.user, instance)
+            assign_perm("rnapuzzles.view_submission", instance.user.group_name.leader, instance)
+    except Exception as e:
+        print("Error post_save_challenge_change",e, sender, instance, args, kwargs)

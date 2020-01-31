@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib import messages
 
+from RNAPuzzles import settings
 from rnapuzzles.views.contact.form import ContactForm
 
 
@@ -20,8 +21,12 @@ def contactView(request):
             message = form.cleaned_data['message']
 
             try:
-                send_mail(subject, message, from_email, ['admin@example.com'])
-                messages.add_message(request, messages.SUCCESS, 'Mail was send.')
+                m = "Message from: "+ from_email+ "\n" \
+                                                  "Subject: "+subject+"\n" \
+                                                                      "Message:\n" \
+                                                                      +message
+                send_mail("Contact message from: "+from_email, m, settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER])
+                messages.add_message(request, messages.SUCCESS, 'Message has been sent successfully!')
 
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')

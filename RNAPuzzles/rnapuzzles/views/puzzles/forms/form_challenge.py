@@ -32,12 +32,13 @@ class ChallengeForm(forms.ModelForm):
             self.fields['puzzle_info'].required = True
 
         if not self.instance.id:
+            now = timezone.localtime(timezone.now())
             self.fields['start_date'].widget = DateTimePicker(
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (timezone.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': (timezone.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (now + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (now + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -49,8 +50,8 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (timezone.now() + timedelta(days=1, minutes=30)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': (timezone.now() + timedelta(days=30, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (now + timedelta(days=1, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (now + timedelta(days=30, minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -62,8 +63,8 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (timezone.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': (timezone.now() + timedelta(days=2, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (now + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (now + timedelta(days=2, minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -81,8 +82,6 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': self.instance.created_at.strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': self.instance.start_date.strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -94,8 +93,6 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (self.instance.created_at + timedelta(days=1, minutes=30)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': self.instance.end_date.strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -107,8 +104,6 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (self.instance.created_at + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': self.instance.end_automatic.strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -132,6 +127,7 @@ class ChallengeForm(forms.ModelForm):
                 self.fields[item].disabled = True
 
     def clean(self):
+        print(self.data)
         cleaned_data = super(ChallengeForm, self).clean()
 
         if self.fields['puzzle_info'].required:

@@ -14,7 +14,7 @@ class ContactForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
-        challenge = kwargs.pop('challenge', None)
+        self.challenge = kwargs.pop('challenge', None)
         list_name = kwargs.pop('list', None)
 
         super(ContactForm, self).__init__(*args, **kwargs)
@@ -28,9 +28,9 @@ class ContactForm(forms.Form):
         if user:
 
             if list_name == 'Open puzzles':
-                subject = '[Open puzzles: {}] Question from {}'.format(challenge, str(user))
+                subject = '[Open puzzles: {}] Question from {}'.format(self.challenge, str(user))
             else:
-                subject = '[Completed puzzles: {}] Question from {}'.format(challenge, str(user))
+                subject = '[Completed puzzles: {}] Question from {}'.format(self.challenge, str(user))
 
             self.fields['from_email'].initial = user.email
             self.fields['from_email'].widget.attrs['readonly'] = True
