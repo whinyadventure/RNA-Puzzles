@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import timezone
@@ -14,7 +15,6 @@ from rnapuzzles.models import PuzzleInfo, Challenge
 from rnapuzzles.views.contact.form import ContactForm
 from RNAPuzzles import settings
 
-@permission_required("rnapuzzles.view_puzzleinfo")
 def list_open(request):
 
     template_name = 'puzzles/list_puzzles.html'
@@ -28,9 +28,11 @@ def list_open(request):
     for challenge in challenges:
         puzzle_info = PuzzleInfo.objects.get(id=challenge.puzzle_info_id)
         files = challenge.challengefile_set.all()
-        email_form = ContactForm(user=request.user, challenge=challenge, list=name)
-
-        data.append([puzzle_info, challenge, files, email_form])
+        if request.user.is_authenticated:
+            email_form = ContactForm(user=request.user, challenge=challenge, list=name)
+            data.append([puzzle_info, challenge, files, email_form])
+        else:
+            data.append([puzzle_info, challenge, files])
 
     if request.method == 'POST':
         email_form = ContactForm(request.POST)
@@ -58,7 +60,6 @@ def list_open(request):
     return render(request, template_name, context)
 
 
-@permission_required("rnapuzzles.view_puzzleinfo")
 def list_completed(request):
 
     template_name = 'puzzles/list_puzzles.html'
@@ -71,9 +72,11 @@ def list_completed(request):
     for challenge in challenges:
         puzzle_info = PuzzleInfo.objects.get(id=challenge.puzzle_info_id)
         files = challenge.challengefile_set.all()
-        email_form = ContactForm(user=request.user, challenge=challenge, list=name)
-
-        data.append([puzzle_info, challenge, files, email_form])
+        if request.user.is_authenticated:
+            email_form = ContactForm(user=request.user, challenge=challenge, list=name)
+            data.append([puzzle_info, challenge, files, email_form])
+        else:
+            data.append([puzzle_info, challenge, files])
 
     if request.method == 'POST':
         email_form = ContactForm(request.POST)
@@ -97,8 +100,7 @@ def list_completed(request):
 
     return render(request, template_name, context)
 
-
-@permission_required("rnapuzzles.view_puzzleinfo")
+@login_required
 def list_organizer(request):
 
     template_name = 'puzzles/list_puzzles.html'

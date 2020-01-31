@@ -7,7 +7,6 @@ import io
 import zipfile
 
 
-@permission_required("rnapuzzles.view_puzzleinfo")
 def file_download_batch(request, pk):
 
     challenge = Challenge.objects.get(pk=pk)
@@ -31,7 +30,6 @@ def file_download_batch(request, pk):
     return response
 
 
-@permission_required("rnapuzzles.view_puzzleinfo")
 def file_download(request, pk):
 
     challenge_file = ChallengeFile.objects.get(pk=pk)
@@ -42,7 +40,6 @@ def file_download(request, pk):
     return response
 
 
-@permission_required("rnapuzzles.view_puzzleinfo")
 def pdb_download(request, pk):
 
     puzzle = PuzzleInfo.objects.get(pk=pk)

@@ -14,11 +14,9 @@ class GroupView(TestCase):
 
         self.group = CustomGroup.objects.create(group_name="Test")
 
-        assign_perm("rnapuzzles.view_group", self.user_with)
         assign_perm("rnapuzzles.delete_group", self.user_with)
         assign_perm("rnapuzzles.add_group", self.user_with)
 
-        assign_perm("rnapuzzles.view_group", self.user_object, self.group)
         assign_perm("rnapuzzles.change_group", self.user_object, self.group)
         assign_perm("rnapuzzles.delete_group", self.user_object, self.group)
 

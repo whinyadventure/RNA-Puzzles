@@ -4,10 +4,7 @@ from .detail import Detail
 from guardian.mixins import PermissionListMixin
 
 
-class List(PermissionListMixin, ListView):
-
-    PermissionListMixin.accept_global_perms = True
-    permission_required = "rnapuzzles.view_group"
+class List(ListView):
     model = Group
     template_name = "groups_list.html"
     return_403 = True

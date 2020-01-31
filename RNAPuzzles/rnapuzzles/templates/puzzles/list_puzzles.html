@@ -23,9 +23,16 @@
             {% include 'puzzles/puzzle_info.html' %}
         {% endfor %}
     {% else %}
-        {% for puzzle, challenge, files, email_form in page_obj %}
-            {% include 'puzzles/puzzle_info_with_question.html' %}
-        {% endfor %}
+        {% if page_obj.count == 4 %}
+            {% for puzzle, challenge, files, email_form in page_obj %}
+                {% include 'puzzles/puzzle_info_with_question.html' %}
+            {% endfor %}
+        {% else %}
+            {% for puzzle, challenge, files in page_obj %}
+                {% include 'puzzles/puzzle_info.html' %}
+            {% endfor %}
+
+        {%endif%}
     {% endif %}
 
 <nav aria-label="Page navigation" id="puzzle-list-nav">

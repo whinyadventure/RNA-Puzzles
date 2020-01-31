@@ -14,7 +14,6 @@ class ParcitipantPermissions(TestCase):
 
     def test_parcitipant_permissions_newsmodel(self):
         """Check default permissions of parcitipant for NewsModel"""
-        self.assertTrue(self.parcitipant.has_perm("rnapuzzles.view_newsmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.add_newsmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.delete_newsmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.change_newsmodel"))
@@ -22,7 +21,6 @@ class ParcitipantPermissions(TestCase):
 
     def test_parcitipant_permissions_puzzleinfo(self):
         """Check default permissions of parcitipant for PuzzleInfo"""
-        self.assertTrue(self.parcitipant.has_perm("rnapuzzles.view_puzzleinfo"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.add_puzzleinfo"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.delete_puzzleinfo"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.change_puzzleinfo"))
@@ -30,7 +28,6 @@ class ParcitipantPermissions(TestCase):
     def test_parcitipant_permissions_group(self):
         """Check default permissions of parcitipant for Group"""
 
-        self.assertTrue(self.parcitipant.has_perm("rnapuzzles.view_group"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.add_group"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.delete_group"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.change_group"))
@@ -55,7 +52,6 @@ class ParcitipantPermissions(TestCase):
 
     def test_parcitipant_permissions_resources(self):
         """Check default permissions of parcitipant for Resources"""
-        self.assertTrue(self.parcitipant.has_perm("rnapuzzles.view_resourcesmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.add_resourcesmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.delete_resourcesmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.change_resourcesmodel"))
@@ -63,7 +59,6 @@ class ParcitipantPermissions(TestCase):
 
     def test_parcitipant_permissions_faq(self):
         """Check default permissions of parcitipant for Faq"""
-        self.assertTrue(self.parcitipant.has_perm("rnapuzzles.view_faqmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.add_faqmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.delete_faqmodel"))
         self.assertFalse(self.parcitipant.has_perm("rnapuzzles.change_faqmodel"))

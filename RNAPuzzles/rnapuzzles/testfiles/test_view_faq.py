@@ -17,12 +17,10 @@ class FaqView(TestCase):
         self.faq = FaqModel.objects.create(title="Test", author=self.author)
         self.faq2 = FaqModel.objects.create(title="Test", author=self.author)
 
-        assign_perm("rnapuzzles.view_faqmodel", self.user_with)
         assign_perm("rnapuzzles.change_faqmodel", self.user_with)
         assign_perm("rnapuzzles.delete_faqmodel", self.user_with)
         assign_perm("rnapuzzles.add_faqmodel", self.user_with)
 
-        assign_perm("rnapuzzles.view_faqmodel", self.user_object, self.faq)
         assign_perm("rnapuzzles.change_faqmodel", self.user_object, self.faq)
         assign_perm("rnapuzzles.delete_faqmodel", self.user_object, self.faq)
 

@@ -15,12 +15,10 @@ class ResourcesView(TestCase):
         self.user_tmp = CustomUser.objects.create(email="d@a.pl")
         self.resources = ResourcesModel.objects.create(title="Test", author=self.author)
 
-        assign_perm("rnapuzzles.view_resourcesmodel", self.user_with)
         assign_perm("rnapuzzles.change_resourcesmodel", self.user_with)
         assign_perm("rnapuzzles.delete_resourcesmodel", self.user_with)
         assign_perm("rnapuzzles.add_resourcesmodel", self.user_with)
 
-        assign_perm("rnapuzzles.view_resourcesmodel", self.user_object, self.resources)
         assign_perm("rnapuzzles.change_resourcesmodel", self.user_object, self.resources)
         assign_perm("rnapuzzles.delete_resourcesmodel", self.user_object, self.resources)
 

@@ -23,9 +23,8 @@ from rnapuzzles.models import Challenge as ChallengeModel
 #     return render(request, template_name, context)
 
 
-class ChallengeAll(PermissionRequiredMixin, DetailView):
+class ChallengeAll(DetailView):
     model = ChallengeModel
-    permission_required = "rnapuzzles.view_puzzleinfo"
     template_name = 'puzzles/challenge_results.html'
 
     def get_permission_object(self):
