@@ -10,8 +10,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ${POSTGRES_FOLDER}:/var/lib/postgresql/data
-    ports:
-    - "5432:5432"
+    expose:
+    - "5432"
   rabbitmq:
     container_name: rabbitmq
     restart: always
@@ -31,9 +31,8 @@ services:
       - DB_NAME=${POSTGRES_DB}
       - DB_HOST=postgres
       - DB_PORT=5432
+    restart: on-failure:5 
     entrypoint: "python manage.py migrate"
-    volumes: 
-      - ./staticfiles:/var/www/html
     depends_on:
       - postgres
       - rabbitmq
@@ -47,6 +46,8 @@ services:
       - DB_NAME=${POSTGRES_DB}
       - DB_HOST=postgres
       - DB_PORT=5432
+    volumes:
+      - /var/www/html:/var/www/html
     entrypoint: "python manage.py collectstatic --no-input"
   django:
     container_name: django
@@ -58,15 +59,22 @@ services:
       - DB_NAME=${POSTGRES_DB}
       - DB_HOST=postgres
       - DB_PORT=5432
+      - DEBUG=False
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
-      - DEBUF=True
+      - DEBUF=False
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - GOOGLE_CAPTCHA_SECRET=${GOOGLE_CAPTCHA_SECRET}
+      - GOOGLE_CAPTCHA_SITE=${GOOGLE_CAPTCHA_SITE}
     ports:
       - "3000:3000"
-    entrypoint: "python manage.py runserver 0.0.0.0:3000"
-    #command: "RNAPuzzles.wsgi:application --bind=0.0.0.0:3000 --workers=2"
+    #entrypoint: "python manage.py runserver 0.0.0.0:3000"    
+    command: "RNAPuzzles.wsgi:application --bind=0.0.0.0:3000 --workers=12"
+    volumes:
+      - django-media:/code/RNAPuzzles/media
     depends_on:
       - postgres
       - rabbitmq
@@ -89,7 +97,11 @@ services:
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - DEBUF=False
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
     entrypoint: "celery worker -A RNAPuzzles -l info"
+    volumes:
+      - django-media:/code/RNAPuzzles/media
     depends_on:
       - postgres
       - rabbitmq
@@ -117,3 +129,11 @@ services:
       - rabbitmq
       - django-migration
       - django-collectstatic
+volumes:
+  django-media:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/leckert/django-media
+
