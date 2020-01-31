@@ -5,7 +5,7 @@ from guardian.utils import get_anonymous_user
 from ..models import Group, CustomUser
 
 
-class AnonymousPermissions(TestCase):
+class ContactView(TestCase):
     def setUp(self):
         self.group = Group.objects.create(group_name="Test")
         self.anonymous: CustomUser = get_anonymous_user()

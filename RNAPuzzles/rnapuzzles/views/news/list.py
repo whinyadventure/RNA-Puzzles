@@ -6,10 +6,9 @@ from guardian.utils import get_anonymous_user
 from rnapuzzles.models import NewsModel
 
 
-class List(PermissionListMixin, ListView):
-    permission_required = "rnapuzzles.view_newsmodel"
+class List(ListView):
     model = NewsModel
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()

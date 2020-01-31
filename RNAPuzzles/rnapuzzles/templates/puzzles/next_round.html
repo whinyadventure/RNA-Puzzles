@@ -13,13 +13,15 @@
         <input type="submit" name="choose_base" class="btn btn-primary mb-3" value="Choose"/>
     </form>
 
-    {% for challenge, files in data %}
-        {% if challenge.round == 1 %}
-            {% include 'puzzles/puzzle_info.html' %}
-        {% else %}
-            {% include 'puzzles/puzzle_info.html' with puzzle=None %}
-        {% endif %}
-    {% endfor %}
+    <div class="mt-1 mb-3">
+        {% for challenge, files in data %}
+            {% if challenge.round == 1 %}
+                {% include 'puzzles/puzzle_info_folded.html' %}
+            {% else %}
+                {% include 'puzzles/puzzle_info_folded.html' with puzzle=None %}
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

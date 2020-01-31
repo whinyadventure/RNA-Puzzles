@@ -23,16 +23,15 @@ from rnapuzzles.models import Challenge as ChallengeModel
 #     return render(request, template_name, context)
 
 
-class ChallengeAll(PermissionRequiredMixin, DetailView):
+class ChallengeAll(DetailView):
     model = ChallengeModel
-    permission_required = "rnapuzzles.view_puzzleinfo"
     template_name = 'puzzles/challenge_results.html'
 
     def get_permission_object(self):
         return self.get_object().puzzle_info
 
     def get_submissions(self):
-        return Submission.objects.filter(challenge=self.object, status=Submission.SUCCESS).order_by('user','label' ,'-date').distinct('user', 'label')
+        return Submission.get_last_submissions(self.object.pk)
 
     def get_context_data(self, **kwargs):
         context = super(ChallengeAll, self).get_context_data(**kwargs)

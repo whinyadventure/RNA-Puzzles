@@ -3,11 +3,11 @@ from django.dispatch import receiver
 from django.conf import settings
 from guardian.shortcuts import assign_perm, remove_perm
 
-from rnapuzzles.models import PuzzleInfo, Challenge, ChallengeFile
+from rnapuzzles.models import PuzzleInfo, Challenge, ChallengeFile, Metric
 
 
 @receiver(pre_save, sender=PuzzleInfo)
-def puzzle_info_pre_save(sender, instance, *args, **kwargs):
+def puzzle_info_pre_save(sender, instance: PuzzleInfo, *args, **kwargs):
 
     try:
         obj = sender.objects.get(pk=instance.pk)
@@ -46,18 +46,24 @@ def post_delete_file(sender, instance, *args, **kwargs):
 def post_save_puzzleinfo_creation(sender, instance: PuzzleInfo, *args, **kwargs):
     if kwargs.get("created", False):
         assign_perm("rnapuzzles.delete_puzzleinfo", instance.author, instance)
-        assign_perm("rnapuzzles.change_puzzleinfo", instance.author, instance)
+        for m in Metric.objects.all():
+            instance.metrics.add(m)
+        instance.save()
+        #assign_perm("rnapuzzles.change_puzzleinfo", instance.author, instance)
 
 
 @receiver(post_save, sender=Challenge)
 def post_save_challenge_change(sender, instance: Challenge, *args, **kwargs):
     if kwargs.get("created", False):
         assign_perm("rnapuzzles.metrics_challenge", instance.author, instance)
+        assign_perm("rnapuzzles.change_challenge", instance.author, instance)
+        assign_perm("rnapuzzles.delete_challenge", instance.author, instance)
 
     if instance.current_status != 0:
         remove_perm("rnapuzzles.delete_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
-
+        remove_perm("rnapuzzles.delete_challenge", instance.author, instance)
 
     if instance.current_status == 3:
-        remove_perm("rnapuzzles.change_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+        #remove_perm("rnapuzzles.change_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+        remove_perm("rnapuzzles.change_challenge", instance.author, instance)
 

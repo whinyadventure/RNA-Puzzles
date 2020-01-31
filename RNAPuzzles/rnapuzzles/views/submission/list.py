@@ -6,7 +6,7 @@ from rnapuzzles.models import ResourcesModel, Submission
 
 
 class List(PermissionListMixin, ListView):
-
+    accept_global_perms = True
     permission_required = "rnapuzzles.view_submission"
     model = Submission
     ordering = ["-date"]

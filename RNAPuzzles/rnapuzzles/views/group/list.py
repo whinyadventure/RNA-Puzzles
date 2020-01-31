@@ -1,15 +1,13 @@
 from django.views.generic.list import ListView
 from ...models.user import Group
 from .detail import Detail
-from guardian.mixins import PermissionRequiredMixin
+from guardian.mixins import PermissionListMixin
 
 
-class List(PermissionRequiredMixin, ListView):
-
-    PermissionRequiredMixin.accept_global_perms = True
-    permission_required = "rnapuzzles.view_group"
+class List(ListView):
     model = Group
     template_name = "groups_list.html"
+    return_403 = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
         data = super(List, self).get_context_data(object_list=object_list, **kwargs)

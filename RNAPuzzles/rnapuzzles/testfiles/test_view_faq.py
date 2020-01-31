@@ -9,18 +9,18 @@ from rnapuzzles.models import Group, CustomUser, FaqModel
 class FaqView(TestCase):
     def setUp(self):
 
+        self.author = CustomUser.objects.create_user(email="author@a.pl")
         self.user_without = CustomUser.objects.create(email="a@a.pl")
         self.user_with = CustomUser.objects.create(email="b@a.pl")
         self.user_object = CustomUser.objects.create(email="c@a.pl")
 
-        self.faq = FaqModel.objects.create(title="Test")
+        self.faq = FaqModel.objects.create(title="Test", author=self.author)
+        self.faq2 = FaqModel.objects.create(title="Test", author=self.author)
 
-        assign_perm("rnapuzzles.view_faqmodel", self.user_with)
         assign_perm("rnapuzzles.change_faqmodel", self.user_with)
         assign_perm("rnapuzzles.delete_faqmodel", self.user_with)
         assign_perm("rnapuzzles.add_faqmodel", self.user_with)
 
-        assign_perm("rnapuzzles.view_faqmodel", self.user_object, self.faq)
         assign_perm("rnapuzzles.change_faqmodel", self.user_object, self.faq)
         assign_perm("rnapuzzles.delete_faqmodel", self.user_object, self.faq)
 
@@ -30,7 +30,7 @@ class FaqView(TestCase):
         self.client.force_login(self.user_with)
         response = self.client.get(reverse("faq_list"))
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(len(response.context["object_list"]) == 1)
+        self.assertTrue(len(response.context["object_list"]) == 2)
 
     def test_list_object(self):
         self.client.force_login(self.user_object)

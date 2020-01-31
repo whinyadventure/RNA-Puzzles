@@ -10,8 +10,7 @@ class Challenge(DetailView):
     template_name = "rnapuzzles/score_table.html"
 
     def get_submissions(self):
-        return Submission.objects.filter(challenge=self.object).order_by('user', '-date').distinct('user')
-
+        return Submission.get_last_submissions(self.object.pk)
     def get_context_data(self, **kwargs):
         context = super(Challenge, self).get_context_data(**kwargs)
         context["all"] = True
@@ -29,7 +28,7 @@ class Challenge(DetailView):
         #      return HttpResponseRedirect(reverse("completed-puzzles"))
 
         puzzle = self.object.puzzle_info
-        print(puzzle.metrics.all())
+
 
         submissions = self.get_submissions()
         res = []

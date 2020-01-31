@@ -62,11 +62,14 @@ class Group(models.Model):
 
 
 class CustomUser(AbstractUser):
+    ORGANIZER = 1
+    PARTICIPANT = 2
+    GROUP_LEADER = 3
 
     ROLE_CHOICES = (
-        (1, 'Organizer'),
-        (2, 'Participant'),
-        (3, 'Group Leader')
+        (ORGANIZER, 'Organizer'),
+        (PARTICIPANT, 'Participant'),
+        (GROUP_LEADER, 'Group Leader')
     )
 
     username = None
@@ -76,7 +79,6 @@ class CustomUser(AbstractUser):
     institution = models.CharField(_('institution'), max_length=150, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=False, default=0)
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
-    member_authorized = models.BooleanField(default=False, blank=False)
 
     email_confirmed = models.BooleanField(default=False, blank=False)
     is_authorised = models.BooleanField(default=False, blank=False)

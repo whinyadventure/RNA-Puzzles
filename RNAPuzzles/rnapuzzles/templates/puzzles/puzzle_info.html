@@ -7,10 +7,12 @@
                 </div>
                 {% if list_name == 'My puzzles' %}
                     <div class="d-flex">
-                        {% if challenge.current_status < 3 %}
+                        {% if challenge.current_status <= 2 %}
                         <div class="mr-3">
                             {% if challenge.round != 1 %}
-                                <a href="{% url 'update-challenge' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
+                                {% if challenge.current_status < 2 %}
+                                    <a href="{% url 'update-challenge' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
+                                {% endif %}
                             {% else %}
                                 <a href="{% url 'update-puzzle-info' pk=challenge.pk %}" title="Edit puzzle"><i class="far fa-edit"></i> Edit</a>
                             {% endif %}
@@ -38,7 +40,7 @@
     </div>
 
     {% if puzzle.img %}
-        <img class="mx-auto d-block card-img-top img-fluid col-md-8 col-lg-6 my-5"
+        <img class="mx-auto d-block card-img-top img-fluid col-6 col-md-5 my-5"
              src="{{ puzzle.img.url }}">
     {% endif %}
 
@@ -162,7 +164,7 @@
 
     <div id="model-submit-row" class="d-flex justify-content-end mt-3 mb-5 mr-5">
 
-        {% if challenge.current_status == 1 and list_name != 'My puzzles' %}
+        {% if challenge.current_status == 1 and list_name != 'My puzzles'  and perms.rnapuzzles.add_submission%}
             <a href="{% url 'submission_single' challenge.id %}"><button type="button" class="btn btn-primary"> Submit model</button></a>
 
         {% endif %}

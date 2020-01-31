@@ -7,6 +7,7 @@ from rnapuzzles.models import Submission
 
 
 class Detail(PermissionRequiredMixin, DetailView):
+    return_403 = True
     accept_global_perms = True
     permission_required = "rnapuzzles.view_submission"
     model = Submission

@@ -13,19 +13,6 @@ class PuzzleInfoForm(forms.ModelForm):
         fields = ('description', 'sequence', 'pdb_file', 'publish_date', 'reference', 'reference_url', 'pdb_id',
                   'pdb_url', 'img')
 
-        widgets = {
-            'publish_date': DateTimePicker(
-                options={
-                    'format': 'DD-MM-YYYY HH:mm',
-                    'pickSeconds': False,
-                },
-                attrs={
-                    'append': 'fa fa-calendar',
-                    'icon_toggle': True,
-                }
-            )
-        }
-
         help_texts = {
             'description': 'Maximum 250 characters.',
             'sequence': 'Allowed characters in sequence: [A, U, G, C, -]',
@@ -54,15 +41,27 @@ class PuzzleInfoForm(forms.ModelForm):
         current_status = kwargs.pop('current_status', 0)
         super(PuzzleInfoForm, self).__init__(*args, **kwargs)
 
-        self.fields['publish_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
+        self.fields['publish_date'].input_formats = settings.DATETIME_INPUT_FORMATS
 
-        if current_status in {0, 1}:
+        self.fields['publish_date'].widget = DateTimePicker(
+            options={
+                'format': 'DD-MM-YYYY HH:mm',
+                'pickSeconds': False,
+            },
+            attrs={
+                'append': 'fa fa-calendar',
+                'icon_toggle': True,
+            }
+        )
+
+        if current_status != 2:
             to_hide = ['publish_date', 'reference', 'reference_url', 'pdb_id', 'pdb_url', 'img']
 
             for item in to_hide:
                 self.fields[item].widget = forms.HiddenInput()
 
         if current_status != 0:
+
             readonly = ['description', 'sequence']
 
             for item in readonly:

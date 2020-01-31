@@ -8,6 +8,8 @@ from rnapuzzles.views.submission.form import FormBatch
 
 
 class CreateBatch(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    return_403 = True
+    accept_global_perms = True
 
     permission_required = "rnapuzzles.add_submission"
     success_url = ""
