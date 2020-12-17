@@ -6,9 +6,7 @@ from guardian.mixins import PermissionRequiredMixin
 from rnapuzzles.models import NewsModel, FaqModel
 
 
-class Detail(PermissionRequiredMixin, DetailView):
-    accept_global_perms = True
-    permission_required = "rnapuzzles.view_faqmodel"
+class Detail(DetailView):
     model = FaqModel
 
     def get(self, request, *args, **kwargs):

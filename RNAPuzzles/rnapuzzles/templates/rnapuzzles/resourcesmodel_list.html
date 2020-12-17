@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 {% load martortags %}
 {% load staticfiles %}
+
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/card_collapse.css' %}">
   {% include "rnapuzzles/markdown_head.html" %}
 {% endblock %}
+
+
 {% block content %}
+<div class="h2 justify-content-center align-self-center mr-auto">
+  Resources
+</div>
+<hr class="mt-1 mb-3">
+{% if perms.rnapuzzles.add_resourcesmodel %}
+  <form action="{% url 'resources_new' %}" method="get">
+    <div class="span9 btn-block">
+        <input type="submit" class="btn btn-large btn-block btn-primary" value="Create new"/>
+    </div>
+  </form>
+  <br>
+{% endif %}
+
 <form class="form-inline md-form form-sm mt-0" method="get">
   <i class="fas fa-search" aria-hidden="true"></i>
   {% if request.GET.q %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% load guardian_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,72 +37,54 @@
 
   <header>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-xl bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-xl ">
       <div class="container">
 
-        <a class="navbar-brand" href="#">
-          <img id="logo" src="{% static 'img/logo.svg' %}" alt="RNA-Puzzles>">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img id="logo" src="{% static 'img/RNA-logo-biale.svg' %}" alt="RNA-Puzzles">
         </a>
 
-        <!-- account toggle -->
+        <!-- links toggle -->
         <button class="navbar-toggler order-first" type="button" data-toggle="collapse" data-target="#links">
-          <span class="navbar-toggler-icon"></span>
+          <i class="fas fa-bars nav-icons"></i>
         </button>
 
-        <!-- links toggle -->
+        <!-- account toggle -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#account">
-          <span class="fas fa-user"></span>
+          <i class="fas fa-user nav-icons"></i>
         </button>
 
         <div class="navbar-collapse collapse" id="links">
           <ul class="navbar-nav ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
 
-            {% if user.is_authenticated %}
 
               <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link text-light" href="{% url 'home' %}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'news_list' %}">News</a>
+                <a class="nav-link text-light" href="{% url 'news_list' %}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'open-puzzles' %}">Open Puzzles</a>
+                <a class="nav-link text-light" href="{% url 'open-puzzles' %}">Open Puzzles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'completed-puzzles' %}">Completed Puzzles</a>
+                <a class="nav-link text-light" href="{% url 'completed-puzzles' %}">Completed Puzzles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'groups_list' %}">Groups</a>
+                <a class="nav-link text-light" href="{% url 'groups_list' %}">Groups</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'resources_list' %}">Resources</a>
+                <a class="nav-link text-light" href="{% url 'resources_list' %}">Resources</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
+                <a class="nav-link text-light" href="{% url 'publications:index' %}">Publications</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'faq_list' %}">FAQ</a>
+                <a class="nav-link text-light" href="{% url 'faq_list' %}">FAQ</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                <a class="nav-link text-light" href="{% url 'contact' %}">Contact</a>
               </li>
-
-            {% else %}
-
-              <li class="nav-item active">
-                <a class="nav-link" href="">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'news_list' %}">News</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'publications:index' %}">Publications</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-              </li>
-
-            {% endif %}
 
           </ul>
         </div>
@@ -112,35 +95,56 @@
             {% if user.is_authenticated  %}
 
               <li class="nav-item dropdown d-none d-xl-block">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
-                <div class="dropdown-menu">
-                  <h6 class="dropdown-header"> {{ user }} </h6>
+                <a class="nav-link border px-4 border-light" data-toggle="dropdown"
+                   onclick="$('#collapsed-icon-account').toggleClass('fa-rotate-180')">
+                  Account <i id="collapsed-icon-account" class="fa fa-angle-down"></i>
+                </a>
+                <div class="dropdown-menu p-3" id="account-dropdown">
+                  <a class="dropdown-header" href="{% url 'user_detail' %}"> {{ user }} </a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">View group profile</a>
+                  {% if request.user.group_name %}
+                    <a class="dropdown-item" href="{% url 'group_detail' request.user.group_name.id %}">View group profile</a>
+                  {% endif %}
                   <a class="dropdown-item" href="{% url 'user_update' %}">Account settings</a>
-                  <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                  {% if perms.rnapuzzles.add_puzzleinfo %}
+                    <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                  {% endif %}
+                  {% if perms.rnapuzzles.add_submission %}
+                   <a class="dropdown-item" href="{% url 'submission_user_list' %}">My submissions</a>
+                  {% endif %}
+                  {% if perms.rnapuzzles.accept_group %}
+                    <a class="dropdown-item" href="{% url 'unconfirmed_list' %}">Pending request</a>
+                  {% endif %}
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                 </div>
               </li>
 
               <li class="nav-item d-xl-none">
-                <h6 class="header"> {{ user }} </h6>
-                <div class="dropdown-divider"></div>
-                <a class="nav-link" href="#">View group profile</a>
-                <a class="nav-link" href="#">Account settings</a>
-                <a class="dropdown-item" href="{% url 'organizer-puzzles' %}">My puzzles</a>
-                <div class="dropdown-divider"></div>
-                <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                <a class="nav-link text-light" href="{% url 'user_detail' %}"> {{ user }} </a>
+                <div class="dropdown-divider ml-auto col-5"></div>
+                  {% if request.user.group_name %}
+                    <a class="nav-link text-light" href="{% url 'group_detail' request.user.group_name.id %}">View group profile</a>
+                  {% endif %}
+
+                <a class="nav-link text-light" href="{% url 'user_update' %}">Account settings</a>
+                {% if perms.rnapuzzles.add_puzzleinfo %}
+                  <a class="nav-link text-light" href="{% url 'organizer-puzzles' %}">My puzzles</a>
+                {% endif %}
+                {% if perms.rnapuzzles.accept_group %}
+                  <a class="nav-link text-light" href="{% url 'unconfirmed_list' %}">Pending request</a>
+                {% endif %}
+                <div class="dropdown-divider ml-auto col-10"></div>
+                <a class="nav-link text-light" href="{% url 'logout' %}">Log out</a>
               </li>
 
             {% else %}
 
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'signin' %}">Login</a>
+                <a class="nav-link text-light px-4" href="{% url 'signin' %}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'signup' %}">Register</a>
+                <a class="nav-link text-light border border-light px-4" href="{% url 'signup' %}">Register</a>
               </li>
 
             {% endif %}
@@ -162,7 +166,7 @@
   <!-- Page Content -->
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-9 my-5">
+      <div id="base-main-content" class="col-md-9">
 
     {% block content %}
 
@@ -172,14 +176,14 @@
   </div>
 
   <!-- Footer -->
-  <footer class="page-footer bg-light">
+  <footer class="page-footer">
     <div class="container">
       <div class="footer-nav">
 
       </div>
       <div class="footer-copyright text-center py-3">
           <span>
-            © 2019 Politechnika Poznańska
+            © 2020 Poznan University of Technology
           </span>
       </div>
     </div>

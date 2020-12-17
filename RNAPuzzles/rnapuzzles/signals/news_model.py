@@ -15,7 +15,6 @@ def assign_news_perm(sender, instance: NewsModel, **kwargs):
         assign_perm("rnapuzzles.delete_newsmodel", instance.author, instance)
 
         object,_ = Group.objects.get_or_create(name="Defaults")
-        assign_perm("rnapuzzles.view_newsmodel", object, instance)
 
 
 @receiver(pre_save, sender=NewsModel)

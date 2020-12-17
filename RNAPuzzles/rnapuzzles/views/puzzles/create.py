@@ -1,24 +1,26 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from guardian.decorators import permission_required
 
 from .forms import *
 from rnapuzzles.models import Challenge
 
 
-# TODO: add user object manipulation permissions
+@permission_required("rnapuzzles.add_puzzleinfo")
 def create_new(request):
 
     template_name = 'puzzles/new_challenge.html'
 
     if request.method == 'POST':
 
-        puzzle_info_form = PuzzleInfoForm(request.POST)
+        puzzle_info_form = PuzzleInfoForm(request.POST, request.FILES)
         challenge_form = ChallengeForm(request.POST)
         files_form = FilesFormset(request.POST, request.FILES)
 
         if puzzle_info_form.is_valid() and challenge_form.is_valid() and files_form.is_valid():
             puzzle_info = puzzle_info_form.save(commit=False)
             puzzle_info.author = request.user
+
             puzzle_info.save()
 
             challenge = challenge_form.save(commit=False)
@@ -45,6 +47,7 @@ def create_new(request):
     return render(request, template_name, context)
 
 
+@permission_required("rnapuzzles.add_puzzleinfo")
 def create_next(request):
 
     template_name = 'puzzles/next_round.html'
@@ -52,14 +55,14 @@ def create_next(request):
     puzzle = None
     data = None
 
-    select_form = SelectForm(None)  # base puzzle selection
+    select_form = SelectForm(None, current_user=request.user)  # base puzzle selection
     challenge_form = ChallengeForm(required_puzzle=True)    # required_puzzle enforces selecting Puzzle in the first form
     files_form = FilesFormset(queryset=Challenge.objects.none())
 
     if request.method == 'POST':
 
         if 'choose_base' in request.POST:   # distinguish form posted with button's name
-            select_form = SelectForm(request.POST)
+            select_form = SelectForm(request.POST, current_user=request.user)
 
             if select_form.is_valid():
                 puzzle = select_form.cleaned_data.get('choice')

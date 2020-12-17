@@ -5,3 +5,5 @@ from .list import *
 from .update import *
 from .forms import *
 from .download import *
+from .publish_results import *
+from .results import *

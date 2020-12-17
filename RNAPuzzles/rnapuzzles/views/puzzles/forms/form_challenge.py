@@ -1,16 +1,11 @@
 from django import forms
 from datetime import datetime, timedelta
 from django.conf import settings
+from django.utils import timezone
+
 from tempus_dominus.widgets import DateTimePicker
 
-from rnapuzzles.models import Challenge
-
-
-def next_full_hour(created_at=None):
-    if created_at:
-        return created_at.replace(second=0, minute=0) + timedelta(hours=1)
-    else:
-        return datetime.today().replace(microsecond=0, second=0, minute=0) + timedelta(hours=1)
+from rnapuzzles.models import Challenge, settings
 
 
 class ChallengeForm(forms.ModelForm):
@@ -18,41 +13,10 @@ class ChallengeForm(forms.ModelForm):
     class Meta:
         model = Challenge
 
-        fields = ('puzzle_info', 'start_date', 'end_date')
+        fields = ('puzzle_info', 'start_date', 'end_date', 'end_automatic')
 
         widgets = {
             'puzzle_info': forms.HiddenInput(),
-
-            'start_date': DateTimePicker(
-                options={
-                    'format': 'DD-MM-YYYY HH:mm',
-                    'pickSeconds': False,
-                    'minDate': next_full_hour().strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': next_full_hour().strftime('%Y-%m-%d %H:%M'),
-                },
-                attrs={
-                    'append': 'fa fa-calendar',
-                    'icon_toggle': True,
-                }
-            ),
-
-            'end_date': DateTimePicker(
-                options={
-                    'format': 'DD-MM-YYYY HH:mm',
-                    'pickSeconds': False,
-                    'minDate': (next_full_hour() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': (next_full_hour() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M'),
-                },
-                attrs={
-                    'append': 'fa fa-calendar',
-                    'icon_toggle': True,
-                }
-            )
-        }
-
-        help_texts = {
-            'start_date': 'Minimum open date is within next full hour.',
-            'end_date': 'Default: 30 days after the opening date',
         }
 
     def __init__(self, *args, **kwargs):
@@ -60,20 +24,21 @@ class ChallengeForm(forms.ModelForm):
 
         super(ChallengeForm, self).__init__(*args, **kwargs)
 
-        self.fields['start_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
-        self.fields['end_date'].input_formats = [settings.DATETIME_INPUT_FORMATS]
+        self.fields['start_date'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['end_date'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['end_automatic'].input_formats = settings.DATETIME_INPUT_FORMATS
 
         if required_puzzle:
             self.fields['puzzle_info'].required = True
 
-        if self.instance.id:
-
+        if not self.instance.id:
+            now = timezone.localtime(timezone.now())
             self.fields['start_date'].widget = DateTimePicker(
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': self.instance.created_at.strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': self.instance.start_date.strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (now + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (now + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -85,8 +50,8 @@ class ChallengeForm(forms.ModelForm):
                 options={
                     'format': 'DD-MM-YYYY HH:mm',
                     'pickSeconds': False,
-                    'minDate': (self.instance.created_at + timedelta(days=1)).strftime('%Y-%m-%d %H:%M'),
-                    'defaultDate': self.instance.end_date.strftime('%Y-%m-%d %H:%M'),
+                    'minDate': (now + timedelta(days=1, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (now + timedelta(days=30, minutes=30)).strftime('%Y-%m-%d %H:%M'),
                 },
                 attrs={
                     'append': 'fa fa-calendar',
@@ -94,21 +59,78 @@ class ChallengeForm(forms.ModelForm):
                 }
             )
 
-            self.fields['start_date'].help_text = 'Minimum available open date is challenge creation date.'
-            self.fields['end_date'].help_text = ''
+            self.fields['end_automatic'].widget = DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                    'minDate': (now + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                    'defaultDate': (now + timedelta(days=2, minutes=30)).strftime('%Y-%m-%d %H:%M'),
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            )
 
-            to_hide = []
+            self.fields['start_date'].help_text = 'Default: half an hour from now'
+            self.fields['end_date'].help_text = 'Default: 30 days after default opening date'
+            self.fields['end_automatic'].help_text = 'Default: 2 days after default opening date'
+
+        else:
+
+            self.fields['start_date'].widget = DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            )
+
+            self.fields['end_date'].widget = DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            )
+
+            self.fields['end_automatic'].widget = DateTimePicker(
+                options={
+                    'format': 'DD-MM-YYYY HH:mm',
+                    'pickSeconds': False,
+                },
+                attrs={
+                    'append': 'fa fa-calendar',
+                    'icon_toggle': True,
+                }
+            )
+
+            self.fields['start_date'].help_text = 'Minimum available opening date is challenge creation date.'
+            self.fields['end_date'].help_text = ''
+            self.fields['end_automatic'].help_text = ''
+
+            disable = []
 
             if self.instance.current_status == 1:
-                to_hide = ['start_date']
+                disable = ['start_date']
 
-            elif self.instance.current_status in {2, 3}:
-                to_hide = ['start_date', 'end_date']
+                if self.instance.end_automatic <= timezone.localtime(timezone.now()):
+                    disable.append('end_automatic')
 
-            for item in to_hide:
+            elif self.instance.current_status >= 2:
+                disable = ['start_date', 'end_date', 'end_automatic']
+
+            for item in disable:
                 self.fields[item].disabled = True
 
     def clean(self):
+
         cleaned_data = super(ChallengeForm, self).clean()
 
         if self.fields['puzzle_info'].required:
@@ -121,7 +143,7 @@ class ChallengeForm(forms.ModelForm):
 
         if self.instance.pk is None:
 
-            if start_date < datetime.today():
+            if start_date < timezone.now():
                 self._errors['start_date'] = self.error_class([u'Opening date cannot be in the past.'])
         else:
 
@@ -134,5 +156,11 @@ class ChallengeForm(forms.ModelForm):
         if end_date <= start_date:
             self._errors['end_date'] =\
                 self.error_class([u'Closing date cannot be earlier or same as the opening date.'])
+
+        end_automatic = cleaned_data.get('end_automatic')
+
+        if end_automatic <= start_date or end_automatic >= end_date:
+            self._errors['end_automatic'] =\
+                self.error_class([u"Closing date for server prediction category must be within range of opening and closing dates."])
 
         return cleaned_data

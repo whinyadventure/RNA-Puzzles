@@ -20,15 +20,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'm7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy'
+SECRET_KEY = os.getenv("SECRET_KEY", 'm7$0i2x2oqv%#gi5!6j*&k^sg5@djo(2f0!j^#*upn!+v-k7vy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["127.0.0.1", "django-service"]
 LOGOUT_REDIRECT_URL = '/'
-DOMAIN_URL = "127.0.0.1"
+DOMAIN_URL = "lepus.cs.put.poznan.pl"
+LOGIN_URL = "/accounts/signin/"
 
 # Application definition
 
@@ -52,7 +52,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTHENTICATION_BACKENDS = (
 
-    'django.contrib.auth.backends.ModelBackend', # default
+    'django.contrib.auth.backends.ModelBackend',  # default
     'guardian.backends.ObjectPermissionBackend',
 )
 
@@ -95,10 +95,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'RNAPuzzles.wsgi.application'
 AUTH_USER_MODEL = 'rnapuzzles.CustomUser'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+if os.getenv("EMAIL_HOST_USER") and os.getenv("EMAIL_HOST_PASSWORD"):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER",False)
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD",False)
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 from django.contrib.messages import constants as messages
-
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
     messages.INFO: 'alert-info',
@@ -113,11 +121,11 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rna',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv("DB_NAME", 'rna'),
+        'USER': os.getenv("DB_USER",'postgres'),
+        'PASSWORD': os.getenv("DB_PASSWORD",'password'),
+        'HOST': os.getenv("DB_HOST", 'localhost'),
+        'PORT': os.getenv("DB_PORT", '5432'),
     }
 }
 
@@ -144,20 +152,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-GB'
+#LANGUAGE_CODE = 'en-GB'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
-USE_I18N = True
+#USE_I18N = True
 
 USE_L10N = False
 
-USE_TZ = False
+USE_TZ = True
 
 DATETIME_FORMAT = 'd M Y, H:i '
-DATETIME_INPUT_FORMATS = '%d-%m-%Y %H:%M'
+DATETIME_INPUT_FORMATS = ['%d-%m-%Y %H:%M']
 
-TEMPUS_DOMINUS_LOCALIZE = True
+TEMPUS_DOMINUS_LOCALIZE = False
 TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
 
@@ -166,7 +174,7 @@ TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_ROOT = "/var/www/html/"#os.path.join(PROJECT_ROOT, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -185,15 +193,15 @@ STATICFILES_DIRS = (
 # Global martor settings
 # Input: string boolean, `true/false`
 MARTOR_ENABLE_CONFIGS = {
-    'imgur': 'true',     # to enable/disable imgur/custom uploader.
+    'imgur': 'false',     # to enable/disable imgur/custom uploader.
     'mention': 'false',  # to enable/disable mention
     'jquery': 'true',    # to include/revoke jquery (require for admin default django)
     'living': 'false',   # to enable/disable live updates in preview
-    'spellcheck': 'false',
+    'spellcheck': 'true',
 }
 
 # To setup the martor editor with label or not (default is False)
-MARTOR_ENABLE_LABEL = False
+MARTOR_ENABLE_LABEL = True
 
 # Imgur API Keys
 MARTOR_IMGUR_CLIENT_ID = 'your-client-id'
@@ -237,9 +245,11 @@ SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 
 # RabbitMq
-CELERY_BROKER_URL = 'amqp://user:password@{host}:{port}'.format(
+CELERY_BROKER_URL = 'amqp://{user}:{password}@{host}:{port}'.format(
     host=os.getenv('RABBITMQ_HOST', 'localhost'),
-    port=os.getenv('RABBITMQ_PORT', '5672')
+    port=os.getenv('RABBITMQ_PORT', '5672'),
+    user=os.getenv("RABBITMQ_USER", "user"),
+    password=os.getenv("RABBITMQ_PASSWORD", "password")
 )
 
 

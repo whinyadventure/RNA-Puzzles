@@ -5,9 +5,7 @@ from guardian.mixins import PermissionListMixin
 from rnapuzzles.models import FaqModel
 
 
-class List(PermissionListMixin, ListView):
-
-    permission_required = "rnapuzzles.view_faqmodel"
+class List(ListView):
     model = FaqModel
     paginate_by = 10
     ordering = ["title"]

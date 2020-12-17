@@ -1,18 +1,13 @@
-from django.core.files.base import ContentFile
 from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch import receiver
 from django.conf import settings
 from guardian.shortcuts import assign_perm, remove_perm
 
-from rnapuzzles.models import PuzzleInfo, Challenge, ChallengeFile
-
-import os
-import io
-import zipfile
+from rnapuzzles.models import PuzzleInfo, Challenge, ChallengeFile, Metric
 
 
 @receiver(pre_save, sender=PuzzleInfo)
-def puzzle_info_pre_save(sender, instance, *args, **kwargs):
+def puzzle_info_pre_save(sender, instance: PuzzleInfo, *args, **kwargs):
 
     try:
         obj = sender.objects.get(pk=instance.pk)
@@ -26,71 +21,20 @@ def puzzle_info_pre_save(sender, instance, *args, **kwargs):
                 obj.img.delete(save=False)
                 obj.img = instance.img
 
+        else:
+            if obj.img:
+                obj.img.delete(save=False)
+
         if instance.pdb_file:
-
-            zip_filename = 'puzzle_{}_target_structure.zip'.format(instance.pk)
-            zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
-
-            if os.path.exists(zip_path):
-
-                if not instance.pdb_file.name == zip_filename:
-                    os.remove(zip_path)
-
-            if not instance.pdb_file.name == zip_filename:
-
-                file = instance.pdb_file
-                filename = file.name
-
-                with file.open('rb') as f:
-                    file_content = f.read()
-
-                in_memory_zip = io.BytesIO()
-
-                with zipfile.ZipFile(in_memory_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
-                    zf.writestr(filename, file_content)
-
-                zip_file_content = ContentFile(in_memory_zip.getvalue())
-                file.save(zip_filename, zip_file_content, save=True)
-
-
-# TODO: current_status=4 if all fields filled and challenge's current_status==3
-@receiver(post_save, sender=PuzzleInfo)
-def puzzle_info_post_save(sender, instance, *args, **kwargs):
-    pass
+            if not obj.pdb_file == instance.pdb_file:
+                obj.pdb_file.delete(save=False)
+                obj.pdb_file = instance.pdb_file
 
 
 @receiver(post_delete, sender=PuzzleInfo)
 def puzzle_info_post_delete(sender, instance, *args, **kwargs):
     instance.img.delete(save=False)
     instance.pdb_file.delete(save=False)
-
-
-@receiver(post_save, sender=ChallengeFile)
-def challenge_file_post_save(sender, instance, *args, **kwargs):
-
-    if instance.file:
-
-        challenge_id = str(instance.challenge.pk)
-        file_id = str(instance.pk)
-
-        zip_filename = 'challenge_{0}_file_{1}.zip'.format(challenge_id, file_id)
-
-        if not instance.file.name == zip_filename:
-
-            file = instance.file
-            filename = file.name
-
-            with file.open('rb') as f:
-                file_content = f.read()
-
-            in_memory_zip = io.BytesIO()
-
-            with zipfile.ZipFile(in_memory_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
-                zf.writestr(filename, file_content)
-
-            zip_file_content = ContentFile(in_memory_zip.getvalue())
-            file.save(zip_filename, zip_file_content, save=True)
-            file.storage.delete(filename)
 
 
 @receiver(post_delete, sender=ChallengeFile)
@@ -102,13 +46,24 @@ def post_delete_file(sender, instance, *args, **kwargs):
 def post_save_puzzleinfo_creation(sender, instance: PuzzleInfo, *args, **kwargs):
     if kwargs.get("created", False):
         assign_perm("rnapuzzles.delete_puzzleinfo", instance.author, instance)
+        for m in Metric.objects.all():
+            instance.metrics.add(m)
+        instance.save()
+        #assign_perm("rnapuzzles.change_puzzleinfo", instance.author, instance)
+
 
 @receiver(post_save, sender=Challenge)
 def post_save_challenge_change(sender, instance: Challenge, *args, **kwargs):
-        if(instance.current_status != 0):
-            remove_perm("rnapuzzles.delete_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+    if kwargs.get("created", False):
+        assign_perm("rnapuzzles.metrics_challenge", instance.author, instance)
+        assign_perm("rnapuzzles.change_challenge", instance.author, instance)
+        assign_perm("rnapuzzles.delete_challenge", instance.author, instance)
 
-        if(instance.current_status != 4):
-            assign_perm("rnapuzzles.change_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+    if instance.current_status != 0:
+        remove_perm("rnapuzzles.delete_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+        remove_perm("rnapuzzles.delete_challenge", instance.author, instance)
 
+    if instance.current_status == 3:
+        #remove_perm("rnapuzzles.change_puzzleinfo", instance.puzzle_info.author, instance.puzzle_info)
+        remove_perm("rnapuzzles.change_challenge", instance.author, instance)
 

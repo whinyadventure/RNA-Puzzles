@@ -1,11 +1,17 @@
 {% extends  'base.html' %}
 {% block head %}
-  {{ form.media }}
-{% endblock %}
 
+{% endblock %}
 
 {% block content %}
   {% load crispy_forms_tags %}
    {% csrf_token %}
   {% crispy form %}
+
+<style type="text/css">
+      footer{
+        visibility: hidden;
+      }
+</style>
+
 {% endblock %}

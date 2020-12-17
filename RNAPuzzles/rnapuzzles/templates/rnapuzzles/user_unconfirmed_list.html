@@ -1,7 +1,10 @@
 {% extends  'base.html' %}
 
 {% block content %}
-<h1>Research Groups</h1>
+<div class="h2 justify-content-center align-self-center mr-auto">
+Unconfirmed Users
+</div>
+<hr class="mt-1 mb-3">
 <table class="table">
     <thead class="thead-light">
         <tr>
@@ -16,25 +19,25 @@
     </thead>
 
     {% for user in object_list %}
-    {% if user.pk != 1%}
-    <tbody>
-        <tr>
-            <th scope="row">{{forloop.counter|add:"-1"}}</th>
-            <td>{{user.first_name}} {{user.last_name}}</td>
-            <td>{{user.get_role_display}}</td>
-            {% if user.group_name != None %}
-                <td>{{user.group_name}}</td>
-            {% else %}
-                <td></td>
-            {% endif %}
-            <td>{{user.institution}}</td>
-            <td><a href="{{user.pk}}/user_confirmed">Confirm</a></td>
-            <td><a href="{{user.pk}}/user_rejected">Reject</a></td>
-        </tr>
-    </tbody>
-    {% endif %}
+        {% if user.pk != 1%}
+        <tbody>
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{user.first_name}} {{user.last_name}}</td>
+                <td>{{user.get_role_display}}</td>
+                {% if user.group_name != None %}
+                    <td>{{user.group_name}}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td>{{user.institution}}</td>
+                <td><a href="{{user.pk}}/user_confirmed">Confirm</a></td>
+                <td><a href="{{user.pk}}/user_rejected">Reject</a></td>
+            </tr>
+        </tbody>
+        {% endif %}
     {% empty %}
-    No user to confirm.
+        <p>No users to confirm</p>
     {% endfor %}
 </table>
 

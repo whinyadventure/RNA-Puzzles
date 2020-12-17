@@ -10,13 +10,16 @@
 
     <h3>Previous rounds <i class="fa fa-angle-down"></i></h3>
 
-    {% for challenge, files in data %}
-        {% if challenge.round == 1 %}
-            {% include 'puzzles/puzzle_info.html' %}
-        {% else %}
-            {% include 'puzzles/puzzle_info.html' with puzzle=None %}
-        {% endif %}
-    {% endfor %}
+
+    <div class="mt-1 mb-3">
+        {% for challenge, files in data %}
+            {% if challenge.round == 1 %}
+                {% include 'puzzles/puzzle_info_folded.html' %}
+            {% else %}
+                {% include 'puzzles/puzzle_info_folded.html' with puzzle=None %}
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <h3>Edit form <i class="fa fa-angle-down"></i></h3>
 
@@ -30,7 +33,7 @@
         {{current_files_form.management_form }}
         {% if current_files_form.forms %}
             <div class="h4 mb-3 ml-3">
-                <img class="arrow" src="{% static 'img/arrow.svg' %}">
+                <i class="fa fa-angle-right"></i>
                 Current files
             </div>
 
@@ -45,7 +48,7 @@
         {{ files_form.management_form }}
         {% if files_form.forms %}
             <div class="h4 mb-3 ml-3">
-                <img class="arrow" src="{% static 'img/arrow.svg' %}">
+                <i class="fa fa-angle-right"></i>
                 Add new files
             </div>
 

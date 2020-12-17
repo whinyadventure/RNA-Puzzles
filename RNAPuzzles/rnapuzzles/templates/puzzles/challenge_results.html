@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<!--Data Table-->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src=" https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src=" https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+$(document).ready(function() {
+ // Setup - add a text input to each footer cell
+    $('#dt thead tr').clone(true).appendTo( '#dt thead' );
+    $('#dt thead tr:eq(1) th').each( function (i) {
+
+        var title = $(this).text();
+        if(title=="User" || title=="Group" || title=="Label"){
+            $(this).html( '<input type="text" placeholder="Search '+title+'" size=10 padding=0/>' );
+
+            $( 'input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        }else{
+            $(this).html('');
+        }
+    } );
+    var table = $('#dt').DataTable({
+    orderCellsTop: true,
+        fixedHeader: true,
+   order: [[ 0, "asc" ]],
+  "columnDefs": [
+    { "type": "num", "targets": 0 },
+    { "type": "html", "targets": 1 },
+  ]});
+
+
+} );
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex">
+        <div class="h2 justify-content-center align-self-center mr-auto">
+            Completed Puzzles
+            <i class="fa fa-angle-right"></i>
+            {{ challenge }}
+            <i class="fa fa-angle-right"></i>
+            Results
+        </div>
+    </div>
+
+    <hr class="mt-1 mb-3">
+
+    {% include 'puzzles/puzzle_info_folded.html' %}
+    </br>
+
+    <div class="custom-radio-group">
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-all"
+                   onchange="document.location.href='{% url 'show-results' pk=object.pk%}'" {% if all %} checked{% endif %}>
+            <label class="custom-control-label" for="radio-all">All results</label>
+        </div>
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-silico"
+                   onchange="document.location.href='{% url 'show-results-automatic' pk=object.pk %}'" {% if  in_silico %} checked{% endif %}>
+            <label class="custom-control-label" for="radio-silico">Automatic round</label>
+        </div>
+
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="form-radio-group" id="radio-vivo"
+                   onchange="document.location.href='{% url 'show-results-human' pk=object.pk %}'" {% if  in_vivo %} checked{% endif %}>
+            <label class="custom-control-label" for="radio-vivo">Human round</label>
+        </div>
+
+    </div>
+
+    <table id="dt" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th class="th-sm">#</th>
+            <th class="th-sm">User</th>
+            <th class="th-sm">Group</th>
+            <th class="th-sm">Label</th>
+            {% for metric in metric_list %}
+                <th class="th-sm">{{metric}}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for user_scores in object_list %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{user_scores.user}}</td>
+            <td>{{user_scores.user.group_name}}</td>
+            <td>{{user_scores.label}}</td>
+
+            {% for score in user_scores.scores %}
+                <td>{{score.score|floatformat:4 }}</td>
+
+            {% endfor %}
+
+
+        </tr>
+
+
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+{% endblock %}

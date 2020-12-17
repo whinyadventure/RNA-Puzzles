@@ -49,28 +49,27 @@ class Group(models.Model):
 
     class Meta:
         permissions = [
-            #("change_group", "Can change the description of the Group"),
             ("name_group", "Can change the name of the Group"),
-            #("contact_group", "Can change the contact of the Group"),
-            #("description_group", "Can change the contact of the Group"),
+            ("accept_group", "Can accept user for group"),
         ]
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     group_name = models.CharField(_('group name'), unique=True, max_length=30, blank=False)
     group_description = models.TextField(blank=True)
     leader = models.ForeignKey("rnapuzzles.CustomUser", on_delete=models.CASCADE, null=True, default=None)
     contact = models.EmailField(blank=True)
-
 
     def __str__(self):
         return self.group_name
 
 
 class CustomUser(AbstractUser):
+    ORGANIZER = 1
+    PARTICIPANT = 2
+    GROUP_LEADER = 3
 
     ROLE_CHOICES = (
-        (1, 'Organizer'),
-        (2, 'Participant'),
-        (3, 'Group Leader')
+        (ORGANIZER, 'Organizer'),
+        (PARTICIPANT, 'Participant'),
+        (GROUP_LEADER, 'Group Leader')
     )
 
     username = None
@@ -79,12 +78,11 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(_('last name'), max_length=30, blank=False)
     institution = models.CharField(_('institution'), max_length=150, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=False, default=0)
-    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)  # TODO "on_delete"???
-    member_authorized = models.BooleanField(default=False, blank=False)
+    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
 
     email_confirmed = models.BooleanField(default=False, blank=False)
     is_authorised = models.BooleanField(default=False, blank=False)
-    is_disabled = models.BooleanField(default=False, blank=False) # This can force is_active=False
+    is_disabled = models.BooleanField(default=False, blank=False)  # This can force is_active=False
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

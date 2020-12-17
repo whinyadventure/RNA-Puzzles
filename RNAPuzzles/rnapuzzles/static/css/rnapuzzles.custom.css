@@ -1,5 +1,30 @@
+html {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+    font-family: "Times New Roman", Times, serif;
+    color: #4F5459;
+}
+
+nav {
+    background-color: #49517C;
+    color: #FFFFFF;
+}
+
 #logo {
-     height: 35px;
+    height: 45px;
+    width: 200px;
+}
+
+#home-img {
+    max-height: 80px;
+}
+
+.nav-icons {
+    color: #FFFFFF;
 }
 
 .arrow {
@@ -17,19 +42,22 @@
 .accordion .card-header {
     border-bottom: none;
 }
-html{
-height: 100%;
-}
-body{
-position: relative;
-min-height: 100%;
+
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #E5E5E5;
 }
 
-footer{
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+#base-main-content {
+    margin-top: 3rem;
+    margin-bottom: 6rem;
+}
+
+#puzzle-list-nav {
+    background-color: #FFFFFF;
 }
 
 .card-body .card-field-label {
@@ -42,4 +70,38 @@ footer{
     margin-bottom: 1rem;
 }
 
+.custom-button{
+    background-color: #49517C;
+    border: None;
+    border-radius: 0px;
+    color: #FFFFFF;
+}
+
+.custom-table-head{
+    background-color: #E5E5E5;
+}
+
+.custom-martor {
+    height: 70%;
+}
+
+#account-dropdown {
+    weight: auto;
+}
+
+#account-dropdown {
+    display: block;
+    visibility: hidden;
+    opacity:0;
+    transform: translateY(50px);
+    transition:.5s ease all;
+}
+
+#account-dropdown.show {
+    display: block;
+    visibility: visible;
+    opacity:1;
+    transform: translateY(0px);
+    transition:.5s ease all;
+}
 

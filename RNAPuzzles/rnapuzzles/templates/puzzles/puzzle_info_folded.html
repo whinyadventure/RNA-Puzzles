@@ -1,0 +1,137 @@
+<div class="accordion md-accordion" id="accordion-puzzle-{{ challenge.id }}" role="tablist"
+ aria-multiselectable="true">
+    <div class="card border-0">
+        <div class="card-header" role="tab" id="accordion-puzzle-heading-{{ challenge.id }}">
+          <a class="collapsed" data-toggle="collapse" href="#collapse-puzzle-{{ challenge.id }}"
+             aria-expanded="false" aria-controls="collapse-puzzle-{{ challenge.id }}"
+             onclick="$('#collapsed-icon-puzzle-{{ challenge.id }}').toggleClass('fa-rotate-180')">
+            <h3 class="mb-0">
+              {{ challenge }} <i id="collapsed-icon-puzzle-{{ challenge.id }}" class="fa fa-angle-down"></i>
+            </h3>
+          </a>
+        </div>
+        <div id="collapse-puzzle-{{ challenge.id }}" class="collapse" role="tabpanel"
+             aria-labelledby="accordion-files-heading-{{ challenge.id }}">
+
+            {% if puzzle.img %}
+                <img class="mx-auto d-block card-img-top img-fluid col-6 col-md-5 my-5"
+                     src="{{ puzzle.img.url }}">
+            {% endif %}
+
+              <div class="card-body">
+
+                {% if puzzle %}
+
+                    <div class="card-field-label">
+                        {{ puzzle.description_label }}
+                    </div>
+                    <div id="description_id" class="card-field-content plain-text">
+                        {{ puzzle.description }}
+                    </div>
+
+                    <div class="card-field-label">
+                        {{ puzzle.sequence_label }}
+                    </div>
+                    <div id="sequence_id" class="card-field-content plain-text">
+                        {{ puzzle.sequence }}
+                    </div>
+
+                    {% if list_name == 'My puzzles' or challenge.current_status == 3 %}
+                        <div class="card-field-label">
+                            {{ puzzle.pdb_file_label }}
+                        </div>
+                        <div id="pdb_file_id" class="card-field-content plain-text">
+                            <a href="{% url 'download-structure' pk=puzzle.pk %}">{{ puzzle.pdb_file.name }}</a>
+                        </div>
+                    {% endif %}
+
+                    {% if puzzle.publish_date %}
+                        <div class="card-field-label">
+                            {{ puzzle.publish_date_label }}
+                        </div>
+                        <div id="publish_date_id" class="card-field-content plain-text">
+                            {{ puzzle.publish_date }}
+                        </div>
+                    {% endif %}
+
+                    {% if puzzle.reference and puzzle.reference_url %}
+                        <div class="card-field-label">
+                            {{ puzzle.reference_label }}
+                        </div>
+                        <div id="reference_url_id" class="card-field-content plain-text">
+                            <a href="{{ puzzle.reference_url }}" target="_blank">{{ puzzle.reference }}</a>
+                        </div>
+                    {% endif %}
+
+                    {% if puzzle.pdb_id and puzzle.pdb_url %}
+                        <div class="card-field-label">
+                            {{ puzzle.pdb_id_label }}
+                        </div>
+                        <div id="pdb_url_id" class="card-field-content plain-text">
+                            <a href="{{ puzzle.pdb_url }}" target="_blank">{{ puzzle.pdb_id }}</a>
+                        </div>
+                    {% endif %}
+
+                {% endif %}
+
+                <div class="card-field-label">
+                    {{ challenge.start_date_label }}
+                </div>
+                <div id="start_date_id" class="card-field-content plain-text">
+                    {{ challenge.start_date }}
+                </div>
+
+                <div class="card-field-label">
+                    {{ challenge.end_date_label }}
+                </div>
+                <div id="end_date_id" class="card-field-content plain-text">
+                    {{ challenge.end_date }}
+                </div>
+
+                <div class="card-field-label">
+                    {{ challenge.end_automatic_label }}
+                </div>
+                <div id="end_automatic_id" class="card-field-content plain-text">
+                    {{ challenge.end_automatic }}
+                </div>
+              </div>
+
+            {% if files %}
+                <div class="accordion md-accordion" id="accordion-files-{{ challenge.id }}" role="tablist"
+                     aria-multiselectable="true">
+                  <div class="card border-0">
+                    <div class="card-header" role="tab" id="accordion-files-heading-{{ challenge.id }}">
+                      <a class="collapsed" data-toggle="collapse" href="#collapse-files-{{ challenge.id }}"
+                         aria-expanded="false" aria-controls="collapse-files-{{ challenge.id }}"
+                         onclick="$('#collapsed-icon-files-{{ challenge.id }}').toggleClass('fa-rotate-180')">
+                        <h5 class="mb-0">
+                          Suplementary files <i id="collapsed-icon-files-{{ challenge.id }}" class="fa fa-angle-down"></i>
+                        </h5>
+                      </a>
+                    </div>
+                    <div id="collapse-files-{{ challenge.id }}" class="collapse" role="tabpanel"
+                         aria-labelledby="accordion-files-heading-{{ challenge.id }}">
+                      <div class="card-body">
+
+                          {% for single in files %}
+                            <div class="single-file-info mb-3">
+                                <div class="p">{{ single.note }}</div>
+                                <a href="{% url 'download-file' pk=single.pk %}">{{ single.file.name }}</a>
+                            </div>
+                          {% endfor %}
+
+                          <div class="single-file-info my-3">
+                              <a href="{% url 'download-all-files' pk=challenge.pk %}">Download all as .zip archive</a>
+                          </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+

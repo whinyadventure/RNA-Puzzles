@@ -7,14 +7,20 @@
 {% block content %}
 {% load guardian_tags %}
 
+<div class="h2 justify-content-center align-self-center mr-auto">
+  News
+</div>
+<hr class="mt-1 mb-3">
+
 {% if perms.rnapuzzles.add_newsmodel %}
   <form action="{% url 'news_new' %}" method="get">
     <div class="span9 btn-block">
-        <input type="submit" class="btn btn-large btn-block btn-primary" value="Create new News"/>
+        <input type="submit" class="btn btn-large btn-block btn-primary" value="Create new"/>
     </div>
   </form>
   <br>
 {% endif %}
+
 <form class="form-inline md-form form-sm mt-0" method="get">
 
   <i class="fas fa-search" aria-hidden="true"></i>
@@ -27,6 +33,7 @@
   {% endif %}
 
 </form>
+
 <br>
 {% for n in object_list %}
     {% include 'rnapuzzles/newsmodel_single.html' with object=n link=True next=request.path  %}
@@ -34,6 +41,7 @@
 
 {% if is_paginated %}
 {% load replace_get %}
+
 <div class="paging_simple_numbers">
   <ul class="pagination">
     {% if page_obj.has_previous %}

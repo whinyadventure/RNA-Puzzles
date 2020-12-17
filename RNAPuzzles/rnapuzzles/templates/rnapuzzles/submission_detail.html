@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load martortags %}
+{% load staticfiles %}
+{% block content %}
+<h1>Submission details</h1>
+<table id="dt" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th class="th-sm">User</th>
+        <th class="th-sm">Label</th>
+        <th class="th-sm">Round</th>
+        <th class="th-sm">Challenge</th>
+        <th class="th-sm">Status</th>
+        <th class="th-sm">Date</th>
+        <th class="th-sm">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{object.user}}</td>
+        <td>{{object.label}}</td>
+        <td>{% if object.is_automatic %}Automatic {%else%} Human {% endif %} </td>
+        <td><a href="{{group.id}}">{{object.challenge}}</a></td>
+        <td >{{object.get_status_display}}</td>
+        <td>{{object.date}}</td>
+        <td><a href="{% url 'submission_content' pk=submission.pk %}">Show</a></td>
+
+    </tr>
+
+
+    </tbody>
+
+</table>
+{% if object.msg %}
+{{object.msg | linebreaks}}
+
+{% endif %}
+
+
+{% endblock %}
+

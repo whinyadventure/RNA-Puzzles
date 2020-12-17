@@ -5,9 +5,10 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
-from guardian.shortcuts import assign_perm
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 from ...models.user import CustomUser, Group
 from RNAPuzzles import settings
@@ -27,12 +28,58 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
         strip=False,
         widget=forms.PasswordInput,
         help_text="")
-    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+    captcha = ReCaptchaField(label='', widget=ReCaptchaV2Checkbox)
 
     class Meta:
         model = CustomUser
         exclude = ['username']
         fields = ('email', "first_name", "last_name", "role", "group_name", "new_group_name", "institution")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('first_name', css_class='form-group col-md-3 mb-0 offset-md-3'),
+                Column('last_name', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('email', css_class='form-group col-md-3 mb-0 offset-md-3'),
+                Column('role', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('institution', css_class='form-group col-md-3 mb-0 offset-md-3'),
+                Column(
+                    Row(
+                        Column('group_name', css_class='form-group col-md-12 mb-0'),
+
+                        css_class = 'form-row'
+                    ),
+                    Row(
+                        Column('new_group_name', css_class='form-group col-md-12 mb-0'),
+
+                        css_class='form-row'
+                    ),
+                    css_class= 'form-group col-md-3'
+
+                ),
+
+                css_class='form-row'
+            ),
+            Row(
+                Column('password1', css_class='form-group col-md-3 mb-0 offset-md-3'),
+                Column('password2', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row '
+            ),
+            Row(
+                Column('captcha', css_class='form-group col-md-3 mb-0 offset-md-3'),
+                Column(Submit('submit', 'Sign up', css_class="custom-button"), css_class='form-group col-md-2 mb-0 offset-md-2'),
+                css_class='form-row align-items-center'
+            )
+        )
 
     def save(self, commit=True):
         user = None
@@ -48,7 +95,7 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
             user.set_password(self.cleaned_data['password1'])
 
         elif self.cleaned_data['role'] == 2:  # participant
-            print(self.cleaned_data['group_name'])
+
             group = Group.objects.get(group_name=self.cleaned_data['group_name'])
             user = group.customuser_set.create(
                 email=self.cleaned_data['email'],
@@ -58,12 +105,11 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
                 institution=self.cleaned_data['institution']
             )
 
-            assign_perm("edit_group_description", user, group)
             user.save()
             group.save()
 
         elif self.cleaned_data['role'] == 3:  # leader
-            print("lider")
+
             group = Group(group_name=self.cleaned_data['new_group_name'])
             group.save()
             user = group.customuser_set.create(
@@ -77,8 +123,6 @@ class SignupForm(SuccessMessageMixin, UserCreationForm):
             group.leader = user
             group.contact = user.email
 
-            assign_perm("edit_group_name", user, group)
-            assign_perm("edit_group_description", user, group)
             user.save()
             group.save()
 

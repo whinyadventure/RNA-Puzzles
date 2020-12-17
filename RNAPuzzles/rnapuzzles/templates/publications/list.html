@@ -6,6 +6,12 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="h2 justify-content-center align-self-center mr-auto">
+  Publications
+</div>
+<hr class="mt-1 mb-3">
+
 	{% if publications %}
 		<div class="special_links">
 			<a href="?plain">Plain text</a>,
@@ -21,6 +27,6 @@
 		{% endfor %}
 	{% else %}
 		<h2>Sorry2,</h2>
-		no publications found for this lis2t.
+		no publications found for this list.
 	{% endif %}
 {% endblock %}

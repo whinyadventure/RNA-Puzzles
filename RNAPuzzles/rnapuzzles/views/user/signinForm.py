@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.utils.translation import ugettext_lazy as _
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 from ...models.user import CustomUser
 
@@ -30,6 +32,22 @@ class SigninForm(AuthenticationForm):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         self.username_field = CustomUser._meta.get_field(CustomUser.EMAIL_FIELD)
 
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('email', css_class='form-group col-md-4 mb-0 offset-md-4'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('password1', css_class='form-group col-md-4 mb-0 offset-md-4'),
+                css_class='form-row '
+            ),
+            Row(
+                Submit('submit', 'Sign in', css_class="custom-button"),
+                css_class='form-row flex-d justify-content-center'
+            )
+        )
+
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password1')
@@ -42,7 +60,6 @@ class SigninForm(AuthenticationForm):
                 self.confirm_login_allowed(self.user_cache)
 
             else:
-                print("error")
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
@@ -50,6 +67,26 @@ class SigninForm(AuthenticationForm):
                 )
 
         return self.cleaned_data
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        user = CustomUser.objects.get(email=email)
+
+        if not user.email_confirmed:
+            raise forms.ValidationError(
+               self.error_messages['user_unconfirmed'],
+                code='user_unconfirmed',
+                )
+            return email
+
+        if not user.is_authorised:
+            raise forms.ValidationError(
+               self.error_messages['user_inactive'],
+                code='user_inactive',
+                )
+
+        return email
 
     def confirm_login_allowed(self, user):
         pass

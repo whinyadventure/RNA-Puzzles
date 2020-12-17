@@ -1,0 +1,59 @@
+# deployment.yaml
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: rnapuzzles-ngnix
+  labels:
+    app.kubernetes.io/name: rnapuzzles-ngnix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rnapuzzles
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rnapuzzles
+    spec:
+       volumes:
+        - name: nginx-conf
+          configMap:
+            name: rnapuzzles-sites-enabled-configmap
+        - name: staticfiles
+          emptyDir: {}
+       initContainers:
+        - name: collectstatic
+          image: "luki4824/rnapuzzles:latest"
+          imagePullPolicy: IfNotPresent
+          command: ["python", "manage.py", "collectstatic", "--noinput"]
+          volumeMounts:
+            - name: staticfiles
+              mountPath: /var/www/html/
+       containers:
+        - name: nginx
+          image: nginx:stable
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/
+            - name: staticfiles # only necessary if serving staticfiles locally
+              mountPath: /var/www/html/
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+       

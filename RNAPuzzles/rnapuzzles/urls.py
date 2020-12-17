@@ -1,7 +1,7 @@
 from django.urls import path, include, re_path
 from django.views.generic import FormView
 from . import views
-from .views import news, faq, resources, group, user, puzzles, submission, score_challenge
+from .views import news, faq, resources, group, user, puzzles, submission, score_challenge, metrics
 import publications.views as plist
 
 news_patterns = [
@@ -39,8 +39,8 @@ accounts_pattern = [
     re_path(r'^signup/$', user.Signup.as_view(), name='signup'),
     re_path(r'^signin/$', user.Signin.as_view(), name='signin'),
     re_path(r'^profile/$', user.Detail.as_view(), name='user_detail'),
-    re_path(r'^profile/update$', user.Update.as_view(), name='user_update'),
-    re_path(r'^profile/update/password$', user.PasswordUpdate.as_view(), name='user_password_update'),
+    re_path(r'^profile/update/$', user.Update.as_view(), name='user_update'),
+    re_path(r'^profile/update/password/$', user.PasswordUpdate.as_view(), name='user_password_update'),
     re_path(r'^unconfirmed/$', user.UnconfirmedList.as_view(), name='unconfirmed_list'),
     re_path(r'^unconfirmed/(?P<pk>\d+)/user_confirmed/$', user.UnconfirmedList.user_confirm, name='user_confirmed'),
     re_path(r'^unconfirmed/(?P<pk>\d+)/user_rejected/$', user.UnconfirmedList.user_reject, name='user_rejected'),
@@ -61,28 +61,42 @@ organizer_puzzles_pattern = [
     re_path(r"(?P<pk>\d+)/update-round/$", puzzles.update_challenge, name='update-challenge'),
     re_path(r"(?P<pk>\d+)/delete-puzzle/$", puzzles.PuzzleInfoDelete.as_view(), name='puzzle-info-delete'),
     re_path(r"(?P<pk>\d+)/delete-round/$", puzzles.ChallengeDelete.as_view(), name='challenge-delete'),
+    re_path(r"(?P<pk>\d+)/publish-results/$", puzzles.publish_results, name='publish-results'),
+]
+
+completed_puzzles_pattern = [
+    path('', puzzles.list_completed, name='completed-puzzles'),
+    re_path(r"(?P<pk>\d+)/results/$", puzzles.ChallengeAll.as_view(), name='show-results'),
+    re_path(r"(?P<pk>\d+)/results/automatic/$", puzzles.ChallengeAutomatic.as_view(), name='show-results-automatic'),
+    re_path(r"(?P<pk>\d+)/results/human/$", puzzles.ChallengeUser.as_view(), name='show-results-human'),
 ]
 
 puzzles_pattern = [
     path('', puzzles.list_open, name='open-puzzles'),
-    path('completed-puzzles', puzzles.list_completed, name='completed-puzzles'),
+    path('completed-puzzles/', include(completed_puzzles_pattern)),
     path('my-puzzles/', include(organizer_puzzles_pattern)),
+    re_path(r"(?P<pk>\d+)/download-all-files/$", puzzles.file_download_batch, name='download-all-files'),
     re_path(r"(?P<pk>\d+)/download-file/$", puzzles.file_download, name='download-file'),
     re_path(r"(?P<pk>\d+)/download-target-structure/$", puzzles.pdb_download, name='download-structure'),
+    re_path(r"(?P<pk>\d+)/compute/$",  metrics.calculate_metrics, name="metrics-calculate"),
 ]
 
 submission_pattern = [
-    re_path(r"create/$", submission.Create.as_view(), name="submission_new"),
-    re_path(r"create/(?P<pk>\d+)/$", submission.Create.as_view(), name="submission_new"),
+    re_path(r"create/$", submission.CreateBatch.as_view(), name="submission_batch"),
+    re_path(r"create/(?P<pk>\d+)/$", submission.CreateSingle.as_view(), name="submission_single"),
     re_path(r"list/$", submission.List.as_view(), name="submission_user_list"),
     re_path(r"content/(?P<pk>\d+)/$", submission.Content.as_view(), name="submission_content"),
+    re_path(r"(?P<pk>\d+)/$", submission.Detail.as_view(), name="submission_detail"),
 
 ]
 
-scores_pattern = [
-    re_path(r"challenge/(?P<pk>\d+)/$", score_challenge.Challenge.as_view(), name="challenge_score"),
+# scores_pattern = [
+#     re_path(r"challenge/(?P<pk>\d+)/$", score_challenge.Challenge.as_view(), name="challenge_score"),
+#     re_path(r"challenge/(?P<pk>\d+)/automatic$", score_challenge.ChallengeAutomatic.as_view(), name="challenge_score_automatic"),
+#     re_path(r"challenge/(?P<pk>\d+)/user$", score_challenge.ChallengeUser.as_view(), name="challenge_score_user"),
+#
+# ]
 
-]
 urlpatterns = [
     path('', views.home, name='home'),
     path("news/", include(news_patterns)),
@@ -92,5 +106,5 @@ urlpatterns = [
     path("contact/", views.contactView, name="contact"),
     path("resources/", include(resources_pattern)),
     path("submission/", include(submission_pattern)),
-    path("scores/", include(scores_pattern))
+    #path("scores/", include(scores_pattern))
 ]

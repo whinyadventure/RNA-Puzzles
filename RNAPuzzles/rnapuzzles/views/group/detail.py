@@ -5,13 +5,11 @@ from guardian.mixins import PermissionRequiredMixin
 from ...models.user import Group, CustomUser
 
 
-class Detail(PermissionRequiredMixin, DetailView):
-
-    PermissionRequiredMixin.accept_global_perms = True
-    permission_required = "rnapuzzles.view_group"
+class Detail(DetailView):
     model = Group
     template_name = "group_detail.html"
     pk_url_kwarg = "pk"
+    return_403 = True
 
     @staticmethod
     def get_member_count(group):

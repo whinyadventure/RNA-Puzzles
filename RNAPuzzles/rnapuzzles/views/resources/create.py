@@ -13,7 +13,11 @@ class Create(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = ""
     model = ResourcesModel
     form_class = Form
-    success_message = "resources was created successfully."
+    success_message = "Resource was created successfully."
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('resources_details', args=(self.object.pk,))

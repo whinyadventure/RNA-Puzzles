@@ -13,7 +13,7 @@ from ...tokens import password_reset_token
 
 class NewPassword(SuccessMessageMixin, UpdateView):
 
-    template_name = "rnapuzzles/user_password_update.html"
+    template_name = "rnapuzzles/user_new_password.html"
     model = CustomUser
     success_url = ""
     success_message = "Your password has been set. You may log in now."

@@ -6,16 +6,17 @@ from rnapuzzles.models import ResourcesModel, Submission
 
 
 class List(PermissionListMixin, ListView):
-
+    accept_global_perms = True
     permission_required = "rnapuzzles.view_submission"
     model = Submission
     ordering = ["-date"]
+
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
-        try:
-            queryset = queryset\
-                .filter(user=self.request.user)
-        except:
-            pass
+        # try:
+        #     queryset = queryset\
+        #         .filter(user=self.request.user)
+        # except:
+        #     pass
 
         return queryset

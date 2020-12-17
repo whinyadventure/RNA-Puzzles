@@ -15,12 +15,10 @@ class NewsView(TestCase):
         self.user_tmp = CustomUser.objects.create(email="d@a.pl")
         self.news = NewsModel.objects.create(title="Test", author=self.user_tmp)
 
-        assign_perm("rnapuzzles.view_newsmodel", self.user_with)
         assign_perm("rnapuzzles.change_newsmodel", self.user_with)
         assign_perm("rnapuzzles.delete_newsmodel", self.user_with)
         assign_perm("rnapuzzles.add_newsmodel", self.user_with)
 
-        assign_perm("rnapuzzles.view_newsmodel", self.user_object, self.news)
         assign_perm("rnapuzzles.change_newsmodel", self.user_object, self.news)
         assign_perm("rnapuzzles.delete_newsmodel", self.user_object, self.news)
 

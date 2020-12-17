@@ -16,3 +16,7 @@ class Create(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_success_url(self):
         return reverse('faq_details', args=(self.object.pk,))
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)

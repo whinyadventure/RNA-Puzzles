@@ -8,19 +8,17 @@ from rnapuzzles.models import CustomUser, ResourcesModel
 #TODO hidden resources
 class ResourcesView(TestCase):
     def setUp(self):
-
+        self.author = CustomUser.objects.create_user(email="author@a.pl")
         self.user_without = CustomUser.objects.create(email="a@a.pl")
         self.user_with = CustomUser.objects.create(email="b@a.pl")
         self.user_object = CustomUser.objects.create(email="c@a.pl")
         self.user_tmp = CustomUser.objects.create(email="d@a.pl")
-        self.resources = ResourcesModel.objects.create(title="Test")
+        self.resources = ResourcesModel.objects.create(title="Test", author=self.author)
 
-        assign_perm("rnapuzzles.view_resourcesmodel", self.user_with)
         assign_perm("rnapuzzles.change_resourcesmodel", self.user_with)
         assign_perm("rnapuzzles.delete_resourcesmodel", self.user_with)
         assign_perm("rnapuzzles.add_resourcesmodel", self.user_with)
 
-        assign_perm("rnapuzzles.view_resourcesmodel", self.user_object, self.resources)
         assign_perm("rnapuzzles.change_resourcesmodel", self.user_object, self.resources)
         assign_perm("rnapuzzles.delete_resourcesmodel", self.user_object, self.resources)
 
